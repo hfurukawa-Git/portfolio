@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>サロン業務の仕組み化 | 業務効率化ポートフォリオ</title>
+<meta name="description" content="美容室のシフト作成・在庫と発注・売上の集計と報告を、Googleスプレッドシートとフォームで仕組み化した事例集です。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="サロン業務の仕組み化 | 業務効率化ポートフォリオ">
+<meta property="og:description" content="「あの人しか分からない」を、だれでも回せる仕組みに。美容室の業務効率化の事例集。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%230e6b66%22/%3E%3Cpath d=%22M18 34l10 10 18-22%22 stroke=%22white%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}a{color:inherit}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 一本の読み筋。各事例は「課題 → 仕組み → 実物 → 効果」の順に、実データの表を主役に置く */
+:root {
+  --bg: #f2f5f5;
+  --surface: #ffffff;
+  --ink: #18252b;
+  --muted: #5b6b72;
+  --line: #d5dee0;
+  --accent: #0e6b66;
+  --accent-soft: #dcefed;
+  --warn: #b5541b;
+  --warn-soft: #f8e6da;
+  --off: #8a979c;
+  --c2: #4f9a94;
+  --c3: #a8d0cc;
+  --font-display: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "Consolas", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11181b; --surface: #182226; --ink: #e4ecee; --muted: #9aabb1; --line: #2c3a3f;
+    --accent: #5cc2b9; --accent-soft: #173a38; --warn: #f0965e; --warn-soft: #3d2618; --off: #6d7c81; --c2: #3d8a83; --c3: #2a5753;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11181b; --surface: #182226; --ink: #e4ecee; --muted: #9aabb1; --line: #2c3a3f;
+  --accent: #5cc2b9; --accent-soft: #173a38; --warn: #f0965e; --warn-soft: #3d2618; --off: #6d7c81; --c2: #3d8a83; --c3: #2a5753;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.85;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 920px; margin: 0 auto; padding-block: 56px 80px; display: grid; gap: 88px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.4; }
+p { margin: 0; }
+.eyebrow { font-family: var(--font-data); font-size: 12px; letter-spacing: .12em; color: var(--accent); text-transform: uppercase; }
+.prose { max-width: 38em; color: var(--muted); }
+
+/* Hero */
+.hero { display: grid; gap: 20px; }
+.hero h1 { font-size: clamp(30px, 5.4vw, 48px); font-weight: 900; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 13px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+
+/* Case */
+.case { display: grid; gap: 32px; }
+.case-head { display: grid; gap: 10px; }
+.case-head h2 { font-size: clamp(24px, 3.6vw, 32px); font-weight: 900; }
+.ba { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.ba > div { background: var(--surface); padding: 20px 22px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.ba h3 { font-family: var(--font-body); font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--muted); }
+.ba ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+.ba .after h3 { color: var(--accent); }
+
+/* Flow */
+.flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+.step { flex: 1 1 150px; min-width: 0; padding: 14px 16px; border-top: 3px solid var(--accent); background: var(--surface); display: grid; gap: 2px; }
+.step b { font-size: 15px; }
+.step span { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.arrow { align-self: center; color: var(--muted); font-family: var(--font-data); }
+
+.rules { display: grid; gap: 8px; padding: 18px 22px; background: var(--accent-soft); border-radius: 6px; }
+.rules h3 { font-family: var(--font-body); font-size: 14px; font-weight: 700; }
+.rules ul { margin: 0; padding-left: 1.2em; display: grid; gap: 2px; }
+.rules b { color: var(--accent); font-weight: 700; }
+
+/* Tables */
+.figure { display: grid; gap: 10px; }
+.figure-cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; font-size: 13px; color: var(--muted); }
+.scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+th { font-weight: 500; color: var(--muted); font-size: 12px; }
+tr:last-child td { border-bottom: 0; }
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; text-align: right; }
+
+.shift th, .shift td { text-align: center; padding: 6px 0; min-width: 32px; font-family: var(--font-data); }
+.shift th:first-child, .shift td:first-child { text-align: left; padding-left: 12px; padding-right: 12px; font-family: var(--font-body); position: sticky; left: 0; background: var(--surface); }
+.shift th.sun { color: var(--warn); }
+.shift th.sat { color: var(--accent); }
+.shift th.tue { color: var(--warn); }
+.shift .closed { background: var(--bg); color: var(--off); }
+.shift td.s-a, .legend .s-a { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+.shift td.s-b, .legend .s-b { color: var(--warn); background: var(--warn-soft); font-weight: 500; }
+.legend .s-a, .legend .s-b { padding: 0 6px; border-radius: 3px; }
+.shift td.c-req { background: var(--warn-soft); }
+.shift tr.head-row td { font-size: 12px; color: var(--muted); background: var(--bg); }
+.shift tr.head-row.first td { border-top: 2px solid var(--line); }
+.shift tr.head-row td:first-child { background: var(--bg); font-weight: 700; color: var(--ink); }
+.shift tr.head-row small { font-size: 10px; margin-left: 1px; }
+.checks { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 13px; color: var(--muted); }
+.checks b { color: var(--accent); }
+.checks span::before { content: "✓ "; color: var(--accent); font-weight: 700; }
+.c-on { color: var(--accent); }
+.c-req { color: var(--warn); font-weight: 500; }
+.c-off { color: var(--off); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+
+.bar { display: inline-block; width: 90px; height: 6px; border-radius: 3px; background: var(--line); vertical-align: middle; position: relative; overflow: hidden; }
+.bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
+.bar.low i { background: var(--warn); }
+.pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.pill.low { background: var(--warn-soft); color: var(--warn); }
+
+/* Demo */
+.demo { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr); gap: 24px; align-items: start; }
+form { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px; display: grid; gap: 14px; }
+label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+select, input { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; width: 100%; }
+.seg { display: flex; gap: 0; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.seg label { flex: 1; display: block; text-align: center; padding: 8px; cursor: pointer; color: var(--ink); font-size: 14px; }
+.seg input { position: absolute; opacity: 0; width: 1px; }
+.seg label:has(input:checked) { background: var(--accent); color: var(--bg); }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: -4px; }
+button { font: inherit; font-weight: 700; color: var(--bg); background: var(--ink); border: 0; border-radius: 4px; padding: 10px; cursor: pointer; }
+button:hover { background: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.hint { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.toast { font-size: 13px; color: var(--accent); min-height: 1.6em; }
+.demo-out { display: grid; gap: 20px; min-width: 0; }
+.demo-out h3 { font-family: var(--font-body); font-size: 14px; font-weight: 700; }
+.empty { padding: 12px; font-size: 13px; color: var(--muted); }
+
+/* Results */
+.results { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.result { background: var(--surface); padding: 22px; display: grid; gap: 6px; align-content: start; }
+.result .label { font-size: 13px; color: var(--muted); }
+.result .fig { font-family: var(--font-data); font-size: 15px; font-variant-numeric: tabular-nums; }
+.result .fig strong { font-family: var(--font-display); font-size: 30px; color: var(--accent); }
+.note { font-size: 12px; color: var(--muted); }
+
+/* Monthly slide mock (A4縦) */
+.slide-wrap { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 28px; align-items: start; }
+.slide { aspect-ratio: 210 / 297; max-width: 100%; background: #f6f8fa; color: #1f2a33; border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 6px 24px rgba(20, 40, 60, .12); overflow: hidden; display: grid; grid-template-rows: auto 1fr; font-size: 10px; line-height: 1.5; }
+.sl-head { background: #1f4e79; color: #fff; padding: 12px 14px; display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; align-items: center; position: relative; overflow: hidden; }
+.sl-head::after { content: ""; position: absolute; right: -40px; top: -60px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255, 255, 255, .06); }
+.sl-head small { display: block; font-size: 7px; letter-spacing: .1em; color: #81c3d7; font-weight: 700; }
+.sl-head b { font-size: 14px; }
+.sl-head em { grid-column: 1 / -1; font-style: normal; font-size: 7.5px; color: #c8d6e5; }
+.sl-badge { background: #d9822b; color: #fff; font-size: 8px; font-weight: 700; padding: 1px 8px; border-radius: 999px; position: relative; z-index: 1; }
+.sl-body { padding: 10px 14px; display: grid; gap: 8px; align-content: start; }
+.sl-one { background: #fff; border-left: 3px solid #d9822b; border-radius: 3px; padding: 6px 8px; display: grid; }
+.sl-one span { font-size: 7px; color: #d9822b; font-weight: 700; }
+.sl-one b { font-size: 11px; }
+.sl-kpi { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.sl-total, .sl-rows { background: #fff; border: 1px solid #dfe6ec; border-radius: 4px; padding: 6px 8px; margin: 0; }
+.sl-total { display: grid; gap: 2px; }
+.sl-total span { font-size: 7.5px; color: #5b6b72; font-weight: 700; }
+.sl-total span i { font-style: normal; font-weight: 400; background: #eef3f8; color: #8a979c; padding: 0 5px; border-radius: 999px; margin-left: 4px; }
+.sl-total b { font-size: 19px; color: #1f4e79; line-height: 1.2; }
+.sl-total em { font-style: normal; font-size: 7.5px; color: #d9822b; font-weight: 700; }
+.sl-rows { display: grid; gap: 0; }
+.sl-rows div { display: flex; justify-content: space-between; border-top: 1px solid #dfe6ec; padding: 1px 0; }
+.sl-rows div:first-child { border-top: 0; }
+.sl-rows dt { font-size: 7.5px; color: #5b6b72; }
+.sl-rows dd { margin: 0; font-size: 9.5px; font-weight: 700; color: #1f4e79; }
+.sl-sec { display: grid; gap: 3px; }
+.sl-sec h5, .sl-points h5 { margin: 0; font-size: 8.5px; color: #1f4e79; border-left: 2px solid #1f4e79; padding-left: 5px; }
+.sl-bar { display: grid; grid-template-columns: 4.6em 1fr auto; gap: 6px; align-items: center; font-size: 7.5px; }
+.sl-bar i { height: 5px; background: #eef3f8; border-radius: 3px; overflow: hidden; }
+.sl-bar u { display: block; height: 100%; background: #1f4e79; }
+.sl-bar.rank1 u { background: #d9822b; }
+.sl-bar b { font-weight: 700; }
+.sl-two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sl-band { display: flex; height: 7px; border-radius: 2px; overflow: hidden; }
+.sl-band u { display: block; height: 100%; }
+.sl-legend { font-size: 7px; color: #5b6b72; }
+.sl-days { display: flex; align-items: flex-end; gap: 1px; height: 42px; border-bottom: 1px solid #dfe6ec; }
+.sl-days div { flex: 1; display: grid; align-content: end; height: 100%; min-width: 0; }
+.sl-days i { display: block; background: #3a7ca5; border-radius: 1px 1px 0 0; }
+.sl-days .top i { background: #d9822b; }
+.sl-points { background: #eef3f8; border-left: 3px solid #1f4e79; border-radius: 3px; padding: 6px 8px; display: grid; gap: 1px; font-size: 7.5px; }
+.sl-next { margin-top: 4px; background: #fbefe2; border-radius: 3px; padding: 4px 6px; display: grid; grid-template-columns: auto 1fr; gap: 6px; align-items: center; }
+.sl-next span { color: #d9822b; font-weight: 700; }
+.slide-notes { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.slide-notes li { display: grid; gap: 2px; padding-left: 14px; border-left: 2px solid var(--accent); }
+.slide-notes b { font-size: 15px; }
+.slide-notes span { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+/* Lead / How-to */
+.lead { max-width: 38em; font-size: 17px; color: var(--ink); }
+.howto { display: grid; gap: 12px; }
+.howto h3 { font-family: var(--font-body); font-size: 15px; font-weight: 700; }
+.howto ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; counter-reset: h; }
+.howto li { counter-increment: h; position: relative; display: grid; gap: 6px; align-content: start; padding: 18px 18px 18px 52px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.howto li::before { content: counter(h); position: absolute; left: 16px; top: 16px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--surface); font-family: var(--font-data); font-weight: 500; display: grid; place-items: center; font-size: 14px; }
+.howto .who { justify-self: start; font-size: 11px; font-weight: 700; padding: 1px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.howto .who.auto { background: var(--warn-soft); color: var(--warn); }
+.howto b { font-size: 15px; line-height: 1.6; }
+.howto em { font-style: normal; font-size: 13px; color: var(--muted); line-height: 1.7; }
+.legend-box { padding: 10px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 13px; color: var(--muted); }
+
+/* Case index */
+.cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: -48px; }
+.cases a { display: grid; gap: 4px; align-content: start; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; color: inherit; text-decoration: none; transition: border-color .15s; }
+.cases a:hover { border-color: var(--accent); }
+.cases span { font-family: var(--font-data); font-size: 11px; letter-spacing: .1em; color: var(--accent); }
+.cases b { font-family: var(--font-display); font-size: 19px; }
+.cases em { font-style: normal; font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* Deliverables */
+.deliver { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.deliver li { background: var(--surface); padding: 18px 20px; display: grid; gap: 4px; align-content: start; }
+.deliver b { font-size: 15px; color: var(--accent); }
+.deliver span { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* FAQ */
+.faq { display: grid; gap: 8px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; }
+.faq summary { cursor: pointer; font-weight: 700; }
+.faq summary::marker { color: var(--accent); }
+.faq p { margin-top: 8px; color: var(--muted); font-size: 14px; }
+
+/* Follow-up */
+.follow { display: grid; gap: 10px; padding: 20px 22px; border: 1px dashed var(--line); border-radius: 6px; background: var(--surface); }
+.follow h3 { font-family: var(--font-body); font-size: 15px; font-weight: 700; }
+.follow ol { margin: 0; padding-left: 1.4em; display: grid; gap: 10px; }
+.follow li { display: grid; gap: 2px; }
+.follow li b { font-size: 14px; }
+.follow li span { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+.rule-change { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rule-change div { display: grid; gap: 4px; align-content: start; padding: 12px 14px; border-radius: 6px; background: var(--bg); }
+.rule-change div:last-child { background: var(--accent-soft); }
+.rule-change span { font-size: 12px; font-weight: 700; color: var(--muted); }
+.rule-change div:last-child span { color: var(--accent); }
+.rule-change p { font-size: 14px; line-height: 1.7; }
+@media (max-width: 720px) { .rule-change { grid-template-columns: 1fr; } }
+
+/* Case 03: dashboard mock */
+.report { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 22px; display: grid; gap: 22px; min-width: 0; }
+.report-head { display: grid; gap: 2px; }
+.report-head b { font-size: 18px; color: var(--accent); }
+.report-head span { font-size: 12px; color: var(--muted); }
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.kpi { border: 1px solid var(--line); border-radius: 6px; padding: 10px 8px; display: grid; gap: 2px; text-align: center; min-width: 0; }
+.kpi span { font-size: 11px; color: var(--muted); }
+.kpi b { font-family: var(--font-data); font-size: clamp(15px, 2.2vw, 20px); color: var(--accent); font-variant-numeric: tabular-nums; }
+.kpi small { font-size: 10px; color: var(--muted); }
+.hl { display: grid; margin: 0; padding: 0; list-style: none; }
+.hl li { display: grid; grid-template-columns: 11em minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.hl li span { color: var(--muted); font-size: 13px; }
+.hl li b { color: var(--ink); }
+.hl li:first-child b { color: var(--warn); }
+.rep-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.rep-block { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.rep-block h4 { margin: 0; font-size: 13px; color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
+.rank { display: grid; gap: 6px; }
+.rank-row { display: grid; grid-template-columns: 2.5em 5.5em 6em minmax(0, 1fr); gap: 8px; align-items: center; font-size: 13px; }
+.rank-row .r { color: var(--muted); text-align: center; }
+.rank-row .v { font-family: var(--font-data); text-align: right; font-variant-numeric: tabular-nums; }
+.hbar { height: 8px; background: var(--accent-soft); border-radius: 4px; overflow: hidden; }
+.hbar i { display: block; height: 100%; background: var(--accent); }
+.rank-row:first-child .hbar i { background: var(--warn); }
+.pay { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 16px; align-items: center; }
+.donut { width: 110px; aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: conic-gradient(var(--accent) 0 46.3%, var(--c2) 0 70.6%, var(--c3) 0 86.3%, var(--warn) 0 100%); mask: radial-gradient(circle, transparent 52%, #000 53%); -webkit-mask: radial-gradient(circle, transparent 52%, #000 53%); }
+.pay ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 13px; }
+.pay li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.pay li i { width: 10px; height: 10px; border-radius: 2px; }
+.pay li .v { font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--muted); }
+.days { display: flex; align-items: flex-end; gap: 6px; height: 120px; padding-top: 8px; border-bottom: 1px solid var(--line); }
+.days div { flex: 1; display: grid; align-content: end; gap: 4px; height: 100%; min-width: 0; }
+.days i { display: block; background: var(--accent); border-radius: 3px 3px 0 0; }
+.days .top i { background: var(--warn); }
+.days span { font-size: 10px; color: var(--muted); text-align: center; font-family: var(--font-data); }
+.ai-sample { border-left: 3px solid var(--accent); background: var(--bg); padding: 14px 18px; display: grid; gap: 4px; font-size: 14px; }
+.ai-sample b { font-size: 12px; color: var(--accent); }
+.ai-sample p { color: var(--ink); line-height: 1.8; }
+
+/* Process */
+.process { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: s; }
+.process li { list-style: none; display: grid; gap: 6px; align-content: start; padding-top: 14px; border-top: 1px solid var(--ink); }
+.process li::before { counter-increment: s; content: "STEP " counter(s); font-family: var(--font-data); font-size: 12px; color: var(--accent); letter-spacing: .1em; }
+.process b { font-size: 16px; }
+.process span { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.process { padding: 0; margin: 0; }
+
+.closing { border-top: 1px solid var(--line); padding-top: 40px; display: grid; gap: 12px; }
+.closing h2 { font-size: clamp(22px, 3.2vw, 28px); }
+
+@media (max-width: 720px) {
+  .wrap { padding-block: 32px 56px; gap: 64px; }
+  .ba, .results, .demo, .rep-grid, .slide-wrap, .deliver { grid-template-columns: 1fr; }
+  .slide { max-width: 400px; width: 100%; }
+  .cases { grid-template-columns: 1fr; margin-top: -32px; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hl li { grid-template-columns: 1fr; gap: 0; }
+  .report { padding: 16px; }
+  .process { grid-template-columns: 1fr 1fr; }
+  .arrow { display: none; }
+}
+@media (max-width: 420px) { .process { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: no-preference) {
+  .flash { animation: flash 1.2s ease-out; }
+  @keyframes flash { from { background: var(--accent-soft); } to { background: transparent; } }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Portfolio · 業務効率化</p>
+    <h1>「あの人しか分からない」を、<br><em>だれでも回せる仕組み</em>に。</h1>
+    <p class="prose">美容室を例に、店長やベテランの頭の中にあった「シフト作成」「在庫・発注」「売上の集計と報告」の仕事を、Googleスプレッドシートとフォームで仕組みにしました。新しいアプリは使わず、お店がすでに使っているGoogleのツールだけで作っています。</p>
+    <div class="meta">
+      <span class="chip">想定：美容室 2店舗・スタッフ13名</span>
+      <span class="chip">Googleスプレッドシート</span>
+      <span class="chip">Googleフォーム</span>
+      <span class="chip">Googleスライド</span>
+      <span class="chip">Google Apps Script</span>
+      <span class="chip">AIによる分析</span>
+    </div>
+  </header>
+
+  <nav class="cases" aria-label="事例の一覧">
+    <a href="#case-shift"><span>Case 01</span><b>シフト作成</b><em>スタッフは休みたい日に×を付けるだけ。店長はボタン1つで1か月分が完成</em></a>
+    <a href="#case-stock"><span>Case 02</span><b>在庫・発注</b><em>使ったらスマホで記録するだけ。発注が必要な日はメールでお知らせ</em></a>
+    <a href="#case-sales"><span>Case 03</span><b>売上の集計と報告</b><em>お会計ごとに入力、月末はボタン1つで月次レポート</em></a>
+  </nav>
+
+  <!-- Case 1 -->
+  <section class="case" id="case-shift" aria-labelledby="c1">
+    <div class="case-head">
+      <p class="eyebrow">Case 01</p>
+      <h2 id="c1">シフト作成を、月末の残業から外す</h2>
+      <p class="lead">スタッフは休みたい日に印を付けるだけ。店長はボタンを押すだけで、1か月分のシフトが完成します。</p>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>希望休をLINEや口頭で集め、店長が表に書き写していた</li>
+          <li>休みの偏りや人手不足の日がないか、店長が頭の中で調整していた</li>
+          <li>店長が休むと、シフトを組める人がいなかった</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>希望休はスタッフが自分で入力</li>
+          <li>休みの日数や人手のバランスは、ボタン1つで自動で調整</li>
+          <li>店長でなくても、誰でも同じシフトを作れる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="howto">
+      <h3>使い方は3ステップ</h3>
+      <ol>
+        <li><span class="who">店長</span><b>新しいスタッフが入ったら、名前を書く</b><em>店舗と役職は選ぶだけ。希望休の表にも自動でその人の欄ができます。</em></li>
+        <li><span class="who">スタッフ</span><b>休みたい日に「×」を付ける</b><em>月の初めに、それぞれが自分の欄に入力します。</em></li>
+        <li><span class="who">店長</span><b>ボタンを押す</b><em>下のルールどおりに、1か月分のシフト表ができあがります。</em></li>
+      </ol>
+    </div>
+
+    <div class="rules">
+      <h3>シフトを組むときに守っていること</h3>
+      <ul>
+        <li>休みは全員<b>月8日</b>（希望休・定休日も含めて数える）</li>
+        <li>本人の<b>希望休は必ず休み</b>にする</li>
+        <li>忙しい<b>土日はできるだけ出勤</b>。休みは平日に入れる</li>
+        <li>同じお店で、<b>同じ日に休みが重ならない</b>ようにする</li>
+        <li>どの日も、<b>スタイリストが1人以上</b>いるようにする</li>
+      </ul>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap">
+        <span>できあがったシフト表（実際の出力から8名・前半2週間を抜粋／氏名は仮名）</span>
+      </div>
+      <div class="legend legend-box">
+        <span><span class="s-a">A</span> 店舗Aで出勤</span>
+        <span><span class="s-b">B</span> 店舗Bで出勤</span>
+        <span><span class="c-req">×</span> 本人の希望休</span>
+        <span><span class="c-off">休</span> 休み（火曜は定休日）</span>
+        <span>下の2行：その日の出勤人数（カッコ内はスタイリスト）</span>
+      </div>
+      <div class="scroll"><table class="shift" id="shift"></table></div>
+      <div class="checks">
+        <span>13名全員の休みが<b>月8日</b></span>
+        <span>土日の休みは<b>本人の希望休だけ</b></span>
+        <span>スタイリストがいない日は<b>0日</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case 2 -->
+  <section class="case" id="case-stock" aria-labelledby="c2">
+    <div class="case-head">
+      <p class="eyebrow">Case 02</p>
+      <h2 id="c2">在庫と発注を、ベテランの勘から外す</h2>
+      <p class="lead">シャンプーやカラー剤を使ったら、スマホで記録するだけ。在庫が少なくなると、発注する数までメールで届きます。</p>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>在庫の数は、棚を見に行かないと分からなかった</li>
+          <li>いつ・いくつ発注するかは、担当者の経験と勘だった</li>
+          <li>切らしてしまったり、同じ物を2回発注したりしていた</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>今の在庫の数を、誰でもいつでも確認できる</li>
+          <li>「最低在庫まで減ったら、決めた数だけ発注」と決まっていて、迷わない</li>
+          <li>発注が必要な日だけ、担当者にメールが届く</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="howto">
+      <h3>スタッフがやるのは1つだけ。あとは自動です</h3>
+      <ol>
+        <li><span class="who">スタッフ</span><b>使ったとき・届いたときに、スマホで記録する</b><em>「使った／届いた」「商品」「数」を選んで送るだけ。</em></li>
+        <li><span class="who auto">自動</span><b>在庫が「最低在庫」まで減ったら、発注リストに並ぶ</b><em>商品ごとに「最低在庫」と「1回に発注する数」を決めておきます（例：シャンプーは残り3本になったら5本発注）。</em></li>
+        <li><span class="who auto">自動</span><b>毎日16時に、発注が必要な商品をメールでお知らせ</b><em>担当者はメールを見て発注するだけ。必要がない日はメールは届きません。</em></li>
+      </ol>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>試してみる（サンプルデータ）：左で「使った」「商品」「数」を選んで「記録する」を押すと、右の在庫が減ります。在庫が「最低在庫」まで減った商品は、決めておいた数で発注リストに出ます。</span></div>
+      <div class="demo">
+        <form id="f" novalidate>
+          <div class="seg" role="radiogroup" aria-label="区分">
+            <label><input type="radio" name="kind" id="k-in" value="入庫">届いた</label>
+            <label><input type="radio" name="kind" id="k-out" value="出庫" checked>使った</label>
+          </div>
+          <label for="item">商品<select id="item"></select></label>
+          <label for="qty">数量<input id="qty" inputmode="numeric" autocomplete="off" value="２"></label>
+          <p class="hint">全角の「２」で入力しても、2として正しく計算されます。</p>
+          <button type="submit">記録する</button>
+          <p class="toast" id="toast" role="status"></p>
+        </form>
+        <div class="demo-out">
+          <div class="figure">
+            <h3>今の在庫</h3>
+            <div class="scroll"><table id="stock"></table></div>
+          </div>
+          <div class="figure">
+            <h3>発注リスト（自動で作られる）</h3>
+            <div class="scroll"><table id="order"></table></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="follow">
+      <h3>使い始めてから見つかったことも、直して仕上げます</h3>
+      <p class="note">実際に入力されたデータを点検し、在庫の数が合わなくなる原因を3つ見つけて直しました。</p>
+      <ol>
+        <li><b>スマホで数を「５」（全角）と入れると、0本と記録されていた</b><span>全角で入れても正しい数で記録されるようにしました。</span></li>
+        <li><b>在庫の計算をするたびに、前の記録まで二重に数えていた</b><span>新しく入力された分だけを数えるようにしました。</span></li>
+        <li><b>発注のお知らせメールが届いていなかった</b><span>送り先のメールアドレスを、設定どおりに読み取るようにしました。</span></li>
+      </ol>
+      <h3>お店の声を聞いて、発注のルールも見直しました</h3>
+      <div class="rule-change">
+        <div><span>はじめ</span><p>足りない分だけ発注していたため、届いてもすぐまた発注リストに載り、<b>少しずつの発注が何度も</b>続いていた</p></div>
+        <div><span>見直し後</span><p>在庫が<b>最低在庫</b>まで減ったら、商品ごとに決めた<b>1回の発注数</b>をまとめて発注。発注の回数が減り、何個頼むかで迷わない</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case 3 -->
+  <section class="case" id="case-sales" aria-labelledby="c5">
+    <div class="case-head">
+      <p class="eyebrow">Case 03</p>
+      <h2 id="c5">売上の集計と報告を、閉店後の作業から外す</h2>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>閉店後に、伝票やレジの記録を表へ手で打ち込む</li>
+          <li>月末に店長が集計し、オーナー向けの報告書を作る</li>
+          <li>店舗別・スタッフ別の数字は、集計するまで分からない</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>お会計ごとにスマホのフォームで入力するだけ</li>
+          <li>集計・グラフは自動で、いつ開いても最新の数字</li>
+          <li>月末はボタン1つで、オーナー向けの月次レポート（スライド・PDF）が完成</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flow" aria-label="売上管理の流れ">
+      <div class="step"><b>スマホのフォーム</b><span>店舗を選ぶと、その店のスタッフだけが選択肢に出る</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="step"><b>売上入力（自動）</b><span>送信と同時に1行追加。全角数字も正しく変換</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="step"><b>レポート（自動）</b><span>指標・ランキング・グラフが常に最新</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="step"><b>月次レポート</b><span>スライドとPDFを自動作成。所見はAIが下書き（1回約0.2円）</span></div>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>オーナーが見るレポート画面（サンプルデータ／スタッフ名は仮名）</span></div>
+      <div class="report">
+        <div class="report-head">
+          <b>サロン売上レポート</b>
+          <span>対象期間 2026年6月1日〜6月11日 ｜ 20件のお会計を集計</span>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi"><span>総売上</span><b>¥248,500</b><small>メニュー＋店販</small></div>
+          <div class="kpi"><span>来店件数</span><b>20件</b><small>1日平均 1.8件</small></div>
+          <div class="kpi"><span>客単価</span><b>¥12,425</b><small>1件あたり</small></div>
+          <div class="kpi"><span>指名率</span><b>60.0%</b><small>指名ありの割合</small></div>
+          <div class="kpi"><span>店販比率</span><b>12.7%</b><small>売上に占める店販</small></div>
+        </div>
+
+        <div class="rep-block">
+          <h4>今期のハイライト</h4>
+          <ul class="hl">
+            <li><span>売上トップのスタッフ</span><b>スタッフC さん　¥65,000（全体の26%）</b></li>
+            <li><span>売上トップの店舗</span><b>店舗A　¥125,000（全体の50%）</b></li>
+            <li><span>売上が最も高かった日</span><b>6月9日　¥32,000</b></li>
+            <li><span>キャッシュレス決済の割合</span><b>75.7%</b></li>
+          </ul>
+        </div>
+
+        <div class="rep-grid">
+          <div class="rep-block">
+            <h4>スタッフ別売上ランキング</h4>
+            <div class="rank">
+              <div class="rank-row"><span class="r">1位</span><span>スタッフC</span><span class="v">¥65,000</span><span class="hbar"><i style="width:100%"></i></span></div>
+              <div class="rank-row"><span class="r">2位</span><span>スタッフA</span><span class="v">¥63,000</span><span class="hbar"><i style="width:96.9%"></i></span></div>
+              <div class="rank-row"><span class="r">3位</span><span>スタッフB</span><span class="v">¥62,000</span><span class="hbar"><i style="width:95.4%"></i></span></div>
+              <div class="rank-row"><span class="r">4位</span><span>スタッフD</span><span class="v">¥58,500</span><span class="hbar"><i style="width:90%"></i></span></div>
+            </div>
+          </div>
+          <div class="rep-block">
+            <h4>決済方法の割合</h4>
+            <div class="pay">
+              <div class="donut" role="img" aria-label="クレジットカード46.3%、現金24.3%、PayPay15.7%、交通系IC13.7%"></div>
+              <ul>
+                <li><i style="background:var(--accent)"></i><span>クレジットカード</span><span class="v">46.3%</span></li>
+                <li><i style="background:var(--c2)"></i><span>現金</span><span class="v">24.3%</span></li>
+                <li><i style="background:var(--c3)"></i><span>PayPay</span><span class="v">15.7%</span></li>
+                <li><i style="background:var(--warn)"></i><span>交通系IC</span><span class="v">13.7%</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="rep-block">
+          <h4>日別売上の推移</h4>
+          <div class="days" id="days" role="img" aria-label="日別売上の棒グラフ。最も高いのは6月9日の32,000円"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-sample">
+      <b>AI分析コメントの例（抜粋）</b>
+      <p>・店舗Aは¥125,000、店舗Bは¥123,500で、差は¥1,500とほぼ互角です。</p>
+      <p>・キャッシュレス決済が75.7%を占め、現金は24.3%にとどまっています。</p>
+      <p>・店販比率は12.7%です。指名のお客様への店販提案を強めると、客単価を伸ばす余地があります。</p>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>月末に届く「月次レポート」（自動作成されたスライドを再現／テストデータ・氏名は仮名）</span></div>
+      <div class="slide-wrap">
+        <div class="slide" role="img" aria-label="A4縦の月次売上レポートの見本">
+          <div class="sl-head">
+            <div><small>MONTHLY SALES REPORT</small><b>2026年10月　売上レポート</b></div>
+            <span class="sl-badge">速報</span>
+            <em>集計 10/1〜10/26・4件</em>
+          </div>
+          <div class="sl-body">
+            <div class="sl-one"><span>今月のひとこと</span><b>月末の着地見込みは¥78,096です</b></div>
+            <div class="sl-kpi">
+              <div class="sl-total">
+                <span>総売上 <i>前月データなし</i></span>
+                <b>¥65,500</b>
+                <em>月末の着地見込み　¥78,096</em>
+              </div>
+              <dl class="sl-rows">
+                <div><dt>来店件数</dt><dd>4件</dd></div>
+                <div><dt>客単価</dt><dd>¥16,375</dd></div>
+                <div><dt>指名率</dt><dd>25.0%</dd></div>
+                <div><dt>店販比率</dt><dd>11.5%</dd></div>
+              </dl>
+            </div>
+            <div class="sl-sec">
+              <h5>店舗別の売上</h5>
+              <div class="sl-bar"><span>店舗A</span><i><u style="width:100%"></u></i><b>¥34,000　51.9%</b></div>
+              <div class="sl-bar"><span>店舗B</span><i><u style="width:92.6%;background:var(--c2)"></u></i><b>¥31,500　48.1%</b></div>
+            </div>
+            <div class="sl-two">
+              <div class="sl-sec">
+                <h5>スタッフ別ランキング</h5>
+                <div class="sl-bar rank1"><span>1 スタッフ1</span><i><u style="width:100%"></u></i><b>¥31,500</b></div>
+                <div class="sl-bar"><span>2 スタッフ2</span><i><u style="width:57%"></u></i><b>¥18,000</b></div>
+                <div class="sl-bar"><span>3 スタッフ3</span><i><u style="width:51%"></u></i><b>¥16,000</b></div>
+              </div>
+              <div class="sl-sec">
+                <h5>決済方法の割合</h5>
+                <div class="sl-band"><u style="width:48.1%;background:var(--accent)"></u><u style="width:27.5%;background:var(--c2)"></u><u style="width:24.4%;background:var(--c3)"></u></div>
+                <p class="sl-legend">現金 48.1%　PayPay 27.5%　クレジット 24.4%</p>
+              </div>
+            </div>
+            <div class="sl-sec">
+              <h5>日別売上（10月1日〜31日）</h5>
+              <div class="sl-days" id="sl-days"></div>
+            </div>
+            <div class="sl-points">
+              <h5>今月のポイント</h5>
+              <p>● 売上¥65,500、4件、客単価¥16,375でした</p>
+              <p>● 売上トップはスタッフ1さん（¥31,500・指名率50.0%）</p>
+              <p>● 月曜日の1日平均売上が¥18,000で最も高い</p>
+              <div class="sl-next"><span>次の一手</span><b>店販比率11.5%。施術後に全員でホームケア商品を1つ提案する</b></div>
+            </div>
+          </div>
+        </div>
+        <ul class="slide-notes">
+          <li><b>読む順番どおりの1枚</b><span>結論（今月のひとこと）→ 数字 → 内訳 → 次の一手。オーナーが最初の3秒で状況をつかめます。</span></li>
+          <li><b>月の途中は「速報」</b><span>途中の数字を締めた月と同じに見せず、月末の着地見込みを添えます。</span></li>
+          <li><b>前月があれば、すべての指標に前月差</b><span>件数が増えたのか、単価が上がったのかまで分かります。</span></li>
+          <li><b>「次の一手」は行動まで書く</b><span>誰が何をするかが分かる提案を1つだけ。AIのキーがなくても集計から自動で作ります。</span></li>
+          <li><b>スライドとPDFを自動保存</b><span>図はスライド上の図形なので、渡す前に色や文言を手直しできます。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="case" aria-labelledby="c3">
+    <div class="case-head">
+      <p class="eyebrow">Effect</p>
+      <h2 id="c3">想定される効果</h2>
+    </div>
+    <div class="results">
+      <div class="result"><span class="label">シフト作成にかかる時間（月）</span><span class="fig">約4時間 → <strong>約1時間</strong></span></div>
+      <div class="result"><span class="label">在庫確認・発注判断（週）</span><span class="fig">約60分 → <strong>約10分</strong></span></div>
+      <div class="result"><span class="label">売上の集計・報告書づくり（月）</span><span class="fig">約3時間 → <strong>約5分</strong></span></div>
+      <div class="result"><span class="label">スタッフが増えたときのシフト表の直し</span><span class="fig">表を作り直し → <strong>自動</strong></span></div>
+      <div class="result"><span class="label">発注漏れの確認</span><span class="fig">気づいた人が見る → <strong>毎日自動</strong></span></div>
+      <div class="result"><span class="label">その仕事ができる人</span><span class="fig">店長・ベテラン1人 → <strong>全員</strong></span></div>
+    </div>
+    <p class="note">※ 時間は、美容室2店舗・スタッフ13名を想定した試算です。実際の効果はお店の運用によって変わります。</p>
+  </section>
+
+  <!-- Deliverables -->
+  <section class="case" aria-labelledby="c6">
+    <div class="case-head">
+      <p class="eyebrow">What you get</p>
+      <h2 id="c6">お店に届くもの</h2>
+    </div>
+    <ul class="deliver">
+      <li><b>スマホの入力フォーム</b><span>スタッフが使うのはここだけ。選択肢から選ぶので入力ミスが出にくい。</span></li>
+      <li><b>自動で集計されるシート</b><span>入力と同時に、シフト・在庫・売上の表が更新されます。</span></li>
+      <li><b>ダッシュボード</b><span>指標・ランキング・グラフを、いつ開いても最新の状態で。</span></li>
+      <li><b>月次レポート（スライド・PDF）</b><span>オーナーへの報告や、スタッフミーティングにそのまま使えます。</span></li>
+      <li><b>AIの所見</b><span>数字は正確に計算したうえで、文章だけAIが下書き。使わない設定もできます。</span></li>
+      <li><b>使い始めてからの調整</b><span>実際の入力データを見ながら、ずれや使いにくさを直して仕上げます。</span></li>
+    </ul>
+  </section>
+
+  <!-- FAQ -->
+  <section class="case" aria-labelledby="c7">
+    <div class="case-head">
+      <p class="eyebrow">FAQ</p>
+      <h2 id="c7">よくあるご質問</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>新しいアプリやシステムの契約は必要ですか？</summary>
+        <p>必要ありません。Googleのスプレッドシート・フォーム・スライドの中で動く仕組みです。</p>
+      </details>
+      <details>
+        <summary>パソコンが苦手なスタッフでも使えますか？</summary>
+        <p>スタッフが触るのはスマホのフォームだけです。店舗を選ぶとその店のスタッフだけが出るなど、迷わない作りにしています。全角で数字を入れても正しく計算されます。</p>
+      </details>
+      <details>
+        <summary>AIの費用はかかりますか？</summary>
+        <p>AIの所見はボタンを押したときだけ動き、1回あたり約0.2円の設定で作っています。売上が変わっていなければAIを呼ばないので、無駄な費用は出ません。AIを使わずに、集計結果から文章を作る設定にもできます。</p>
+      </details>
+      <details>
+        <summary>お店のルールに合わせられますか？</summary>
+        <p>はい。定休日、休みの日数、土日の人員、発注のタイミングや数など、店長が頭の中で決めていたルールを聞き取って組み込みます。使い始めてからの見直しにも対応します（例：在庫が最低在庫まで減ったら、決めた数をまとめて発注するルールへの変更）。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="case" aria-labelledby="c4">
+    <div class="case-head">
+      <p class="eyebrow">How I work</p>
+      <h2 id="c4">進め方</h2>
+    </div>
+    <ol class="process">
+      <li><b>ヒアリング</b><span>「この人が休むと困る仕事」を一緒に洗い出します。</span></li>
+      <li><b>見える化</b><span>今の手順と、かかっている時間を書き出します。</span></li>
+      <li><b>仕組み化</b><span>お店で使っているGoogleのツールで形にします。</span></li>
+      <li><b>定着</b><span>スタッフ向けの使い方をまとめ、運用が回るまで調整します。</span></li>
+    </ol>
+  </section>
+
+  <footer class="closing">
+    <h2>属人化している仕事、ひとつから相談できます。</h2>
+    <p class="prose">シフト、在庫、予約、日報など、「あの人しか分からない」作業があれば、まずは今のやり方を聞かせてください。</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // ---- Case 1: 確定シフト（実際の出力・1〜14日、氏名は仮名） ----
+  var days = ["木","金","土","日","月","火","水","木","金","土","日","月","火","水"];
+  var staff = [
+    ["A店 スタイリスト1", "A×AAA休AAA×AA休A"],
+    ["A店 アシスタント1", "AAA×A休AAAAA×休A"],
+    ["A店 スタイリスト2", "AAAA×休AAAA×A休休"],
+    ["A店 アシスタント2", "×AAAA休AAAAAA休休"],
+    ["B店 スタイリスト1", "BBBBB休BB×BBB休B"],
+    ["B店 スタイリスト2", "BBBBB休BBB×BB休B"],
+    ["B店 スタイリスト3", "BBBBB休BBBB×B休B"],
+    ["B店 アシスタント1", "BBBBB休B休BBB×休B"]
+  ];
+  // 店舗ごとの出勤人数（13名全員分）。null は定休日
+  var heads = [
+    ["店舗A 出勤（うちスタイリスト）", [[6,5],[6,4],[7,5],[5,4],[6,4],null,[6,4],[7,5],[6,4],[6,4],[5,3],[5,4],null,[4,3]]],
+    ["店舗B 出勤（うちスタイリスト）", [[5,4],[5,4],[6,5],[6,5],[6,5],null,[5,4],[5,5],[5,4],[5,4],[5,4],[4,4],null,[6,5]]]
+  ];
+  var dayCls = function (d) { return d === "火" ? "tue" : d === "土" ? "sat" : d === "日" ? "sun" : ""; };
+  var h = "<thead><tr><th>スタッフ</th>" + days.map(function (d, i) {
+    return '<th class="' + dayCls(d) + (d === "火" ? " closed" : "") + '">' + (i + 1) + "<br>" + d + "</th>";
+  }).join("") + "</tr></thead><tbody>";
+  staff.forEach(function (s) {
+    h += "<tr><td>" + s[0] + "</td>";
+    for (var i = 0; i < days.length; i++) {
+      var c = s[1][i];
+      var cls = c === "A" ? "s-a" : c === "B" ? "s-b" : c === "×" ? "c-req" : "c-off";
+      h += '<td class="' + cls + (days[i] === "火" ? " closed" : "") + '">' + c + "</td>";
+    }
+    h += "</tr>";
+  });
+  heads.forEach(function (row, k) {
+    h += '<tr class="head-row' + (k === 0 ? " first" : "") + '"><td>' + row[0] + "</td>";
+    row[1].forEach(function (v, i) {
+      h += '<td class="' + (days[i] === "火" ? "closed" : "") + '">' + (v ? v[0] + "<small>(" + v[1] + ")</small>" : "定休") + "</td>";
+    });
+    h += "</tr>";
+  });
+  document.getElementById("shift").innerHTML = h + "</tbody>";
+
+  // ---- Case 3: 日別売上の棒グラフ（サンプルデータ） ----
+  var daily = [22000, 25500, 9000, 20000, 23000, 26000, 30500, 23000, 32000, 21500, 16000];
+  var maxDay = Math.max.apply(null, daily);
+  document.getElementById("days").innerHTML = daily.map(function (v, i) {
+    return '<div class="' + (v === maxDay ? "top" : "") + '" title="6/' + (i + 1) + "　¥" + v.toLocaleString("ja-JP") + '">' +
+      '<i style="height:' + Math.round(v / maxDay * 90) + 'px"></i><span>6/' + (i + 1) + "</span></div>";
+  }).join("");
+
+  // ---- Case 3: 月次レポートの日別売上（10月・テストデータ） ----
+  var oct = {1: 15500, 11: 16000, 15: 16000, 26: 18000};
+  var octMax = 18000, slDays = "";
+  for (var d = 1; d <= 31; d++) {
+    var v = oct[d] || 0;
+    slDays += '<div class="' + (v === octMax ? "top" : "") + '">' + (v ? '<i style="height:' + Math.round(v / octMax * 36) + 'px"></i>' : "") + "</div>";
+  }
+  document.getElementById("sl-days").innerHTML = slDays;
+
+  // ---- Case 2: 在庫デモ（商品マスターのサンプル値） ----
+  var items = [
+    // min：最低在庫（発注の合図）／point：発注点（1回に発注する数）
+    { id: "S001", name: "シャンプー（業務用1L）", unit: "本", stock: 6, min: 3, point: 5 },
+    { id: "S002", name: "トリートメント（業務用1L）", unit: "本", stock: 0, min: 2, point: 4 },
+    { id: "C001", name: "カラー剤 6N", unit: "本", stock: 6, min: 5, point: 8 },
+    { id: "P001", name: "パーマ液 1剤", unit: "本", stock: 3, min: 2, point: 4 },
+    { id: "T001", name: "タオル（白）", unit: "枚", stock: 80, min: 30, point: 50 }
+  ];
+  var sel = document.getElementById("item");
+  sel.innerHTML = items.map(function (it) { return '<option value="' + it.id + '">' + it.id + "｜" + it.name + "</option>"; }).join("");
+  sel.value = "S001";
+
+  function render(changed) {
+    var s = "<thead><tr><th>商品ID</th><th>商品</th><th class=\"num\">在庫</th><th class=\"num\">最低在庫</th><th class=\"num\">1回の発注数</th><th>状態</th></tr></thead><tbody>";
+    items.forEach(function (it) {
+      var low = it.stock <= it.min; // 在庫が「最低在庫」まで減ったら発注
+      var pct = Math.min(100, Math.round(it.stock / (it.min * 3) * 100));
+      s += '<tr' + (it.id === changed ? ' class="flash"' : "") + "><td class=\"num\" style=\"text-align:left\">" + it.id + "</td><td>" + it.name + '</td><td class="num">' + it.stock + " " + it.unit +
+        '</td><td class="num">' + it.min + '</td><td class="num">' + it.point + '</td><td><span class="bar' + (low ? " low" : "") + '"><i style="width:' + pct + '%"></i></span> <span class="pill' + (low ? " low" : "") + '">' + (low ? "要発注" : "十分") + "</span></td></tr>";
+    });
+    document.getElementById("stock").innerHTML = s + "</tbody>";
+    var lows = items.filter(function (it) { return it.stock <= it.min; });
+    var o = document.getElementById("order");
+    if (!lows.length) { o.innerHTML = '<tbody><tr><td class="empty">発注が必要な商品はありません。</td></tr></tbody>'; return; }
+    o.innerHTML = "<thead><tr><th>商品ID</th><th>商品</th><th class=\"num\">在庫</th><th class=\"num\">発注する数</th></tr></thead><tbody>" +
+      lows.map(function (it) {
+        return '<tr' + (it.id === changed ? ' class="flash"' : "") + '><td class="num" style="text-align:left">' + it.id + "</td><td>" + it.name + '</td><td class="num">' + it.stock + '</td><td class="num">' + it.point + " " + it.unit + "</td></tr>"; // 発注する数＝発注点
+      }).join("") + "</tbody>";
+  }
+  render();
+
+  document.getElementById("f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var toast = document.getElementById("toast");
+    // 全角数字・全角スペースを半角に揃えてから数値にする
+    var raw = document.getElementById("qty").value.normalize("NFKC").trim();
+    if (!/^\d+$/.test(raw) || +raw === 0) { toast.textContent = "数量は1以上の数字で入力してください。"; return; }
+    var qty = +raw;
+    var kind = document.querySelector('input[name="kind"]:checked').value;
+    var it = items.find(function (x) { return x.id === sel.value; });
+    if (kind === "出庫" && qty > it.stock) { toast.textContent = "在庫（" + it.stock + it.unit + "）より多い数は記録できません。"; return; }
+    it.stock += kind === "入庫" ? qty : -qty;
+    toast.textContent = it.name + "が" + qty + it.unit + (kind === "入庫" ? "届いた" : "使った") + "と記録しました。";
+    render(it.id);
+  });
+})();
+</script>
+
+</body>
+</html>
