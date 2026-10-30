@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>サロン業務の仕組み化 | 業務効率化ポートフォリオ</title>
-<meta name="description" content="美容室のシフト作成・在庫と発注・売上の集計と報告を、Googleスプレッドシートとフォームで仕組み化した事例集です。">
+<meta name="description" content="美容室のシフト作成・在庫と発注・売上の集計と報告・予約の受付・再来店のお声がけを、Googleスプレッドシート・フォーム・カレンダーで仕組み化した事例集です。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="サロン業務の仕組み化 | 業務効率化ポートフォリオ">
 <meta property="og:description" content="「あの人しか分からない」を、だれでも回せる仕組みに。美容室の業務効率化の事例集。">
@@ -212,10 +212,38 @@ button:hover { background: var(--accent); }
 .howto em { font-style: normal; font-size: 13px; color: var(--muted); line-height: 1.7; }
 .legend-box { padding: 10px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 13px; color: var(--muted); }
 
+/* Case 04: booking calendar */
+.cal { display: grid; grid-template-columns: 46px repeat(6, minmax(96px, 1fr)); min-width: 640px; font-size: 11px; }
+.cal-head { text-align: center; padding: 6px 2px; font-weight: 700; border-bottom: 1px solid var(--line); background: var(--surface); }
+.cal-head small { display: block; font-weight: 400; color: var(--muted); font-family: var(--font-data); }
+.cal-head.sat { color: var(--accent); }
+.cal-times { position: relative; }
+.cal-times span { position: absolute; right: 6px; transform: translateY(-50%); color: var(--muted); font-family: var(--font-data); font-size: 10px; }
+.cal-day { position: relative; border-left: 1px solid var(--line); background: repeating-linear-gradient(to bottom, transparent 0 43px, var(--line) 43px 44px); }
+.cal-day.closed { background: var(--bg); display: grid; place-items: center; color: var(--off); font-size: 12px; }
+.ev { position: absolute; border-radius: 4px; padding: 2px 4px; overflow: hidden; line-height: 1.3; border-left: 3px solid; }
+.ev b { display: block; font-family: var(--font-data); font-size: 10px; font-weight: 500; }
+.ev.a, .cal-chip.a { background: var(--accent-soft); border-color: var(--accent); color: var(--ink); }
+.ev.b, .cal-chip.b { background: var(--warn-soft); border-color: var(--warn); color: var(--ink); }
+.ev.c, .cal-chip.c { background: var(--bg); border-color: var(--c2); color: var(--ink); }
+.cal-chip { display: inline-block; width: 12px; height: 12px; border-radius: 3px; border-left: 3px solid; vertical-align: -1px; }
+.cal-side { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.booking td, .booking th { font-size: 13px; }
+.st { font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; }
+.st.ok { background: var(--accent-soft); color: var(--accent); }
+.st.hold { background: var(--warn-soft); color: var(--warn); }
+.mail { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; display: grid; gap: 10px; font-size: 13px; }
+.mail-sub { font-weight: 700; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.mail dl { margin: 0; display: grid; gap: 2px; }
+.mail dl div { display: grid; grid-template-columns: 5em 1fr; gap: 8px; }
+.mail dt { color: var(--muted); }
+.mail dd { margin: 0; }
+
 /* Case index */
-.cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: -48px; }
+.cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: -48px; }
 .cases a { display: grid; gap: 4px; align-content: start; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; color: inherit; text-decoration: none; transition: border-color .15s; }
 .cases a:hover { border-color: var(--accent); }
+.cases a:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .cases span { font-family: var(--font-data); font-size: 11px; letter-spacing: .1em; color: var(--accent); }
 .cases b { font-family: var(--font-display); font-size: 19px; }
 .cases em { font-style: normal; font-size: 13px; color: var(--muted); line-height: 1.6; }
@@ -305,6 +333,7 @@ button:hover { background: var(--accent); }
   .ba, .results, .demo, .rep-grid, .slide-wrap, .deliver { grid-template-columns: 1fr; }
   .slide { max-width: 400px; width: 100%; }
   .cases { grid-template-columns: 1fr; margin-top: -32px; }
+  .cal-side { grid-template-columns: 1fr; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hl li { grid-template-columns: 1fr; gap: 0; }
   .report { padding: 16px; }
@@ -319,17 +348,19 @@ button:hover { background: var(--accent); }
 </style>
 </head>
 <body>
+
 <div class="wrap">
 
   <header class="hero">
     <p class="eyebrow">Portfolio · 業務効率化</p>
     <h1>「あの人しか分からない」を、<br><em>だれでも回せる仕組み</em>に。</h1>
-    <p class="prose">美容室を例に、店長やベテランの頭の中にあった「シフト作成」「在庫・発注」「売上の集計と報告」の仕事を、Googleスプレッドシートとフォームで仕組みにしました。新しいアプリは使わず、お店がすでに使っているGoogleのツールだけで作っています。</p>
+    <p class="prose">美容室を例に、店長やベテランの頭の中にあった「シフト作成」「在庫・発注」「売上の集計と報告」「予約の受付」「再来店のお声がけ」の仕事を、Googleスプレッドシート・フォーム・カレンダーで仕組みにしました。新しいアプリは使わず、お店がすでに使っているGoogleのツールだけで作っています。</p>
     <div class="meta">
       <span class="chip">想定：美容室 2店舗・スタッフ13名</span>
       <span class="chip">Googleスプレッドシート</span>
       <span class="chip">Googleフォーム</span>
       <span class="chip">Googleスライド</span>
+      <span class="chip">Googleカレンダー</span>
       <span class="chip">Google Apps Script</span>
       <span class="chip">AIによる分析</span>
     </div>
@@ -339,6 +370,8 @@ button:hover { background: var(--accent); }
     <a href="#case-shift"><span>Case 01</span><b>シフト作成</b><em>スタッフは休みたい日に×を付けるだけ。店長はボタン1つで1か月分が完成</em></a>
     <a href="#case-stock"><span>Case 02</span><b>在庫・発注</b><em>使ったらスマホで記録するだけ。発注が必要な日はメールでお知らせ</em></a>
     <a href="#case-sales"><span>Case 03</span><b>売上の集計と報告</b><em>お会計ごとに入力、月末はボタン1つで月次レポート</em></a>
+    <a href="#case-booking"><span>Case 04</span><b>予約の受付</b><em>お客様がフォームで予約すると、お店の共有カレンダーと担当スタッフのスマホに自動で入る</em></a>
+    <a href="#case-revisit"><span>Case 05</span><b>再来店のお声がけ</b><em>しばらく来ていないお客様を毎朝リストに。前回の担当者の名前でご案内を送り、戻った人数と売上まで分かる</em></a>
   </nav>
 
   <!-- Case 1 -->
@@ -653,6 +686,184 @@ button:hover { background: var(--accent); }
     </div>
   </section>
 
+  <!-- Case 4 -->
+  <section class="case" id="case-booking" aria-labelledby="c8">
+    <div class="case-head">
+      <p class="eyebrow">Case 04</p>
+      <h2 id="c8">予約の受付を、電話とメモ書きから外す</h2>
+      <p class="lead">お客様はスマホのフォームから予約するだけ。空いていればお店の共有カレンダーに自動で入り、担当スタッフのスマホのカレンダーにも届きます。</p>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>電話で受けた予約を、紙の予約台帳に書き写していた</li>
+          <li>誰がいつ空いているかは、台帳を見ないと分からなかった</li>
+          <li>施術中や営業時間外の電話に出られず、予約を逃していた</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>お客様は24時間いつでも、フォームから予約できる</li>
+          <li>空きの確認とカレンダーへの登録は自動。重なったときだけお店に連絡が来る</li>
+          <li>予定はスタッフ全員で共有。担当者のスマホにも自動で届く</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="howto">
+      <h3>お客様は送信するだけ。あとは自動です</h3>
+      <ol>
+        <li><span class="who">お客様</span><b>日にち・時間・メニュー・担当を選んで送信</b><em>担当は「指名なし」も選べます。メールアドレスを入れると確認メールが届きます。</em></li>
+        <li><span class="who auto">自動</span><b>空きを確かめて、共有カレンダーに予約を入れる</b><em>終わりの時間はメニューの所要時間から計算。指名なしなら、空いているスタッフを割り当てます。</em></li>
+        <li><span class="who auto">自動</span><b>お客様に確認メール、担当スタッフに予定が届く</b><em>予定はスタッフごとに色分け。キャンセルはスプレッドシートから1クリックで、カレンダーからも消えます。</em></li>
+      </ol>
+    </div>
+
+    <div class="rules">
+      <h3>予約を入れる前に、自動で確かめていること</h3>
+      <ul>
+        <li><b>定休日</b>ではないか、<b>営業時間内に施術が終わる</b>か</li>
+        <li>担当スタッフの<b>予約が同じ時間に入っていない</b>か</li>
+        <li>指名なしのときは、<b>その日の予約が少ないスタッフ</b>から割り当てる</li>
+        <li>入れられない予約は「<b>要調整</b>」として、理由つきでお店にメールで知らせる</li>
+      </ul>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap">
+        <span>お店の共有カレンダー（1週間の見本／お客様名・予約は架空）</span>
+      </div>
+      <div class="legend legend-box">
+        <span><span class="cal-chip a"></span> スタイリストA</span>
+        <span><span class="cal-chip b"></span> スタイリストB</span>
+        <span><span class="cal-chip c"></span> スタイリストC</span>
+        <span>同じ時間でも、担当が違えば予約を受けられます</span>
+      </div>
+      <div class="scroll"><div class="cal" id="cal-week" role="img" aria-label="月曜から土曜までの予約カレンダーの見本。火曜は定休日。スタッフ3人の予約が色分けで並んでいる"></div></div>
+    </div>
+
+    <div class="cal-side">
+      <div class="figure">
+        <div class="figure-cap"><span>予約一覧（スプレッドシートに自動で記録）</span></div>
+        <div class="scroll">
+          <table class="booking">
+            <thead><tr><th>予約ID</th><th>日時</th><th>お客様</th><th>メニュー</th><th>担当</th><th>状態</th></tr></thead>
+            <tbody>
+              <tr><td class="num" style="text-align:left">R-20261107-06</td><td>11/7(土) 14:00</td><td>佐藤 様</td><td>カット＋カラー</td><td>A（指名）</td><td><span class="st ok">確定</span></td></tr>
+              <tr><td class="num" style="text-align:left">R-20261107-07</td><td>11/7(土) 15:00</td><td>中島 様</td><td>カット</td><td>C（自動）</td><td><span class="st ok">確定</span></td></tr>
+              <tr><td class="num" style="text-align:left">R-20261107-08</td><td>11/7(土) 10:00</td><td>岡田 様</td><td>パーマ</td><td>B（指名）</td><td><span class="st hold">要調整</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">要調整の理由：「スタイリストBの予約が同じ時間に入っているため」→ お店にメールで通知</p>
+      </div>
+      <div class="figure">
+        <div class="figure-cap"><span>お客様に届く確認メール</span></div>
+        <div class="mail">
+          <p class="mail-sub">【サロン】ご予約を承りました</p>
+          <p>中島 様<br>ご予約ありがとうございます。以下の内容で承りました。</p>
+          <dl>
+            <div><dt>日時</dt><dd>2026年11月7日（土）15:00〜16:00</dd></div>
+            <div><dt>メニュー</dt><dd>カット</dd></div>
+            <div><dt>担当</dt><dd>スタイリストC</dd></div>
+            <div><dt>予約番号</dt><dd>R-20261107-07</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case 5 -->
+  <section class="case" id="case-revisit" aria-labelledby="c9">
+    <div class="case-head">
+      <p class="eyebrow">Case 05</p>
+      <h2 id="c9">再来店のお声がけを、担当者の記憶から外す</h2>
+      <p class="lead">しばらく来ていないお客様を毎朝自動で見つけて、前回の担当者の名前でご案内を送ります。連絡したあとに戻ってきてくれたかまで、数字で分かります。</p>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>来なくなったお客様に気づくのは、半年ほどたってからだった</li>
+          <li>声をかけるかどうかは担当者まかせ。忙しい月は誰も連絡しなかった</li>
+          <li>ご案内を送っても、効果があったのか分からなかった</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>予約の記録から、メニューごとの時期を過ぎたお客様が毎朝リストに出る</li>
+          <li>チェックしてボタンを押すだけで、前回の担当者の名前でメールが届く</li>
+          <li>連絡のあとに予約が入ったかを自動で追い、戻った人数と売上を数字で見せる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="howto">
+      <h3>お店がやるのは、チェックを入れて押すだけです</h3>
+      <ol>
+        <li><span class="who auto">自動</span><b>毎朝、連絡の時期のお客様をリストにする</b><em>カラーは45日、カットは60日など、メニューごとに時期を決めておきます。次の予約が入っている方は除きます。担当スタッフにも「声をかけたいお客様」をメールでお知らせします。</em></li>
+        <li><span class="who">店長・スタッフ</span><b>メールか電話かを選んで、チェックを入れる</b><em>メールでのご案内に同意した方だけ「メールを送る」が選べます。電話や店頭で声をかけた場合も、チェックで記録を残せます。</em></li>
+        <li><span class="who auto">自動</span><b>戻ってきてくれたかを追いかける</b><em>連絡から90日以内に予約が入れば「戻った」と数え、売上の目安を出します。お声がけの効果がそのまま見えます。</em></li>
+      </ol>
+    </div>
+
+    <div class="rules">
+      <h3>ご案内を送る前に、自動で確かめていること</h3>
+      <ul>
+        <li><b>次の予約がすでに入っていない</b>か</li>
+        <li>メールのご案内に<b>同意をもらっている</b>か（予約フォームで「受け取る」を選んだ方、または店頭で確認した方）</li>
+        <li>同じ来店について、<b>すでに連絡していない</b>か（同じ方に二重に送らない）</li>
+        <li>「停止」の連絡をもらった方には<b>送らない</b></li>
+      </ul>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>お店が見る画面（サンプルデータ／お客様名は架空）</span></div>
+      <div class="kpis">
+        <div class="kpi"><span>今日の連絡対象</span><b>6人</b><small>時期を過ぎた方</small></div>
+        <div class="kpi"><span>うちメールで送れる人</span><b>4人</b><small>同意あり</small></div>
+        <div class="kpi"><span>これまでに連絡した人</span><b>24人</b><small>メール＋電話・店頭</small></div>
+        <div class="kpi"><span>戻った人</span><b>9人</b><small>連絡した人の37.5%</small></div>
+        <div class="kpi"><span>戻った売上（目安）</span><b>¥67,100</b><small>予約メニューの料金</small></div>
+      </div>
+    </div>
+
+    <div class="cal-side">
+      <div class="figure">
+        <div class="figure-cap"><span>今日、声をかけたいお客様（10月30日）</span></div>
+        <div class="scroll">
+          <table class="booking">
+            <thead><tr><th>お客様</th><th>最終来店</th><th>経過</th><th>前回メニュー</th><th>前回担当</th><th>連絡方法</th></tr></thead>
+            <tbody>
+              <tr><td>小川 様</td><td>8/2</td><td class="num">89日</td><td>カット</td><td>B</td><td><span class="st hold">電話・店頭</span></td></tr>
+              <tr><td>石井 様</td><td>8/18</td><td class="num">73日</td><td>カット</td><td>A</td><td><span class="st ok">メール</span></td></tr>
+              <tr><td>松本 様</td><td>8/22</td><td class="num">69日</td><td>カット＋カラー</td><td>C</td><td><span class="st ok">メール</span></td></tr>
+              <tr><td>井上 様</td><td>8/29</td><td class="num">62日</td><td>カット</td><td>A</td><td><span class="st ok">メール</span></td></tr>
+              <tr><td>木村 様</td><td>9/12</td><td class="num">48日</td><td>カット＋カラー</td><td>B</td><td><span class="st hold">電話・店頭</span></td></tr>
+              <tr><td>林 様</td><td>9/14</td><td class="num">46日</td><td>カット＋カラー</td><td>A</td><td><span class="st ok">メール</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">時期の目安：カット60日・カット＋カラー45日。メールの同意がない方は、電話や店頭で声をかけます。</p>
+      </div>
+      <div class="figure">
+        <div class="figure-cap"><span>お客様に届くご案内メール</span></div>
+        <div class="mail">
+          <p class="mail-sub">【サロン】そろそろカット＋カラーの時期ではありませんか</p>
+          <p>松本 様<br>いつもサロンをご利用いただき、ありがとうございます。担当のスタイリストCです。</p>
+          <p>前回（8月22日）のカット＋カラーから少し時間がたちましたので、ご案内をお送りしました。ご都合のよい日があれば、こちらからご予約いただけます。</p>
+          <p>▶ ご予約フォーム</p>
+          <p class="note">※今後このご案内が不要な場合は、このメールに「停止」とご返信ください。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Results -->
   <section class="case" aria-labelledby="c3">
     <div class="case-head">
@@ -665,6 +876,10 @@ button:hover { background: var(--accent); }
       <div class="result"><span class="label">売上の集計・報告書づくり（月）</span><span class="fig">約3時間 → <strong>約5分</strong></span></div>
       <div class="result"><span class="label">スタッフが増えたときのシフト表の直し</span><span class="fig">表を作り直し → <strong>自動</strong></span></div>
       <div class="result"><span class="label">発注漏れの確認</span><span class="fig">気づいた人が見る → <strong>毎日自動</strong></span></div>
+      <div class="result"><span class="label">予約の受付と台帳への記入</span><span class="fig">電話＋手書き → <strong>自動</strong></span></div>
+      <div class="result"><span class="label">予約を受けられる時間</span><span class="fig">営業時間中だけ → <strong>24時間</strong></span></div>
+      <div class="result"><span class="label">しばらく来ていないお客様に気づく</span><span class="fig">担当者まかせ → <strong>毎朝自動</strong></span></div>
+      <div class="result"><span class="label">お声がけの効果</span><span class="fig">分からない → <strong>戻った人数・売上で見える</strong></span></div>
       <div class="result"><span class="label">その仕事ができる人</span><span class="fig">店長・ベテラン1人 → <strong>全員</strong></span></div>
     </div>
     <p class="note">※ 時間は、美容室2店舗・スタッフ13名を想定した試算です。実際の効果はお店の運用によって変わります。</p>
@@ -677,8 +892,8 @@ button:hover { background: var(--accent); }
       <h2 id="c6">お店に届くもの</h2>
     </div>
     <ul class="deliver">
-      <li><b>スマホの入力フォーム</b><span>スタッフが使うのはここだけ。選択肢から選ぶので入力ミスが出にくい。</span></li>
-      <li><b>自動で集計されるシート</b><span>入力と同時に、シフト・在庫・売上の表が更新されます。</span></li>
+      <li><b>スマホの入力フォーム</b><span>スタッフの入力も、お客様の予約もフォームから。選択肢から選ぶので入力ミスが出にくい。</span></li>
+      <li><b>自動で更新されるシートとカレンダー</b><span>入力と同時に、シフト・在庫・売上の表や、予約の共有カレンダーが更新されます。</span></li>
       <li><b>ダッシュボード</b><span>指標・ランキング・グラフを、いつ開いても最新の状態で。</span></li>
       <li><b>月次レポート（スライド・PDF）</b><span>オーナーへの報告や、スタッフミーティングにそのまま使えます。</span></li>
       <li><b>AIの所見</b><span>数字は正確に計算したうえで、文章だけAIが下書き。使わない設定もできます。</span></li>
@@ -706,6 +921,10 @@ button:hover { background: var(--accent); }
         <p>AIの所見はボタンを押したときだけ動き、1回あたり約0.2円の設定で作っています。売上が変わっていなければAIを呼ばないので、無駄な費用は出ません。AIを使わずに、集計結果から文章を作る設定にもできます。</p>
       </details>
       <details>
+        <summary>お客様に、勝手にご案内メールが届いてしまいませんか？</summary>
+        <p>届きません。メールでのご案内に同意した方（予約フォームで「受け取る」を選んだ方、または店頭で確認した方）にだけ送ります。最初は、店長が一覧を見てチェックした方にだけ送る設定です。「停止」のご連絡をもらった方には、それ以降は送りません。</p>
+      </details>
+      <details>
         <summary>お店のルールに合わせられますか？</summary>
         <p>はい。定休日、休みの日数、土日の人員、発注のタイミングや数など、店長が頭の中で決めていたルールを聞き取って組み込みます。使い始めてからの見直しにも対応します（例：在庫が最低在庫まで減ったら、決めた数をまとめて発注するルールへの変更）。</p>
       </details>
@@ -728,7 +947,7 @@ button:hover { background: var(--accent); }
 
   <footer class="closing">
     <h2>属人化している仕事、ひとつから相談できます。</h2>
-    <p class="prose">シフト、在庫、予約、日報など、「あの人しか分からない」作業があれば、まずは今のやり方を聞かせてください。</p>
+    <p class="prose">シフト、在庫、予約、お客様へのお声がけ、日報など、「あの人しか分からない」作業があれば、まずは今のやり方を聞かせてください。</p>
   </footer>
 </div>
 
@@ -790,6 +1009,36 @@ button:hover { background: var(--accent); }
   }
   document.getElementById("sl-days").innerHTML = slDays;
 
+  // ---- Case 4: 予約カレンダーの見本（架空の予約・11/2〜11/7） ----
+  var calDays = [["11/2", "月"], ["11/3", "火"], ["11/4", "水"], ["11/5", "木"], ["11/6", "金"], ["11/7", "土"]];
+  // [曜日の番号, 担当(a/b/c), 開始(分), 終了(分), メニュー]
+  var calEvents = [
+    [0, "a", 600, 660, "カット"], [0, "b", 630, 750, "カット＋カラー"], [0, "c", 780, 900, "パーマ"], [0, "a", 900, 960, "カット"], [0, "b", 960, 990, "トリートメント"],
+    [2, "a", 660, 780, "カット＋カラー"], [2, "b", 840, 870, "トリートメント"], [2, "c", 960, 1020, "カット"], [2, "a", 1020, 1080, "カット"],
+    [3, "b", 600, 660, "カット"], [3, "a", 720, 840, "パーマ"], [3, "b", 900, 960, "カット"], [3, "c", 1020, 1140, "カット＋カラー"],
+    [4, "a", 600, 720, "カット＋カラー"], [4, "b", 780, 840, "カット"], [4, "c", 780, 900, "パーマ"], [4, "a", 960, 1020, "カット"],
+    [5, "a", 600, 660, "カット"], [5, "b", 600, 720, "パーマ"], [5, "c", 600, 660, "カット"], [5, "a", 690, 810, "パーマ"], [5, "c", 690, 810, "カット＋カラー"],
+    [5, "b", 780, 900, "カット＋カラー"], [5, "a", 840, 960, "カット＋カラー"], [5, "c", 900, 960, "カット"]
+  ];
+  var OPEN = 600, CLOSE = 1140, PX = 44 / 30; // 30分＝44px
+  var lane = { a: 0, b: 1, c: 2 };
+  var hhmm = function (m) { return Math.floor(m / 60) + ":" + ("0" + (m % 60)).slice(-2); };
+  var calHtml = '<div class="cal-head"></div>' + calDays.map(function (d) {
+    return '<div class="cal-head' + (d[1] === "土" ? " sat" : "") + '">' + d[1] + "<small>" + d[0] + "</small></div>";
+  }).join("");
+  var times = "";
+  for (var t = OPEN; t <= CLOSE; t += 60) times += '<span style="top:' + Math.round((t - OPEN) * PX) + 'px">' + hhmm(t) + "</span>";
+  var calH = Math.round((CLOSE - OPEN) * PX);
+  calHtml += '<div class="cal-times" style="height:' + calH + 'px">' + times + "</div>";
+  calDays.forEach(function (d, i) {
+    if (d[1] === "火") { calHtml += '<div class="cal-day closed" style="height:' + calH + 'px">定休日</div>'; return; }
+    calHtml += '<div class="cal-day" style="height:' + calH + 'px">' + calEvents.filter(function (e) { return e[0] === i; }).map(function (e) {
+      return '<div class="ev ' + e[1] + '" title="' + hhmm(e[2]) + "〜" + hhmm(e[3]) + " " + e[4] + '" style="top:' + Math.round((e[2] - OPEN) * PX + 1) +
+        "px;height:" + Math.round((e[3] - e[2]) * PX - 2) + "px;left:calc(" + (lane[e[1]] * 33.33) + "% + 2px);width:calc(33.33% - 4px)\"><b>" + hhmm(e[2]) + "</b>" + e[4] + "</div>";
+    }).join("") + "</div>";
+  });
+  document.getElementById("cal-week").innerHTML = calHtml;
+
   // ---- Case 2: 在庫デモ（商品マスターのサンプル値） ----
   var items = [
     // min：最低在庫（発注の合図）／point：発注点（1回に発注する数）
@@ -838,6 +1087,5 @@ button:hover { background: var(--accent); }
   });
 })();
 </script>
-
 </body>
 </html>
