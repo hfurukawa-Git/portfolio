@@ -348,15 +348,6 @@ button:hover { background: var(--accent); }
 .process b { font-size: 16px; }
 .process span { font-size: 14px; color: var(--muted); line-height: 1.7; }
 .process { padding: 0; margin: 0; }
-.process .text-link { display: inline-block; margin-left: 4px; color: var(--accent); font-weight: 700; white-space: nowrap; }
-.try-kakeibo { margin-top: 28px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 28px; align-items: center; background: var(--warn-soft); border: 1px solid var(--warn); border-radius: 14px; padding: 22px 24px; }
-.try-kakeibo h3 { margin: 2px 0 6px; font-size: 19px; }
-.try-kakeibo p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.7; }
-.try-kakeibo .try-eyebrow { font-size: 12px; font-weight: 700; color: var(--warn); letter-spacing: .08em; }
-.try-btn { display: inline-block; padding: 12px 26px; border-radius: 999px; background: var(--warn); color: var(--surface); font-weight: 700; text-decoration: none; white-space: nowrap; }
-.try-btn:hover { background: var(--accent); }
-@media (max-width: 720px) { .try-kakeibo { grid-template-columns: 1fr; } .try-btn { justify-self: start; } }
-
 .closing { border-top: 1px solid var(--line); padding-top: 40px; display: grid; gap: 12px; }
 .closing h2 { font-size: clamp(22px, 3.2vw, 28px); }
 
@@ -1375,18 +1366,10 @@ button:hover { background: var(--accent); }
     </div>
     <ol class="process">
       <li><b>初回ヒアリング（無料・30分）</b><span>「この人が休むと困る仕事」を一緒に洗い出します。準備はいりません。</span></li>
-      <li><b>時間の家計簿</b><span>作業ごとの時間と人件費を一覧にし、自動化する順番を決めます。<a class="text-link" href="kakeibo.html">見本を試す →</a></span></li>
+      <li><b>時間の家計簿</b><span>作業ごとの時間と人件費を一覧にし、自動化する順番を決めます。</span></li>
       <li><b>小さく1業務から</b><span>効果の大きい作業を1つ自動化し、減った時間を数字で確かめます。</span></li>
       <li><b>定着と広げる</b><span>使い方をまとめ、運用が回るまで調整。効果を見て次の業務へ進みます。</span></li>
     </ol>
-    <div class="try-kakeibo">
-      <div>
-        <p class="try-eyebrow">いますぐ試せます</p>
-        <h3>「時間の家計簿」で、減らせる時間を出してみる</h3>
-        <p>業種を選び、作業ごとに回数と1回の時間を入れると、どの作業を毎月何時間減らせるか、人件費にするといくらかがその場で出ます。入力した内容は、お使いのブラウザの中にだけ保存されます。</p>
-      </div>
-      <a class="try-btn" href="kakeibo.html">時間の家計簿を開く</a>
-    </div>
   </section>
 
   <!-- About -->
