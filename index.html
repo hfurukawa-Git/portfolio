@@ -1,0 +1,1723 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>業務自動化・AI活用サポート | 古川 裕世 ポートフォリオ</title>
+<meta name="description" content="「あの人しか分からない」を、自動で回る仕組みに。Googleのツールで入力・集計・連絡を自動化し、AIが報告書の所見や次の一手を下書きします。美容室の事例と、工務店・介護事業所・飲食店や小売店の見本を紹介しています。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="業務自動化・AI活用サポート | 古川 裕世 ポートフォリオ">
+<meta property="og:description" content="「あの人しか分からない」を、自動で回る仕組みに。業務自動化とAI活用の事例と見本。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%230e6b66%22/%3E%3Cpath d=%22M18 34l10 10 18-22%22 stroke=%22white%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}a{color:inherit}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 一本の読み筋。各事例は「課題 → 仕組み → 実物 → 効果」の順に、実データの表を主役に置く */
+:root {
+  --bg: #f2f5f5;
+  --surface: #ffffff;
+  --ink: #18252b;
+  --muted: #5b6b72;
+  --line: #d5dee0;
+  --accent: #0e6b66;
+  --accent-soft: #dcefed;
+  --warn: #b5541b;
+  --warn-soft: #f8e6da;
+  --off: #8a979c;
+  --c2: #4f9a94;
+  --c3: #a8d0cc;
+  --font-display: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "Consolas", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11181b; --surface: #182226; --ink: #e4ecee; --muted: #9aabb1; --line: #2c3a3f;
+    --accent: #5cc2b9; --accent-soft: #173a38; --warn: #f0965e; --warn-soft: #3d2618; --off: #6d7c81; --c2: #3d8a83; --c3: #2a5753;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11181b; --surface: #182226; --ink: #e4ecee; --muted: #9aabb1; --line: #2c3a3f;
+  --accent: #5cc2b9; --accent-soft: #173a38; --warn: #f0965e; --warn-soft: #3d2618; --off: #6d7c81; --c2: #3d8a83; --c3: #2a5753;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.85;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 920px; margin: 0 auto; padding-block: 56px 80px; display: grid; gap: 88px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.4; }
+/* 日本語を文節の区切りで改行する（対応ブラウザのみ）。.nb はひとまとまりで改行しない語句 */
+h1, h2, h3, p, li, summary { word-break: auto-phrase; }
+.nb { white-space: nowrap; }
+p { margin: 0; }
+.eyebrow { font-family: var(--font-data); font-size: 12px; letter-spacing: .12em; color: var(--accent); text-transform: uppercase; }
+.prose { max-width: 38em; color: var(--muted); }
+
+/* Hero */
+.hero { display: grid; gap: 20px; }
+.hero h1 { font-size: clamp(30px, 5.4vw, 48px); font-weight: 900; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 13px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+
+/* Case */
+.case { display: grid; gap: 32px; }
+.case-head { display: grid; gap: 10px; }
+.case-head h2 { font-size: clamp(24px, 3.6vw, 32px); font-weight: 900; }
+.ba { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.ba > div { background: var(--surface); padding: 20px 22px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.ba h3 { font-family: var(--font-body); font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--muted); }
+.ba ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+.ba .after h3 { color: var(--accent); }
+
+/* Flow */
+.flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+.step { flex: 1 1 150px; min-width: 0; padding: 14px 16px; border-top: 3px solid var(--accent); background: var(--surface); display: grid; gap: 2px; }
+.step b { font-size: 15px; }
+.step span { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.arrow { align-self: center; color: var(--muted); font-family: var(--font-data); }
+
+.rules { display: grid; gap: 8px; padding: 18px 22px; background: var(--accent-soft); border-radius: 6px; }
+.rules h3 { font-family: var(--font-body); font-size: 14px; font-weight: 700; }
+.rules ul { margin: 0; padding-left: 1.2em; display: grid; gap: 2px; }
+.rules b { color: var(--accent); font-weight: 700; }
+
+/* Tables */
+.figure { display: grid; gap: 10px; }
+.figure-cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; font-size: 13px; color: var(--muted); }
+.scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+th { font-weight: 500; color: var(--muted); font-size: 12px; }
+tr:last-child td { border-bottom: 0; }
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; text-align: right; }
+
+.shift th, .shift td { text-align: center; padding: 6px 0; min-width: 32px; font-family: var(--font-data); }
+.shift th:first-child, .shift td:first-child { text-align: left; padding-left: 12px; padding-right: 12px; font-family: var(--font-body); position: sticky; left: 0; background: var(--surface); }
+.shift th.sun { color: var(--warn); }
+.shift th.sat { color: var(--accent); }
+.shift th.tue { color: var(--warn); }
+.shift .closed { background: var(--bg); color: var(--off); }
+.shift td.s-a, .legend .s-a { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+.shift td.s-b, .legend .s-b { color: var(--warn); background: var(--warn-soft); font-weight: 500; }
+.legend .s-a, .legend .s-b { padding: 0 6px; border-radius: 3px; }
+.shift td.c-req { background: var(--warn-soft); }
+.shift tr.head-row td { font-size: 12px; color: var(--muted); background: var(--bg); }
+.shift tr.head-row.first td { border-top: 2px solid var(--line); }
+.shift tr.head-row td:first-child { background: var(--bg); font-weight: 700; color: var(--ink); }
+.shift tr.head-row small { font-size: 10px; margin-left: 1px; }
+.checks { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 13px; color: var(--muted); }
+.checks b { color: var(--accent); }
+.checks span::before { content: "✓ "; color: var(--accent); font-weight: 700; }
+.c-on { color: var(--accent); }
+.c-req { color: var(--warn); font-weight: 500; }
+.c-off { color: var(--off); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+
+.bar { display: inline-block; width: 90px; height: 6px; border-radius: 3px; background: var(--line); vertical-align: middle; position: relative; overflow: hidden; }
+.bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
+.bar.low i { background: var(--warn); }
+.pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.pill.low { background: var(--warn-soft); color: var(--warn); }
+
+/* Demo */
+.demo { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr); gap: 24px; align-items: start; }
+form { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px; display: grid; gap: 14px; }
+label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+select, input { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; width: 100%; }
+.seg { display: flex; gap: 0; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.seg label { flex: 1; display: block; text-align: center; padding: 8px; cursor: pointer; color: var(--ink); font-size: 14px; }
+.seg input { position: absolute; opacity: 0; width: 1px; }
+.seg label:has(input:checked) { background: var(--accent); color: var(--bg); }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: -4px; }
+button { font: inherit; font-weight: 700; color: var(--bg); background: var(--ink); border: 0; border-radius: 4px; padding: 10px; cursor: pointer; }
+button:hover { background: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.hint { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.toast { font-size: 13px; color: var(--accent); min-height: 1.6em; }
+.demo-out { display: grid; gap: 20px; min-width: 0; }
+.demo-out h3 { font-family: var(--font-body); font-size: 14px; font-weight: 700; }
+.empty { padding: 12px; font-size: 13px; color: var(--muted); }
+
+/* Results */
+.results { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.result { background: var(--surface); padding: 22px; display: grid; gap: 6px; align-content: start; }
+.result .label { font-size: 13px; color: var(--muted); }
+.result .fig { font-family: var(--font-data); font-size: 15px; font-variant-numeric: tabular-nums; }
+.result .fig strong { font-family: var(--font-display); font-size: 30px; color: var(--accent); }
+.note { font-size: 12px; color: var(--muted); }
+
+/* Monthly slide mock (A4縦) */
+.slide-wrap { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 28px; align-items: start; }
+.slide { aspect-ratio: 210 / 297; max-width: 100%; background: #f6f8fa; color: #1f2a33; border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 6px 24px rgba(20, 40, 60, .12); overflow: hidden; display: grid; grid-template-rows: auto 1fr; font-size: 10px; line-height: 1.5; }
+.sl-head { background: #1f4e79; color: #fff; padding: 12px 14px; display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; align-items: center; position: relative; overflow: hidden; }
+.sl-head::after { content: ""; position: absolute; right: -40px; top: -60px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255, 255, 255, .06); }
+.sl-head small { display: block; font-size: 7px; letter-spacing: .1em; color: #81c3d7; font-weight: 700; }
+.sl-head b { font-size: 14px; }
+.sl-head em { grid-column: 1 / -1; font-style: normal; font-size: 7.5px; color: #c8d6e5; }
+.sl-badge { background: #d9822b; color: #fff; font-size: 8px; font-weight: 700; padding: 1px 8px; border-radius: 999px; position: relative; z-index: 1; }
+.sl-body { padding: 10px 14px; display: grid; gap: 8px; align-content: start; }
+.sl-one { background: #fff; border-left: 3px solid #d9822b; border-radius: 3px; padding: 6px 8px; display: grid; }
+.sl-one span { font-size: 7px; color: #d9822b; font-weight: 700; }
+.sl-one b { font-size: 11px; }
+.sl-kpi { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.sl-total, .sl-rows { background: #fff; border: 1px solid #dfe6ec; border-radius: 4px; padding: 6px 8px; margin: 0; }
+.sl-total { display: grid; gap: 2px; }
+.sl-total span { font-size: 7.5px; color: #5b6b72; font-weight: 700; }
+.sl-total span i { font-style: normal; font-weight: 400; background: #eef3f8; color: #8a979c; padding: 0 5px; border-radius: 999px; margin-left: 4px; }
+.sl-total b { font-size: 19px; color: #1f4e79; line-height: 1.2; }
+.sl-total em { font-style: normal; font-size: 7.5px; color: #d9822b; font-weight: 700; }
+.sl-rows { display: grid; gap: 0; }
+.sl-rows div { display: flex; justify-content: space-between; border-top: 1px solid #dfe6ec; padding: 1px 0; }
+.sl-rows div:first-child { border-top: 0; }
+.sl-rows dt { font-size: 7.5px; color: #5b6b72; }
+.sl-rows dd { margin: 0; font-size: 9.5px; font-weight: 700; color: #1f4e79; }
+.sl-sec { display: grid; gap: 3px; }
+.sl-sec h5, .sl-points h5 { margin: 0; font-size: 8.5px; color: #1f4e79; border-left: 2px solid #1f4e79; padding-left: 5px; }
+.sl-bar { display: grid; grid-template-columns: 6em 1fr auto; gap: 6px; align-items: center; font-size: 7.5px; }
+.sl-bar i { height: 5px; background: #eef3f8; border-radius: 3px; overflow: hidden; }
+.sl-bar u { display: block; height: 100%; background: #1f4e79; }
+.sl-bar.rank1 u { background: #d9822b; }
+.sl-bar b { font-weight: 700; }
+.sl-two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sl-band { display: flex; height: 7px; border-radius: 2px; overflow: hidden; }
+.sl-band u { display: block; height: 100%; }
+.sl-legend { font-size: 7px; color: #5b6b72; }
+.sl-days { display: flex; align-items: flex-end; gap: 1px; height: 42px; border-bottom: 1px solid #dfe6ec; }
+.sl-days div { flex: 1; display: grid; align-content: end; height: 100%; min-width: 0; }
+.sl-days i { display: block; background: #3a7ca5; border-radius: 1px 1px 0 0; }
+.sl-days .top i { background: #d9822b; }
+.sl-points { background: #eef3f8; border-left: 3px solid #1f4e79; border-radius: 3px; padding: 6px 8px; display: grid; gap: 1px; font-size: 7.5px; }
+.sl-next { margin-top: 4px; background: #fbefe2; border-radius: 3px; padding: 4px 6px; display: grid; grid-template-columns: auto 1fr; gap: 6px; align-items: center; }
+.sl-next span { color: #d9822b; font-weight: 700; }
+.slide-notes { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.slide-notes li { display: grid; gap: 2px; padding-left: 14px; border-left: 2px solid var(--accent); }
+.slide-notes b { font-size: 15px; }
+.slide-notes span { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+/* Lead / How-to */
+.lead { max-width: 38em; font-size: 17px; color: var(--ink); }
+.howto { display: grid; gap: 12px; }
+.howto h3 { font-family: var(--font-body); font-size: 15px; font-weight: 700; }
+.howto ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; counter-reset: h; }
+.howto li { counter-increment: h; position: relative; display: grid; gap: 6px; align-content: start; padding: 18px 18px 18px 52px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.howto li::before { content: counter(h); position: absolute; left: 16px; top: 16px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--surface); font-family: var(--font-data); font-weight: 500; display: grid; place-items: center; font-size: 14px; }
+.howto .who { justify-self: start; font-size: 11px; font-weight: 700; padding: 1px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.howto .who.auto { background: var(--warn-soft); color: var(--warn); }
+.howto b { font-size: 15px; line-height: 1.6; }
+.howto em { font-style: normal; font-size: 13px; color: var(--muted); line-height: 1.7; }
+.legend-box { padding: 10px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 13px; color: var(--muted); }
+
+/* Case 04: booking calendar */
+.cal { display: grid; grid-template-columns: 46px repeat(6, minmax(96px, 1fr)); min-width: 640px; font-size: 11px; }
+.cal-head { text-align: center; padding: 6px 2px; font-weight: 700; border-bottom: 1px solid var(--line); background: var(--surface); }
+.cal-head small { display: block; font-weight: 400; color: var(--muted); font-family: var(--font-data); }
+.cal-head.sat { color: var(--accent); }
+.cal-times { position: relative; }
+.cal-times span { position: absolute; right: 6px; transform: translateY(-50%); color: var(--muted); font-family: var(--font-data); font-size: 10px; }
+.cal-day { position: relative; border-left: 1px solid var(--line); background: repeating-linear-gradient(to bottom, transparent 0 43px, var(--line) 43px 44px); }
+.cal-day.closed { background: var(--bg); display: grid; place-items: center; color: var(--off); font-size: 12px; }
+.ev { position: absolute; border-radius: 4px; padding: 2px 4px; overflow: hidden; line-height: 1.3; border-left: 3px solid; }
+.ev b { display: block; font-family: var(--font-data); font-size: 10px; font-weight: 500; }
+.ev.a, .cal-chip.a { background: var(--accent-soft); border-color: var(--accent); color: var(--ink); }
+.ev.b, .cal-chip.b { background: var(--warn-soft); border-color: var(--warn); color: var(--ink); }
+.ev.c, .cal-chip.c { background: var(--bg); border-color: var(--c2); color: var(--ink); }
+.cal-chip { display: inline-block; width: 12px; height: 12px; border-radius: 3px; border-left: 3px solid; vertical-align: -1px; }
+.cal-side { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.booking td, .booking th { font-size: 13px; }
+.st { font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; }
+.st.ok { background: var(--accent-soft); color: var(--accent); }
+.st.hold { background: var(--warn-soft); color: var(--warn); }
+.mail { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; display: grid; gap: 10px; font-size: 13px; }
+.mail-sub { font-weight: 700; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.mail dl { margin: 0; display: grid; gap: 2px; }
+.mail dl div { display: grid; grid-template-columns: 5em 1fr; gap: 8px; }
+.mail dt { color: var(--muted); }
+.mail dd { margin: 0; }
+.ev.rest, .cal-chip.rest { background: repeating-linear-gradient(45deg, var(--bg) 0 6px, var(--surface) 6px 12px); border-color: var(--off); color: var(--muted); }
+.ev.new { box-shadow: 0 0 0 2px var(--accent); }
+
+/* Case 04: ウェブ予約ページの再現 */
+.bk-wrap { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 28px; align-items: start; }
+.bk { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.bk-top { display: grid; gap: 2px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.bk-top b { font-size: 15px; }
+.bk-top span, .bk-lbl { font-size: 12px; color: var(--muted); }
+.bk-lbl { display: block; margin-bottom: 4px; }
+.bk-dates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+.bk-times { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+.bk-dates button, .bk-times button { font-weight: 500; font-size: 13px; line-height: 1.4; color: var(--ink); background: var(--bg); border: 1px solid var(--line); padding: 6px 0; }
+.bk-dates small { display: block; font-family: var(--font-data); font-size: 11px; color: var(--muted); }
+.bk-times button { font-family: var(--font-data); }
+.bk-dates button:hover, .bk-times button:hover { background: var(--accent-soft); }
+.bk-dates button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.bk-dates button[aria-pressed="true"] small { color: inherit; }
+.bk-dates button:disabled { color: var(--off); background: var(--bg); cursor: default; }
+.bk-times .hint { grid-column: 1 / -1; }
+@media (max-width: 720px) { .bk-wrap { grid-template-columns: 1fr; } }
+
+/* Case 01: 希望休フォームと、届くメールの再現 */
+.fm-name { display: block; padding: 8px 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; font-size: 14px; }
+.fm-days { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.fm-days span { font-family: var(--font-data); font-size: 12px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); white-space: nowrap; }
+.fm-days span::before { content: "□ "; color: var(--muted); }
+.fm-days span.on { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.fm-days span.on::before { content: "☑ "; color: var(--accent); }
+.fm-send { justify-self: start; padding: 8px 20px; background: var(--accent); color: var(--surface); border-radius: 4px; font-size: 13px; font-weight: 700; }
+.mail-body { white-space: pre-line; line-height: 1.75; max-height: 360px; overflow: auto; }
+
+/* Case 02: 発注リストの「発注した」「届いた」 */
+.demo-out button.mini { padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; color: var(--surface); background: var(--accent); border: 0; }
+.demo-out button.mini:hover { background: var(--ink); }
+#drafts { display: grid; gap: 10px; }
+
+/* Case index */
+.cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: -48px; }
+.cases a { display: grid; gap: 4px; align-content: start; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; color: inherit; text-decoration: none; transition: border-color .15s; }
+.cases a:hover { border-color: var(--accent); }
+.cases a:last-child:nth-child(even) { grid-column: 1 / -1; }
+.cases span { font-family: var(--font-data); font-size: 11px; letter-spacing: .1em; color: var(--accent); }
+.cases b { font-family: var(--font-display); font-size: 19px; }
+.cases em { font-style: normal; font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* Deliverables */
+.deliver { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.deliver li { background: var(--surface); padding: 18px 20px; display: grid; gap: 4px; align-content: start; }
+.deliver b { font-size: 15px; color: var(--accent); }
+.deliver span { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* FAQ */
+.faq { display: grid; gap: 8px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; }
+.faq summary { cursor: pointer; font-weight: 700; }
+.faq summary::marker { color: var(--accent); }
+.faq p { margin-top: 8px; color: var(--muted); font-size: 14px; }
+
+/* Follow-up */
+.follow { display: grid; gap: 10px; padding: 20px 22px; border: 1px dashed var(--line); border-radius: 6px; background: var(--surface); }
+.follow h3 { font-family: var(--font-body); font-size: 15px; font-weight: 700; }
+.follow ol { margin: 0; padding-left: 1.4em; display: grid; gap: 10px; }
+.follow li { display: grid; gap: 2px; }
+.follow li b { font-size: 14px; }
+.follow li span { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+.rule-change { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rule-change div { display: grid; gap: 4px; align-content: start; padding: 12px 14px; border-radius: 6px; background: var(--bg); }
+.rule-change div:last-child { background: var(--accent-soft); }
+.rule-change span { font-size: 12px; font-weight: 700; color: var(--muted); }
+.rule-change div:last-child span { color: var(--accent); }
+.rule-change p { font-size: 14px; line-height: 1.7; }
+@media (max-width: 720px) { .rule-change { grid-template-columns: 1fr; } }
+
+/* Case 03: dashboard mock */
+.report { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 22px; display: grid; gap: 22px; min-width: 0; }
+.report-head { display: grid; gap: 2px; }
+.report-head b { font-size: 18px; color: var(--accent); }
+.report-head span { font-size: 12px; color: var(--muted); }
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.kpi { border: 1px solid var(--line); border-radius: 6px; padding: 10px 8px; display: grid; gap: 2px; text-align: center; min-width: 0; }
+.kpi span { font-size: 11px; color: var(--muted); }
+.kpi b { font-family: var(--font-data); font-size: clamp(15px, 2.2vw, 20px); color: var(--accent); font-variant-numeric: tabular-nums; }
+.kpi small { font-size: 10px; color: var(--muted); }
+.hl { display: grid; margin: 0; padding: 0; list-style: none; }
+.hl li { display: grid; grid-template-columns: 11em minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.hl li span { color: var(--muted); font-size: 13px; }
+.hl li b { color: var(--ink); }
+.hl li:first-child b { color: var(--warn); }
+.rep-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.rep-block { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.rep-block h4 { margin: 0; font-size: 13px; color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
+.rank { display: grid; gap: 6px; }
+.rank-row { display: grid; grid-template-columns: 2.5em 5.5em 6em minmax(0, 1fr); gap: 8px; align-items: center; font-size: 13px; }
+.rank-row .r { color: var(--muted); text-align: center; }
+.rank-row .v { font-family: var(--font-data); text-align: right; font-variant-numeric: tabular-nums; }
+.hbar { height: 8px; background: var(--accent-soft); border-radius: 4px; overflow: hidden; }
+.hbar i { display: block; height: 100%; background: var(--accent); }
+.rank-row:first-child .hbar i { background: var(--warn); }
+.pay { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 16px; align-items: center; }
+.donut { width: 110px; aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: conic-gradient(var(--accent) 0 46.3%, var(--c2) 0 70.6%, var(--c3) 0 86.3%, var(--warn) 0 100%); mask: radial-gradient(circle, transparent 52%, #000 53%); -webkit-mask: radial-gradient(circle, transparent 52%, #000 53%); }
+.pay ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 13px; }
+.pay li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.pay li i { width: 10px; height: 10px; border-radius: 2px; }
+.pay li .v { font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--muted); }
+.days { display: flex; align-items: flex-end; gap: 6px; height: 120px; padding-top: 8px; border-bottom: 1px solid var(--line); }
+.days div { flex: 1; display: grid; align-content: end; gap: 4px; height: 100%; min-width: 0; }
+.days i { display: block; background: var(--accent); border-radius: 3px 3px 0 0; }
+.days .top i { background: var(--warn); }
+.days span { font-size: 10px; color: var(--muted); text-align: center; font-family: var(--font-data); }
+.ai-sample { border-left: 3px solid var(--accent); background: var(--bg); padding: 14px 18px; display: grid; gap: 4px; font-size: 14px; }
+.ai-sample b { font-size: 12px; color: var(--accent); }
+.ai-sample p { color: var(--ink); line-height: 1.8; }
+
+/* Process */
+.process { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: s; }
+.process li { list-style: none; display: grid; gap: 6px; align-content: start; padding-top: 14px; border-top: 1px solid var(--ink); }
+.process li::before { counter-increment: s; content: "STEP " counter(s); font-family: var(--font-data); font-size: 12px; color: var(--accent); letter-spacing: .1em; }
+.process b { font-size: 16px; }
+.process span { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.process { padding: 0; margin: 0; }
+.closing { border-top: 1px solid var(--line); padding-top: 40px; display: grid; gap: 12px; }
+.closing h2 { font-size: clamp(22px, 3.2vw, 28px); }
+
+/* By industry: tabs + task table + samples */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tabs button { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 8px 18px; font-weight: 700; }
+.tabs button:hover { background: var(--accent-soft); color: var(--ink); }
+.tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.ind-panel { display: grid; gap: 24px; }
+.tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.tag.sample { background: var(--warn-soft); color: var(--warn); }
+.tag.plan { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+.tag.ai { background: var(--ink); color: var(--surface); }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.stats div { background: var(--surface); padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
+.stats b { font-family: var(--font-display); font-size: clamp(24px, 4vw, 32px); color: var(--accent); line-height: 1.2; }
+.stats small { font-size: 14px; margin-left: 2px; }
+.stats span { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.cta { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 32px; align-items: center; }
+.cta-text { display: grid; gap: 14px; }
+.cta-steps { margin: 0; padding-left: 1.4em; display: grid; gap: 2px; font-size: 15px; }
+.cw-btn { justify-self: start; display: inline-block; padding: 12px 28px; border-radius: 999px; background: var(--warn); color: var(--surface); font-weight: 700; text-decoration: none; }
+.cw-btn:hover { background: var(--accent); }
+.cta-qr { display: grid; gap: 8px; justify-items: center; padding: 16px; background: var(--surface); border: 2px solid var(--warn); border-radius: 12px; }
+.cta-qr span { font-size: 13px; font-weight: 700; color: var(--warn); }
+.cta-qr svg { width: 100%; max-width: 186px; height: auto; display: block; }
+.hero-cta { justify-self: start; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.hero-cta span { font-size: 13px; color: var(--muted); }
+.sum { display: grid; gap: 4px; padding: 20px 22px; background: var(--accent-soft); border-radius: 6px; }
+.sum span { font-size: 13px; color: var(--muted); }
+.sum b { font-family: var(--font-display); font-size: clamp(22px, 3.4vw, 28px); color: var(--accent); }
+.profile { display: grid; gap: 8px; padding: 22px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.profile b { font-family: var(--font-display); font-size: 22px; }
+.profile .role { font-size: 14px; font-weight: 700; color: var(--accent); }
+.profile p { color: var(--muted); font-size: 15px; }
+.tasks td { white-space: normal; vertical-align: top; line-height: 1.6; }
+.tasks td:first-child { font-weight: 700; min-width: 8em; }
+.tasks td:nth-child(2) { color: var(--muted); min-width: 12em; }
+.tasks td:nth-child(3) { min-width: 14em; }
+.tasks a { color: var(--accent); }
+.sample-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.sample-grid .wide { grid-column: 1 / -1; }
+.mini { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 18px; display: grid; gap: 12px; min-width: 0; }
+.mini h4 { margin: 0; font-size: 13px; color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
+.mini .scroll { border: 0; }
+.over { color: var(--warn); font-weight: 700; }
+.ok { color: var(--accent); font-weight: 700; }
+.fields { margin: 0; display: grid; gap: 6px; font-size: 14px; }
+.fields div { display: grid; grid-template-columns: 4.5em minmax(0, 1fr); gap: 8px; padding: 6px 10px; background: var(--bg); border-radius: 4px; }
+.fields dt { color: var(--muted); }
+.fields dd { margin: 0; font-weight: 500; }
+.then { font-size: 13px; color: var(--accent); font-weight: 700; }
+.vbars { display: flex; align-items: flex-end; gap: 8px; height: 130px; border-bottom: 1px solid var(--line); }
+.vbars div { flex: 1; display: grid; align-content: end; gap: 4px; height: 100%; min-width: 0; text-align: center; }
+.vbars i { display: block; background: var(--c2); border-radius: 3px 3px 0 0; }
+.vbars .top i { background: var(--warn); }
+.vbars b { font-family: var(--font-data); font-size: 12px; font-weight: 500; }
+.vbars span { font-size: 11px; color: var(--muted); }
+
+@media (max-width: 720px) {
+  .cta { grid-template-columns: 1fr; }
+  .cta-qr { display: none; } /* スマホで見ているときは、QRではなくボタンから開く */
+  .stats { grid-template-columns: 1fr; }
+  .stats div { grid-template-columns: 6.5em minmax(0, 1fr); align-items: center; gap: 12px; padding: 10px 16px; }
+  .stats b { white-space: nowrap; font-size: 24px; }
+  .stats span br { display: none; }
+  .sample-grid { grid-template-columns: 1fr; }
+  .tasks thead { display: none; }
+  .tasks, .tasks tbody, .tasks tr, .tasks td { display: block; width: auto; }
+  .tasks tr { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .tasks tr:last-child { border-bottom: 0; }
+  .tasks td { border: 0; padding: 2px 0; min-width: 0 !important; }
+  .tasks td:nth-child(2)::before { content: "これまで："; }
+  .tasks td:nth-child(3)::before { content: "→ "; color: var(--accent); font-weight: 700; }
+  .mini { padding: 14px; }
+  .mini table { font-size: 12px; }
+  .mini th, .mini td { padding: 6px; white-space: normal; }
+  .mini td.num { white-space: nowrap; }
+  .mini td:first-child { min-width: 4em; }
+  .wrap { padding-block: 32px 56px; gap: 64px; }
+  .ba, .results, .demo, .rep-grid, .slide-wrap, .deliver { grid-template-columns: 1fr; }
+  .slide { max-width: 400px; width: 100%; }
+  .cases { grid-template-columns: 1fr; margin-top: -32px; }
+  .cal-side { grid-template-columns: 1fr; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hl li { grid-template-columns: 1fr; gap: 0; }
+  .report { padding: 16px; }
+  .process { grid-template-columns: 1fr 1fr; }
+  .arrow { display: none; }
+}
+@media (max-width: 420px) { .process { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: no-preference) {
+  .flash { animation: flash 1.2s ease-out; }
+  @keyframes flash { from { background: var(--accent-soft); } to { background: transparent; } }
+}
+</style>
+
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">業務自動化・AI活用サポート ｜ 古川 裕世</p>
+    <h1>「あの人しか分からない」を、<br><em>自動で回る仕組み</em>に。</h1>
+    <p class="prose">毎日の入力・集計・連絡はGoogleのツールで自動にし、集まった数字はAIが読み解いて、報告書の所見や「次の一手」まで下書きします。新しいアプリは入れず、すでにお使いのGoogleのツールだけで作ります。</p>
+    <div class="stats">
+      <div><b>7<small>つ</small></b><span>これまでに制作した<br>業務ツール</span></div>
+      <div><b>月9.5<small>時間</small></b><span>美容室2店舗での<br>削減の試算</span></div>
+      <div><b>約0.2<small>円</small></b><span>AIが所見を書く<br>1回あたりの費用</span></div>
+    </div>
+    <div class="hero-cta">
+      <a class="cw-btn" href="#contact">無料で相談する（30分）</a>
+      <span>Chatworkで、ひとこと送るだけで始められます</span>
+    </div>
+    <div class="meta">
+      <span class="chip">想定：美容室 2店舗・スタッフ13名</span>
+      <span class="chip">Googleスプレッドシート</span>
+      <span class="chip">Googleフォーム</span>
+      <span class="chip">Googleスライド</span>
+      <span class="chip">Googleカレンダー</span>
+      <span class="chip">Google Apps Script</span>
+      <span class="chip">AI（所見・次の一手の下書き）</span>
+    </div>
+  </header>
+
+  <!-- Concept -->
+  <section class="case" id="concept" aria-labelledby="c11">
+    <div class="case-head">
+      <p class="eyebrow">Concept</p>
+      <h2 id="c11">自動化とAIで、「人がやらなくていい仕事」を手放す</h2>
+      <p class="lead">大がかりなシステムは入れません。今の仕事の流れはそのままに、<span class="nb">転記・集計・確認・報告書づくり</span>といった手間だけを、仕組みとAIに任せます。</p>
+    </div>
+    <ul class="deliver">
+      <li><b>1. 自動化する</b><span>入力はスマホで選ぶだけ。集計・表づくり・カレンダー登録・お知らせメールは、Googleのツールが自動で行います。</span></li>
+      <li><b>2. AIが読み解く</b><span>集計した数字をもとに、月次レポートの所見や「次の一手」をAIが文章で下書き。人は読んで判断するだけです。</span></li>
+      <li><b>3. 現場に根づかせる</b><span>使い始めてからの入力データを見て、ずれや使いにくさを直し、ルールも一緒に見直します。</span></li>
+    </ul>
+    <div class="rules">
+      <h3>AIの使い方で、守っていること</h3>
+      <ul>
+        <li>数字は<b>プログラムで正確に計算</b>し、AIには<b>計算済みの数字だけ</b>を渡す（AIに計算させない）</li>
+        <li>お客様の<b>名前や連絡先はAIに渡さない</b></li>
+        <li>AIが動くのは<b>ボタンを押したときだけ</b>。データが変わっていなければ呼ばないので、費用は<b>1回 約0.2円</b></li>
+        <li>AIを<b>使わない設定</b>にも、いつでも切り替えられる</li>
+      </ul>
+    </div>
+  </section>
+
+  <nav class="cases" aria-label="事例の一覧" style="margin-top:0">
+    <p class="eyebrow" style="grid-column:1/-1">Works ・ 美容室で作った5つの仕組みと、ほかの業種の見本</p>
+    <a href="#case-shift"><span>Case 01</span><b>シフト作成</b><em>スタッフはスマホで休みたい日を選ぶだけ。締め切りの翌日に、一人ずつへ出勤日がメールで届く</em></a>
+    <a href="#case-stock"><span>Case 02</span><b>在庫・発注</b><em>使ったらスマホで記録するだけ。発注メールは仕入先ごとに下書きまで。チェック1つで二重発注をなくす</em></a>
+    <a href="#case-sales"><span>Case 03</span><b>売上の集計と報告</b><em>お会計ごとに入力、月末はボタン1つで月次レポート</em></a>
+    <a href="#case-booking"><span>Case 04</span><b>予約の受付</b><em>お客様は空いている時間から選ぶだけで、その場で予約確定。共有カレンダーと担当スタッフのスマホにも自動で入る</em></a>
+    <a href="#case-revisit"><span>Case 05</span><b>再来店のお声がけ</b><em>しばらく来ていないお客様を毎朝リストに。前回の担当者の名前でご案内を送り、戻った人数と売上まで分かる</em></a>
+    <a href="#case-industry"><span>By industry</span><b>業種別の作業一覧と見本</b><em>工務店・介護事業所・飲食店や小売店で、仕組みにできる作業と、できあがりの見本</em></a>
+  </nav>
+
+  <!-- Case 1 -->
+  <section class="case" id="case-shift" aria-labelledby="c1">
+    <div class="case-head">
+      <p class="eyebrow">Case 01</p>
+      <h2 id="c1">シフト作成を、月末の残業から外す</h2>
+      <p class="lead">スタッフはスマホのフォームで、休みたい日を選んで送るだけ。締め切りの翌日にはシフトが自動で決まり、一人ずつに自分の出勤日がメールで届きます。店長が手を動かすのは、変更があるときだけです。</p>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>希望休をLINEや口頭で集め、店長が表に書き写していた</li>
+          <li>休みの偏りや人手不足の日がないか、店長が頭の中で調整していた</li>
+          <li>できた表を写真で送り、「私はいつ出勤？」と何度も聞かれていた</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>希望休はスタッフがスマホから。出していない人には、締め切り前に自動でお知らせ</li>
+          <li>締め切りの翌日に、休みの日数や人手のバランスを守ったシフトが自動で決まる</li>
+          <li>一人ずつに「自分の出勤日」だけをメールで。あとで変えたときも、変わった人にだけ届く</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="howto">
+      <h3>スタッフがやるのは1つだけ。あとは自動です</h3>
+      <ol>
+        <li><span class="who auto">自動</span><b>毎月1日、来月分の受付が始まる</b><em>フォームを来月の日付にして、全員にURLをメールで送ります。</em></li>
+        <li><span class="who">スタッフ</span><b>名前を選び、休みたい日にチェックを入れて送る</b><em>定休日は選択肢に出ません。選べる日数の上限もフォームが守ります。出し直しもできます。</em></li>
+        <li><span class="who auto">自動</span><b>締め切りの翌日、シフトが決まる</b><em>下のルールで1か月分を組みます。休日数やスタイリストの人数に問題がある月だけ、送る前に店長へ確認が届きます。</em></li>
+        <li><span class="who auto">自動</span><b>一人ずつに、自分の出勤日をメールで</b><em>送ったシフトは月ごとに残ります。直して「変更を連絡」を押すと、変わった人にだけ知らせます。</em></li>
+      </ol>
+    </div>
+
+    <div class="rules">
+      <h3>シフトを組むときに守っていること</h3>
+      <ul>
+        <li>休みは全員<b>月8日</b>（希望休・定休日も含めて数える）</li>
+        <li>本人の<b>希望休は必ず休み</b>にする</li>
+        <li>忙しい<b>土日はできるだけ出勤</b>。休みは平日に入れる</li>
+        <li>同じお店で、<b>同じ日に休みが重ならない</b>ようにする</li>
+        <li>どの日も、<b>スタイリストが1人以上</b>いるようにする</li>
+      </ul>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap">
+        <span>できあがったシフト表（実際の出力から8名・前半2週間を抜粋／氏名は仮名）</span>
+      </div>
+      <div class="legend legend-box">
+        <span><span class="s-a">A</span> 店舗Aで出勤</span>
+        <span><span class="s-b">B</span> 店舗Bで出勤</span>
+        <span><span class="c-req">×</span> 本人の希望休</span>
+        <span><span class="c-off">休</span> 休み（火曜は定休日）</span>
+        <span>下の2行：その日の出勤人数（カッコ内はスタイリスト）</span>
+      </div>
+      <div class="scroll"><table class="shift" id="shift"></table></div>
+      <div class="checks">
+        <span>13名全員の休みが<b>月8日</b></span>
+        <span>土日の休みは<b>本人の希望休だけ</b></span>
+        <span>スタイリストがいない日は<b>0日</b></span>
+      </div>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>スタッフが使うフォームと、届くメール（再現／氏名は仮名）。右の名前を選ぶと、その人に届くメールに切り替わります。中身は上の表と同じです。</span></div>
+      <div class="bk-wrap">
+        <div class="bk" role="img" aria-label="希望休フォームの見本。10月2日と10月10日にチェックが入っている">
+          <div class="bk-top"><b>サロン　2026年10月の希望休</b><span>締め切り：9/20(日)　・選べるのは4日まで（定休日と合わせて月8日）</span></div>
+          <div><span class="bk-lbl">お名前</span><span class="fm-name">A店 スタイリスト1</span></div>
+          <div>
+            <span class="bk-lbl">休みたい日（火曜は定休日のため、ありません）</span>
+            <div class="fm-days">
+              <span>10/1(木)</span><span class="on">10/2(金)</span><span>10/3(土)</span><span>10/4(日)</span><span>10/5(月)</span><span>10/7(水)</span>
+              <span>10/8(木)</span><span>10/9(金)</span><span class="on">10/10(土)</span><span>10/11(日)</span><span>10/12(月)</span><span>10/14(水)</span>
+            </div>
+            <p class="hint">…10/31(土)まで続きます</p>
+          </div>
+          <span class="fm-send">送信</span>
+        </div>
+        <div class="mail">
+          <label for="sm-staff">届くメール（名前を選ぶと切り替わります）<select id="sm-staff"></select></label>
+          <p class="mail-sub">【サロン】2026年10月のシフトが決まりました</p>
+          <div class="mail-body" id="sm-body"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case 2 -->
+  <section class="case" id="case-stock" aria-labelledby="c2">
+    <div class="case-head">
+      <p class="eyebrow">Case 02</p>
+      <h2 id="c2">在庫と発注を、ベテランの勘から外す</h2>
+      <p class="lead">シャンプーやカラー剤を開けたら、スマホで記録するだけ。発注が必要になると、仕入先ごとの発注メールが下書きまでできあがります。「発注した」「届いた」のチェックで、二重発注も、届いた品の入力もなくなります。</p>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>在庫の数は、棚を見に行かないと分からなかった</li>
+          <li>いつ・いくつ発注するかは、担当者の経験と勘だった</li>
+          <li>切らしてしまったり、同じ物を2回発注したりしていた</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>今の在庫の数を、誰でもいつでも確認できる</li>
+          <li>発注が必要な日は、仕入先ごとの発注メールが下書きまでできている</li>
+          <li>「発注した」にチェックすれば二重に出ない。「届いた」にチェックすれば在庫に入る</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="howto">
+      <h3>記録はスタッフ、発注は店長がチェックするだけ</h3>
+      <ol>
+        <li><span class="who">スタッフ</span><b>新しく開けたら、スマホで記録する</b><em>商品と名前を選んで送るだけ。1本なら数量は空欄でかまいません。</em></li>
+        <li><span class="who auto">自動</span><b>最低在庫まで減ったら、発注リストに並び、16時にお知らせ</b><em>商品ごとに「最低在庫」と「1回に発注する数」を決めておきます（例：シャンプーは残り3本になったら5本）。仕入先ごとにまとめて届きます。</em></li>
+        <li><span class="who">店長</span><b>下書きを確かめて送り、「発注した」にチェック</b><em>Gmailに仕入先ごとの発注メールの下書きができています。発注済みの商品は、次のお知らせに出ません。</em></li>
+        <li><span class="who">店長</span><b>届いたら「届いた」にチェック</b><em>発注した数が、そのまま在庫に入ります。届いた数が違えば、数を直してからチェックします。</em></li>
+      </ol>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>試してみる（サンプルデータ）：左で記録すると在庫が減り、最低在庫まで減った商品が発注リストに出ます。発注リストの「発注した」「届いた」も押せます。</span></div>
+      <div class="demo">
+        <form id="f" novalidate>
+          <div class="seg" role="radiogroup" aria-label="区分">
+            <label><input type="radio" name="kind" id="k-out" value="出庫" checked>使った（開けた）</label>
+            <label><input type="radio" name="kind" id="k-in" value="入庫">届いた</label>
+          </div>
+          <label for="item">商品<select id="item"></select></label>
+          <label for="qty">数量<input id="qty" inputmode="numeric" autocomplete="off" value="２"></label>
+          <p class="hint">空欄なら1本として記録します。全角の「２」でも、2として正しく計算されます。</p>
+          <button type="submit">記録する</button>
+          <p class="toast" id="toast" role="status"></p>
+        </form>
+        <div class="demo-out">
+          <div class="figure">
+            <h3>今の在庫</h3>
+            <div class="scroll"><table id="stock"></table></div>
+          </div>
+          <div class="figure">
+            <h3>発注リスト（自動で作られる）</h3>
+            <div class="scroll"><table id="order"></table></div>
+          </div>
+          <div class="figure">
+            <h3>届くのを待っている発注</h3>
+            <div class="scroll"><table id="waiting"></table></div>
+          </div>
+          <div class="figure">
+            <h3>仕入先ごとの発注メール（Gmailの下書き）</h3>
+            <div id="drafts"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="follow">
+      <h3>使い始めてから見つかったことも、直して仕上げます</h3>
+      <p class="note">実際に入力されたデータを点検し、在庫の数が合わなくなる原因を3つ見つけて直しました。</p>
+      <ol>
+        <li><b>スマホで数を「５」（全角）と入れると、0本と記録されていた</b><span>全角で入れても正しい数で記録されるようにしました。</span></li>
+        <li><b>在庫の計算をするたびに、前の記録まで二重に数えていた</b><span>新しく入力された分だけを数えるようにしました。</span></li>
+        <li><b>発注のお知らせメールが届いていなかった</b><span>送り先のメールアドレスを、設定どおりに読み取るようにしました。</span></li>
+      </ol>
+      <h3>お店の声を聞いて、発注のルールも見直しました</h3>
+      <div class="rule-change">
+        <div><span>はじめ</span><p>足りない分だけ発注していたため、届いてもすぐまた発注リストに載り、<b>少しずつの発注が何度も</b>続いていた</p></div>
+        <div><span>見直し後</span><p>在庫が<b>最低在庫</b>まで減ったら、商品ごとに決めた<b>1回の発注数</b>をまとめて発注。発注の回数が減り、何個頼むかで迷わない</p></div>
+      </div>
+      <h3>使い続けてもらえるように、さらに手を入れました</h3>
+      <ol>
+        <li><b>発注したのに、届くまで毎日同じお知らせが来ていた</b><span>「発注した」のチェックで発注済みにし、お知らせと発注リストに二重に出ないようにしました。7日たっても届かないときだけ知らせます。</span></li>
+        <li><b>届いた品を、1品ずつフォームで入力していた</b><span>発注リストの「届いた」にチェックするだけで、発注した数が在庫に入るようにしました。</span></li>
+        <li><b>担当者の名前が「たつや」「たつ」とばらばらだった</b><span>名前は選ぶだけにし、数量も空欄なら1本にしました。商品の選択肢は、商品マスターから自動で作ります。</span></li>
+        <li><b>実際の数と合わないとき、直す方法がなかった</b><span>棚卸しの表に数えた数を入れて、ボタンを押すだけにしました。差は履歴に残ります。マイナスになる記録は止めて、店長に知らせます。</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Case 3 -->
+  <section class="case" id="case-sales" aria-labelledby="c5">
+    <div class="case-head">
+      <p class="eyebrow">Case 03</p>
+      <h2 id="c5">売上の集計と報告を、閉店後の作業から外す</h2>
+      <p class="lead">お会計ごとにスマホで入力するだけ。集計とグラフは自動で、月末はボタン1つでオーナー向けの月次レポートができあがります。所見と「次の一手」はAIが下書きします。</p>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>閉店後に、伝票やレジの記録を表へ手で打ち込む</li>
+          <li>月末に店長が集計し、オーナー向けの報告書を作る</li>
+          <li>店舗別・スタッフ別の数字は、集計するまで分からない</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>お会計ごとにスマホのフォームで入力するだけ</li>
+          <li>集計・グラフは自動で、いつ開いても最新の数字</li>
+          <li>月末はボタン1つで、オーナー向けの月次レポート（スライド・PDF）が完成</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flow" aria-label="売上管理の流れ">
+      <div class="step"><b>スマホのフォーム</b><span>店舗を選ぶと、その店のスタッフだけが選択肢に出る</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="step"><b>売上入力（自動）</b><span>送信と同時に1行追加。全角数字も正しく変換</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="step"><b>レポート（自動）</b><span>指標・ランキング・グラフが常に最新</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="step"><b>月次レポート</b><span>スライドとPDFを自動作成。所見はAIが下書き（1回約0.2円）</span></div>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>オーナーが見るレポート画面（テスト入力20件での表示例／スタッフ名は仮名）</span></div>
+      <div class="report">
+        <div class="report-head">
+          <b>サロン売上レポート</b>
+          <span>対象期間 2026年6月1日〜6月11日 ｜ 20件のお会計を集計</span>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi"><span>総売上</span><b>¥248,500</b><small>メニュー＋店販</small></div>
+          <div class="kpi"><span>来店件数</span><b>20件</b><small>1日平均 1.8件</small></div>
+          <div class="kpi"><span>客単価</span><b>¥12,425</b><small>1件あたり</small></div>
+          <div class="kpi"><span>指名率</span><b>60.0%</b><small>指名ありの割合</small></div>
+          <div class="kpi"><span>店販比率</span><b>12.7%</b><small>売上に占める店販</small></div>
+        </div>
+
+        <div class="rep-block">
+          <h4>今期のハイライト</h4>
+          <ul class="hl">
+            <li><span>売上トップのスタッフ</span><b>スタッフC さん　¥65,000（全体の26%）</b></li>
+            <li><span>売上トップの店舗</span><b>店舗A　¥125,000（全体の50%）</b></li>
+            <li><span>売上が最も高かった日</span><b>6月9日　¥32,000</b></li>
+            <li><span>キャッシュレス決済の割合</span><b>75.7%</b></li>
+          </ul>
+        </div>
+
+        <div class="rep-grid">
+          <div class="rep-block">
+            <h4>スタッフ別売上ランキング</h4>
+            <div class="rank">
+              <div class="rank-row"><span class="r">1位</span><span>スタッフC</span><span class="v">¥65,000</span><span class="hbar"><i style="width:100%"></i></span></div>
+              <div class="rank-row"><span class="r">2位</span><span>スタッフA</span><span class="v">¥63,000</span><span class="hbar"><i style="width:96.9%"></i></span></div>
+              <div class="rank-row"><span class="r">3位</span><span>スタッフB</span><span class="v">¥62,000</span><span class="hbar"><i style="width:95.4%"></i></span></div>
+              <div class="rank-row"><span class="r">4位</span><span>スタッフD</span><span class="v">¥58,500</span><span class="hbar"><i style="width:90%"></i></span></div>
+            </div>
+          </div>
+          <div class="rep-block">
+            <h4>決済方法の割合</h4>
+            <div class="pay">
+              <div class="donut" role="img" aria-label="クレジットカード46.3%、現金24.3%、PayPay15.7%、交通系IC13.7%"></div>
+              <ul>
+                <li><i style="background:var(--accent)"></i><span>クレジットカード</span><span class="v">46.3%</span></li>
+                <li><i style="background:var(--c2)"></i><span>現金</span><span class="v">24.3%</span></li>
+                <li><i style="background:var(--c3)"></i><span>PayPay</span><span class="v">15.7%</span></li>
+                <li><i style="background:var(--warn)"></i><span>交通系IC</span><span class="v">13.7%</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="rep-block">
+          <h4>日別売上の推移</h4>
+          <div class="days" id="days" role="img" aria-label="日別売上の棒グラフ。最も高いのは6月9日の32,000円"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-sample">
+      <b>AI分析コメントの例（抜粋）</b>
+      <p>・店舗Aは¥125,000、店舗Bは¥123,500で、差は¥1,500とほぼ互角です。</p>
+      <p>・キャッシュレス決済が75.7%を占め、現金は24.3%にとどまっています。</p>
+      <p>・店販比率は12.7%です。指名のお客様への店販提案を強めると、客単価を伸ばす余地があります。</p>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>月末に届く「月次レポート」（自動作成されたスライドを再現／サンプルデータ・氏名は仮名）</span></div>
+      <div class="slide-wrap">
+        <div class="slide" role="img" aria-label="A4縦の月次売上レポートの見本">
+          <div class="sl-head">
+            <div><small>MONTHLY SALES REPORT</small><b>2026年10月　売上レポート</b></div>
+            <span class="sl-badge">速報</span>
+            <em>集計 10/1〜10/26・168件</em>
+          </div>
+          <div class="sl-body">
+            <div class="sl-one"><span>今月のひとこと</span><b>月末の着地見込みは¥2,503,846です</b></div>
+            <div class="sl-kpi">
+              <div class="sl-total">
+                <span>総売上 <i>前月データなし</i></span>
+                <b>¥2,100,000</b>
+                <em>月末の着地見込み　¥2,503,846</em>
+              </div>
+              <dl class="sl-rows">
+                <div><dt>来店件数</dt><dd>168件</dd></div>
+                <div><dt>客単価</dt><dd>¥12,500</dd></div>
+                <div><dt>指名率</dt><dd>58.3%</dd></div>
+                <div><dt>店販比率</dt><dd>11.5%</dd></div>
+              </dl>
+            </div>
+            <div class="sl-sec">
+              <h5>店舗別の売上</h5>
+              <div class="sl-bar"><span>店舗A</span><i><u style="width:100%"></u></i><b>¥1,092,000　52.0%</b></div>
+              <div class="sl-bar"><span>店舗B</span><i><u style="width:92.3%;background:var(--c2)"></u></i><b>¥1,008,000　48.0%</b></div>
+            </div>
+            <div class="sl-two">
+              <div class="sl-sec">
+                <h5>スタッフ別ランキング</h5>
+                <div class="sl-bar rank1"><span>1 スタッフ1</span><i><u style="width:100%"></u></i><b>¥412,000</b></div>
+                <div class="sl-bar"><span>2 スタッフ2</span><i><u style="width:86.4%"></u></i><b>¥356,000</b></div>
+                <div class="sl-bar"><span>3 スタッフ3</span><i><u style="width:77.2%"></u></i><b>¥318,000</b></div>
+              </div>
+              <div class="sl-sec">
+                <h5>決済方法の割合</h5>
+                <div class="sl-band"><u style="width:48.1%;background:var(--accent)"></u><u style="width:27.5%;background:var(--c2)"></u><u style="width:24.4%;background:var(--c3)"></u></div>
+                <p class="sl-legend">現金 48.1%　PayPay 27.5%　クレジット 24.4%</p>
+              </div>
+            </div>
+            <div class="sl-sec">
+              <h5>日別売上（10月1日〜31日）</h5>
+              <div class="sl-days" id="sl-days"></div>
+            </div>
+            <div class="sl-points">
+              <h5>今月のポイント</h5>
+              <p>● 売上¥2,100,000、168件、客単価¥12,500でした</p>
+              <p>● 売上トップはスタッフ1さん（¥412,000・指名率71.4%）</p>
+              <p>● 土曜日の1日平均売上が¥132,000で最も高い</p>
+              <div class="sl-next"><span>次の一手</span><b>店販比率11.5%。施術後に全員でホームケア商品を1つ提案する</b></div>
+            </div>
+          </div>
+        </div>
+        <ul class="slide-notes">
+          <li><b>読む順番どおりの1枚</b><span>結論（今月のひとこと）→ 数字 → 内訳 → 次の一手。オーナーが最初の3秒で状況をつかめます。</span></li>
+          <li><b>月の途中は「速報」</b><span>途中の数字を締めた月と同じに見せず、月末の着地見込みを添えます。</span></li>
+          <li><b>前月があれば、すべての指標に前月差</b><span>件数が増えたのか、単価が上がったのかまで分かります。</span></li>
+          <li><b>「次の一手」は行動まで書く</b><span>誰が何をするかが分かる提案を1つだけ。AIのキーがなくても集計から自動で作ります。</span></li>
+          <li><b>スライドとPDFを自動保存</b><span>図はスライド上の図形なので、渡す前に色や文言を手直しできます。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case 4 -->
+  <section class="case" id="case-booking" aria-labelledby="c8">
+    <div class="case-head">
+      <p class="eyebrow">Case 04</p>
+      <h2 id="c8">予約の受付を、電話とメモ書きから外す</h2>
+      <p class="lead">お客様はウェブ予約ページで、空いている時間だけを見て選ぶだけ。押したその場で予約が確定し、お店の共有カレンダーと担当スタッフのスマホに自動で入ります。</p>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>電話で受けた予約を、紙の予約台帳に書き写していた</li>
+          <li>誰がいつ空いているかは、台帳を見ないと分からなかった</li>
+          <li>施術中や営業時間外の電話に出られず、予約を逃していた</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>お客様は24時間いつでも、空いている時間から選んで、その場で予約が確定する</li>
+          <li>空きの確認・カレンダーへの登録・確認メールは自動。「要調整」の折り返し連絡がいらない</li>
+          <li>休憩や研修をスマホのカレンダーに入れるだけで、その時間は予約ページに出なくなる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="howto">
+      <h3>お客様は選んで押すだけ。あとは自動です</h3>
+      <ol>
+        <li><span class="who">お客様</span><b>メニュー・担当・日付を選ぶ</b><em>担当は「指名なし」も選べます。日付には ○（空きあり）・×（満席）・休（定休日）が付きます。</em></li>
+        <li><span class="who">お客様</span><b>空いている時間を押し、お名前・電話・メールを入れて確定</b><em>その場で予約番号が出ます。予約できるのは1か月先まで、開始の3時間前までです。</em></li>
+        <li><span class="who auto">自動</span><b>共有カレンダーに登録し、確認メールと担当者への予定が届く</b><em>予約一覧にも自動で記録。電話・LINE・店頭で受けた予約は、お店用のフォームから入れると同じように登録されます。</em></li>
+      </ol>
+    </div>
+
+    <div class="rules">
+      <h3>空いている時間を出すときに、自動で確かめていること</h3>
+      <ul>
+        <li><b>定休日</b>ではないか、<b>営業時間内に施術が終わる</b>か</li>
+        <li>担当スタッフの<b>予約や休憩・研修</b>と重ならないか（予約カレンダーに手で入れた予定も見る）</li>
+        <li>指名なしのときは、<b>その日の予約が少ないスタッフ</b>から割り当てる</li>
+        <li><b>確定の直前にもう一度</b>空きを確かめ、同じ時間を二重に取らない</li>
+        <li>先の予約が<b>すでに2件ある</b>電話番号・メールの方は、ウェブでは受けずお電話を案内する（いたずら対策）</li>
+      </ul>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>試してみる：お客様が見るウェブ予約ページ（再現／お名前などの入力は省いています）。メニュー・担当・日付を選ぶと、下のカレンダーで空いている時間だけが出ます。時間を押すと予約が確定し、カレンダーに入ります。</span></div>
+      <div class="bk-wrap">
+        <div class="bk">
+          <div class="bk-top"><b>サロン　ご予約</b><span>1か月先まで・開始の3時間前まで受け付けます</span></div>
+          <label for="bk-menu">メニュー<select id="bk-menu"></select></label>
+          <label for="bk-staff">担当<select id="bk-staff"><option value="">指名なし</option><option value="a">スタイリストA</option><option value="b">スタイリストB</option><option value="c">スタイリストC</option></select></label>
+          <div><span class="bk-lbl">日付（○ 空きあり／× 満席／休 定休日）</span><div class="bk-dates" id="bk-dates"></div></div>
+          <div><span class="bk-lbl">空いている時間</span><div class="bk-times" id="bk-times"></div></div>
+          <p class="toast" id="bk-toast" role="status"></p>
+        </div>
+        <ul class="slide-notes">
+          <li><b>空いている時間だけが出る</b><span>予約カレンダーを読み、担当の予約と重ならず、営業終了までに施術が終わる時間だけを出します。</span></li>
+          <li><b>指名なしは「誰か1人空いていれば」○</b><span>その日の予約が少ないスタッフから割り当てるので、忙しさが偏りません。</span></li>
+          <li><b>休憩・研修もそのまま反映</b><span>スマホのカレンダーに「休憩 スタイリストA」と入れるだけで、その時間はページに出なくなります（下のカレンダーの金曜12時）。スタッフ名のない「店内研修」は、お店全体をふさぎます。</span></li>
+          <li><b>同じ時間が二重に取られない</b><span>確定の直前にもう一度空きを確かめます。先に埋まっていたら「埋まりました」と出して、空き時間を出し直します。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap">
+        <span>お店の共有カレンダー（1週間の見本／お客様名・予約は架空）</span>
+      </div>
+      <div class="legend legend-box">
+        <span><span class="cal-chip a"></span> スタイリストA</span>
+        <span><span class="cal-chip b"></span> スタイリストB</span>
+        <span><span class="cal-chip c"></span> スタイリストC</span>
+        <span><span class="cal-chip rest"></span> 休憩・研修（手で入れた予定）</span>
+        <span>同じ時間でも、担当が違えば予約を受けられます</span>
+      </div>
+      <div class="scroll"><div class="cal" id="cal-week" role="img" aria-label="月曜から土曜までの予約カレンダーの見本。火曜は定休日。スタッフ3人の予約と休憩が色分けで並んでいる"></div></div>
+    </div>
+
+    <div class="cal-side">
+      <div class="figure">
+        <div class="figure-cap"><span>予約一覧（スプレッドシートに自動で記録。お店が電話で受けた予約もここに入る）</span></div>
+        <div class="scroll">
+          <table class="booking">
+            <thead><tr><th>予約ID</th><th>日時</th><th>お客様</th><th>メニュー</th><th>担当</th><th>受付</th><th>状態</th></tr></thead>
+            <tbody>
+              <tr><td class="num" style="text-align:left">R-20261107-06</td><td>11/7(土) 14:00</td><td>佐藤 様</td><td>カット＋カラー</td><td>A（指名）</td><td>ウェブ予約</td><td><span class="st ok">確定</span></td></tr>
+              <tr><td class="num" style="text-align:left">R-20261107-07</td><td>11/7(土) 15:00</td><td>中島 様</td><td>カット</td><td>C（自動）</td><td>ウェブ予約</td><td><span class="st ok">確定</span></td></tr>
+              <tr><td class="num" style="text-align:left">R-20261106-05</td><td>11/6(金) 12:00</td><td>岡田 様</td><td>カット</td><td>A（指名）</td><td>電話（お店が入力）</td><td><span class="st hold">要調整</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">要調整の理由：「スタイリストAの休憩（カレンダーに手で入れた予定）と重なるため」→ お店にメールで通知。ウェブ予約では空いている時間しか選べないので、要調整になりません。</p>
+      </div>
+      <div class="figure">
+        <div class="figure-cap"><span>お客様に届く確認メール</span></div>
+        <div class="mail">
+          <p class="mail-sub">【サロン】ご予約を承りました</p>
+          <p>中島 様<br>ご予約ありがとうございます。以下の内容で承りました。</p>
+          <dl>
+            <div><dt>日時</dt><dd>2026年11月7日（土）15:00〜16:00</dd></div>
+            <div><dt>メニュー</dt><dd>カット</dd></div>
+            <div><dt>担当</dt><dd>スタイリストC</dd></div>
+            <div><dt>予約番号</dt><dd>R-20261107-07</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case 5 -->
+  <section class="case" id="case-revisit" aria-labelledby="c9">
+    <div class="case-head">
+      <p class="eyebrow">Case 05</p>
+      <h2 id="c9">再来店のお声がけを、担当者の記憶から外す</h2>
+      <p class="lead">しばらく来ていないお客様を毎朝自動で見つけて、前回の担当者の名前でご案内を送ります。連絡したあとに戻ってきてくれたかまで、数字で分かります。</p>
+    </div>
+
+    <div class="ba">
+      <div>
+        <h3>これまで</h3>
+        <ul>
+          <li>来なくなったお客様に気づくのは、半年ほどたってからだった</li>
+          <li>声をかけるかどうかは担当者まかせ。忙しい月は誰も連絡しなかった</li>
+          <li>ご案内を送っても、効果があったのか分からなかった</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>仕組み化のあと</h3>
+        <ul>
+          <li>予約の記録から、メニューごとの時期を過ぎたお客様が毎朝リストに出る</li>
+          <li>チェックしてボタンを押すだけで、前回の担当者の名前でメールが届く</li>
+          <li>連絡のあとに予約が入ったかを自動で追い、戻った人数と売上を数字で見せる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="howto">
+      <h3>お店がやるのは、チェックを入れて押すだけです</h3>
+      <ol>
+        <li><span class="who auto">自動</span><b>毎朝、連絡の時期のお客様をリストにする</b><em>カラーは45日、カットは60日など、メニューごとに時期を決めておきます。次の予約が入っている方は除きます。担当スタッフにも「声をかけたいお客様」をメールでお知らせします。</em></li>
+        <li><span class="who">店長・スタッフ</span><b>メールか電話かを選んで、チェックを入れる</b><em>メールでのご案内に同意した方だけ「メールを送る」が選べます。電話や店頭で声をかけた場合も、チェックで記録を残せます。</em></li>
+        <li><span class="who auto">自動</span><b>戻ってきてくれたかを追いかける</b><em>連絡から90日以内に予約が入れば「戻った」と数え、売上の目安を出します。お声がけの効果がそのまま見えます。</em></li>
+      </ol>
+    </div>
+
+    <div class="rules">
+      <h3>ご案内を送る前に、自動で確かめていること</h3>
+      <ul>
+        <li><b>次の予約がすでに入っていない</b>か</li>
+        <li>メールのご案内に<b>同意をもらっている</b>か（予約フォームで「受け取る」を選んだ方、または店頭で確認した方）</li>
+        <li>同じ来店について、<b>すでに連絡していない</b>か（同じ方に二重に送らない）</li>
+        <li>「停止」の連絡をもらった方には<b>送らない</b></li>
+      </ul>
+    </div>
+
+    <div class="figure">
+      <div class="figure-cap"><span>お店が見る画面（サンプルデータ／お客様名は架空）</span></div>
+      <div class="kpis">
+        <div class="kpi"><span>今日の連絡対象</span><b>6人</b><small>時期を過ぎた方</small></div>
+        <div class="kpi"><span>うちメールで送れる人</span><b>4人</b><small>同意あり</small></div>
+        <div class="kpi"><span>これまでに連絡した人</span><b>24人</b><small>メール＋電話・店頭</small></div>
+        <div class="kpi"><span>戻った人</span><b>9人</b><small>連絡した人の37.5%</small></div>
+        <div class="kpi"><span>戻った売上（目安）</span><b>¥67,100</b><small>予約メニューの料金</small></div>
+      </div>
+    </div>
+
+    <div class="cal-side">
+      <div class="figure">
+        <div class="figure-cap"><span>今日、声をかけたいお客様（10月30日）</span></div>
+        <div class="scroll">
+          <table class="booking">
+            <thead><tr><th>お客様</th><th>最終来店</th><th>経過</th><th>前回メニュー</th><th>前回担当</th><th>連絡方法</th></tr></thead>
+            <tbody>
+              <tr><td>小川 様</td><td>8/2</td><td class="num">89日</td><td>カット</td><td>B</td><td><span class="st hold">電話・店頭</span></td></tr>
+              <tr><td>石井 様</td><td>8/18</td><td class="num">73日</td><td>カット</td><td>A</td><td><span class="st ok">メール</span></td></tr>
+              <tr><td>松本 様</td><td>8/22</td><td class="num">69日</td><td>カット＋カラー</td><td>C</td><td><span class="st ok">メール</span></td></tr>
+              <tr><td>井上 様</td><td>8/29</td><td class="num">62日</td><td>カット</td><td>A</td><td><span class="st ok">メール</span></td></tr>
+              <tr><td>木村 様</td><td>9/12</td><td class="num">48日</td><td>カット＋カラー</td><td>B</td><td><span class="st hold">電話・店頭</span></td></tr>
+              <tr><td>林 様</td><td>9/14</td><td class="num">46日</td><td>カット＋カラー</td><td>A</td><td><span class="st ok">メール</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">時期の目安：カット60日・カット＋カラー45日。メールの同意がない方は、電話や店頭で声をかけます。</p>
+      </div>
+      <div class="figure">
+        <div class="figure-cap"><span>お客様に届くご案内メール</span></div>
+        <div class="mail">
+          <p class="mail-sub">【サロン】そろそろカット＋カラーの時期ではありませんか</p>
+          <p>松本 様<br>いつもサロンをご利用いただき、ありがとうございます。担当のスタイリストCです。</p>
+          <p>前回（8月22日）のカット＋カラーから少し時間がたちましたので、ご案内をお送りしました。ご都合のよい日があれば、こちらからご予約いただけます。</p>
+          <p>▶ ご予約フォーム</p>
+          <p class="note">※今後このご案内が不要な場合は、このメールに「停止」とご返信ください。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- By industry -->
+  <section class="case" id="case-industry" aria-labelledby="c10">
+    <div class="case-head">
+      <p class="eyebrow">By industry</p>
+      <h2 id="c10">ほかの業種でも、同じ考え方で仕組みにできます</h2>
+      <p class="lead">美容室で作った「スマホで入力 → 自動で集計 → 必要なときだけお知らせ」の仕組みは、業種が変わってもそのまま使えます。業種を選ぶと、よくある作業の一覧と、できあがりの見本をご覧いただけます。</p>
+    </div>
+
+    <div class="legend legend-box">
+      <span><span class="tag">事例あり</span> このページで紹介している仕組み</span>
+      <span><span class="tag sample">見本あり</span> 下にできあがりの見本があります</span>
+      <span><span class="tag plan">ご提案</span> お店に合わせて作る仕組み</span>
+      <span><span class="tag ai">AI活用</span> 集計した数字から、AIが文章を下書きする作業</span>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="業種を選ぶ">
+      <button type="button" role="tab" id="tab-koumuten" aria-controls="ind-koumuten" aria-selected="true">工務店・リフォーム</button>
+      <button type="button" role="tab" id="tab-kaigo" aria-controls="ind-kaigo" aria-selected="false" tabindex="-1">介護事業所</button>
+      <button type="button" role="tab" id="tab-inshoku" aria-controls="ind-inshoku" aria-selected="false" tabindex="-1">飲食・小売の多店舗</button>
+      <button type="button" role="tab" id="tab-salon" aria-controls="ind-salon" aria-selected="false" tabindex="-1">美容室・サロン</button>
+    </div>
+
+    <!-- 工務店 -->
+    <div class="ind-panel" id="ind-koumuten" role="tabpanel" aria-labelledby="tab-koumuten">
+      <div class="figure">
+        <div class="figure-cap"><span>工務店・リフォーム会社で、仕組みにできる作業</span></div>
+        <div class="scroll">
+          <table class="tasks">
+            <thead><tr><th>作業</th><th>これまで</th><th>仕組み化のあと</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>作業日報</td><td>職人がLINEで送り、事務さんが毎晩Excelに転記</td><td>スマホで現場・作業・人数を選んで送信。現場ごとの工数表が自動でできる</td><td><span class="tag sample">見本あり</span></td></tr>
+              <tr><td>見積書の作成</td><td>単価が社長の頭の中にあり、社長しか作れない</td><td>単価表から品目を選ぶだけで、金額・消費税まで自動。PDFで保存</td><td><span class="tag sample">見本あり</span></td></tr>
+              <tr><td>現場写真の整理</td><td>LINEのトークをさかのぼって探す</td><td>日報と一緒に送った写真が「現場名／日付」のフォルダに自動で入る</td><td><span class="tag plan">ご提案</span></td></tr>
+              <tr><td>翌日の段取りの連絡</td><td>「明日どこ？」の電話が毎晩くる</td><td>工程表から、前日の夕方に各職人へ予定を自動でお知らせ</td><td><span class="tag plan">ご提案</span></td></tr>
+              <tr><td>請求と入金の確認</td><td>入金漏れに気づくのが月末</td><td>期日を過ぎた請求に自動で色が付き、担当者にメールでお知らせ</td><td><span class="tag plan">ご提案</span></td></tr>
+              <tr><td>週報・現場の振り返り</td><td>社長が日報を読み返し、手でまとめる</td><td>1週間分の日報と工数から、遅れている現場と次の手をAIが文章で下書き</td><td><span class="tag ai">AI活用</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="sample-grid">
+        <div class="mini">
+          <h4>見本① 職人がスマホで送る日報</h4>
+          <dl class="fields">
+            <div><dt>日付</dt><dd>11月5日（木）</dd></div>
+            <div><dt>現場</dt><dd>山田様邸 リフォーム</dd></div>
+            <div><dt>作業</dt><dd>内装（クロス貼り）</dd></div>
+            <div><dt>人数</dt><dd>2人</dd></div>
+            <div><dt>時間</dt><dd>8:00〜17:00（休憩1時間）</dd></div>
+            <div><dt>写真</dt><dd>2枚</dd></div>
+          </dl>
+          <p class="then">送信すると → 右の工数表に自動で足され、写真は現場のフォルダへ</p>
+        </div>
+        <div class="mini">
+          <h4>見本② 現場別の工数（11月・自動集計）</h4>
+          <div class="scroll">
+            <table>
+              <thead><tr><th>現場</th><th class="num">実績／予定</th><th class="num">予定比</th></tr></thead>
+              <tbody>
+                <tr><td>山田様邸</td><td class="num">302h／280h</td><td class="num"><span class="over">108% 超過</span></td></tr>
+                <tr><td>駅前 店舗改装</td><td class="num">228h／240h</td><td class="num">95%</td></tr>
+                <tr><td>佐藤様邸</td><td class="num">126h／160h</td><td class="num">79%</td></tr>
+                <tr><td><b>合計</b></td><td class="num"><b>656h</b>／680h</td><td class="num">96%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">予定を超えそうな現場が、工事の途中で分かります。</p>
+        </div>
+        <div class="ai-sample wide">
+          <b>AIが下書きする週報の見本（上の工数をもとに作成）</b>
+          <p>・山田様邸は延べ302時間で、予定の280時間を22時間超えています（108%）。</p>
+          <p>・駅前の店舗改装は95%、佐藤様邸は79%で、どちらも予定の範囲内です。</p>
+          <p>・次の一手：山田様邸の残りの工程と人の配置を、今週中に見直す。</p>
+        </div>
+        <div class="mini wide">
+          <h4>見本③ 単価表から作る見積書</h4>
+          <div class="scroll">
+            <table>
+              <thead><tr><th>品目</th><th class="num">数量</th><th class="num">単価</th><th class="num">金額</th></tr></thead>
+              <tbody>
+                <tr><td>クロス張替え（量産品）</td><td class="num">45㎡</td><td class="num">¥1,200</td><td class="num">¥54,000</td></tr>
+                <tr><td>床クッションフロア張替え</td><td class="num">12㎡</td><td class="num">¥3,800</td><td class="num">¥45,600</td></tr>
+                <tr><td>既存材の撤去・処分</td><td class="num">1式</td><td class="num">¥18,000</td><td class="num">¥18,000</td></tr>
+                <tr><td>小計</td><td></td><td></td><td class="num">¥117,600</td></tr>
+                <tr><td>消費税（10%）</td><td></td><td></td><td class="num">¥11,760</td></tr>
+                <tr><td><b>合計</b></td><td></td><td></td><td class="num"><b>¥129,360</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">品目と数量を選ぶと、単価は単価表から自動で入ります（金額は見本です）。制作済みの「請求書・見積書の自動作成ツール」を応用します。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 介護 -->
+    <div class="ind-panel" id="ind-kaigo" role="tabpanel" aria-labelledby="tab-kaigo" hidden>
+      <div class="figure">
+        <div class="figure-cap"><span>介護事業所（訪問・通所）で、仕組みにできる作業</span></div>
+        <div class="scroll">
+          <table class="tasks">
+            <thead><tr><th>作業</th><th>これまで</th><th>仕組み化のあと</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>シフト作成</td><td>希望休を紙で集め、管理者が週末に手作業で組む</td><td>希望休はスマホで集まり、人員の基準を守った叩き台が自動でできる</td><td><span class="tag"><a href="#case-shift" style="color:inherit">事例あり</a></span></td></tr>
+              <tr><td>研修の受講管理</td><td>誰が何を受けたか、Excelを目で見て確認</td><td>受講状況が一覧で分かり、未受講の職員と期限が近い研修を自動でお知らせ</td><td><span class="tag sample">見本あり</span></td></tr>
+              <tr><td>ヒヤリハット報告</td><td>紙の報告書を、委員会の前にまとめて集計</td><td>スマホで報告すると、種類別・時間帯別にその場で集計される</td><td><span class="tag sample">見本あり</span></td></tr>
+              <tr><td>送迎表の作成</td><td>利用予定を見ながら、毎朝手で作る</td><td>利用予定から送迎表を自動で作り、そのまま印刷できる</td><td><span class="tag plan">ご提案</span></td></tr>
+              <tr><td>申し送り</td><td>口頭やメモが中心で、伝え漏れが起きる</td><td>項目を決めたフォームで共有。誰がまだ見ていないかが分かる</td><td><span class="tag plan">ご提案</span></td></tr>
+              <tr><td>事故防止の話し合いの資料</td><td>委員会の前に、担当者が考察を書く</td><td>ヒヤリハットの集計から、傾向と対策の案をAIが下書き。資料づくりが短くなる</td><td><span class="tag ai">AI活用</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="sample-grid">
+        <div class="mini wide">
+          <h4>見本① 研修の受講状況（職員名は仮名）</h4>
+          <div class="scroll">
+            <table>
+              <thead><tr><th>職員</th><th>感染症対策</th><th>虐待防止</th><th>身体拘束</th><th>業務継続</th></tr></thead>
+              <tbody>
+                <tr><td>職員A</td><td class="ok">済</td><td class="ok">済</td><td class="ok">済</td><td class="ok">済</td></tr>
+                <tr><td>職員B</td><td class="ok">済</td><td class="ok">済</td><td class="over">未</td><td class="ok">済</td></tr>
+                <tr><td>職員C</td><td class="ok">済</td><td class="over">未</td><td class="over">未</td><td class="ok">済</td></tr>
+                <tr><td>職員D</td><td class="ok">済</td><td class="ok">済</td><td class="ok">済</td><td class="ok">済</td></tr>
+                <tr><td>職員E</td><td class="over">未</td><td class="ok">済</td><td class="ok">済</td><td class="over">未</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="then">未受講が5件 → 職員B・C・Eに受講のお知らせを自動で送信</p>
+          <p class="note">研修の種類と期限は、事業所の決まりに合わせて設定します。</p>
+        </div>
+        <div class="mini wide">
+          <h4>見本② ヒヤリハットの時間帯別件数（今月）</h4>
+          <div class="vbars" role="img" aria-label="時間帯別の件数。6〜9時3件、9〜12時5件、12〜15時9件、15〜18時4件、18〜21時6件、夜間2件。最も多いのは12〜15時">
+            <div><b>3</b><i style="height:30px"></i><span>6-9時</span></div>
+            <div><b>5</b><i style="height:50px"></i><span>9-12時</span></div>
+            <div class="top"><b>9</b><i style="height:90px"></i><span>12-15時</span></div>
+            <div><b>4</b><i style="height:40px"></i><span>15-18時</span></div>
+            <div><b>6</b><i style="height:60px"></i><span>18-21時</span></div>
+            <div><b>2</b><i style="height:20px"></i><span>夜間</span></div>
+          </div>
+          <p style="font-size:14px">種類別：転倒・転落 12件／誤嚥 5件／誤薬 4件／その他 8件（合計29件）</p>
+          <p class="then">12〜15時が最多。昼食・入浴の時間帯の見守りを手厚くする、という話し合いにすぐ使えます</p>
+        </div>
+        <div class="ai-sample wide">
+          <b>AIが下書きする委員会資料の見本（上の集計をもとに作成）</b>
+          <p>・今月のヒヤリハットは29件。12〜15時が9件で最も多く、全体の約3割です。</p>
+          <p>・種類別では転倒・転落が12件で最多です。</p>
+          <p>・対策の案：昼食後から入浴の時間帯は、見守りの担当を1人決めて配置する。</p>
+          <p class="note">※AIの文章は下書きです。最終的な判断と記録は、事業所の担当者が行います。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 飲食・小売 -->
+    <div class="ind-panel" id="ind-inshoku" role="tabpanel" aria-labelledby="tab-inshoku" hidden>
+      <div class="figure">
+        <div class="figure-cap"><span>飲食店・小売店（3〜15店舗）で、仕組みにできる作業</span></div>
+        <div class="scroll">
+          <table class="tasks">
+            <thead><tr><th>作業</th><th>これまで</th><th>仕組み化のあと</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>日々の売上報告</td><td>各店からLINEで集め、本部が毎晩打ち直す</td><td>各店がスマホで入力。翌朝には全店の一覧と予算比・前年比がそろう</td><td><span class="tag sample">見本あり</span></td></tr>
+              <tr><td>在庫・発注</td><td>発注は店長の勘。欠品と廃棄をくり返す</td><td>減った分を記録すると、決めた数で発注リストが自動でできる</td><td><span class="tag"><a href="#case-stock" style="color:inherit">事例あり</a></span></td></tr>
+              <tr><td>シフト作成</td><td>店長が毎月半日かけて組む</td><td>希望と人員の基準から、叩き台が自動でできる</td><td><span class="tag"><a href="#case-shift" style="color:inherit">事例あり</a></span></td></tr>
+              <tr><td>開店・閉店チェック</td><td>紙のチェック表。未提出に気づけない</td><td>スマホで提出。時間までに出ていない店舗の店長へ自動でお知らせ</td><td><span class="tag sample">見本あり</span></td></tr>
+              <tr><td>廃棄ロスの記録</td><td>店ごとに書き方がバラバラ</td><td>品目別に集計し、月次レポートで店舗ごとに比べられる</td><td><span class="tag plan">ご提案</span></td></tr>
+              <tr><td>未達店舗へのフォロー</td><td>本部が数字を見て、店長に電話で確認</td><td>予算に届かなかった店舗の傾向と、フォローの案をAIが毎朝下書き</td><td><span class="tag ai">AI活用</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="sample-grid">
+        <div class="mini wide">
+          <h4>見本① 全店の売上（11月4日分・翌朝に自動でできあがる）</h4>
+          <div class="scroll">
+            <table>
+              <thead><tr><th>店舗</th><th class="num">売上</th><th class="num">予算比</th><th class="num">前年比</th><th class="num">客数</th></tr></thead>
+              <tbody>
+                <tr><td>駅前店</td><td class="num">¥412,000</td><td class="num">103.0%</td><td class="num">108.4%</td><td class="num">268人</td></tr>
+                <tr><td>南口店</td><td class="num">¥335,000</td><td class="num">101.5%</td><td class="num">108.1%</td><td class="num">221人</td></tr>
+                <tr><td>本町店</td><td class="num">¥286,500</td><td class="num"><span class="over">89.5% 未達</span></td><td class="num">95.5%</td><td class="num">190人</td></tr>
+                <tr><td>郊外店</td><td class="num">¥198,000</td><td class="num"><span class="over">82.5% 未達</span></td><td class="num">88.0%</td><td class="num">142人</td></tr>
+                <tr><td><b>全店合計</b></td><td class="num"><b>¥1,231,500</b></td><td class="num">95.5%</td><td class="num">101.4%</td><td class="num">821人</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">予算に届かなかった店舗に印が付くので、本部は朝いちばんに、どの店をフォローすればよいか分かります（数字は見本です）。</p>
+        </div>
+        <div class="ai-sample wide">
+          <b>AIが毎朝下書きする所見の見本（上の数字をもとに作成）</b>
+          <p>・全店合計は¥1,231,500で、予算比95.5%。前年比は101.4%で、昨年よりは伸びています。</p>
+          <p>・予算未達は本町店（89.5%）と郊外店（82.5%）。郊外店は客数142人で、4店舗の中で最も少なくなっています。</p>
+          <p>・次の一手：郊外店の店長に、お客様が少ない時間帯を確認し、平日夕方の集客策を一緒に考える。</p>
+        </div>
+        <div class="mini wide">
+          <h4>見本② 今日の開店チェック</h4>
+          <div class="scroll">
+            <table>
+              <thead><tr><th>店舗</th><th>提出</th><th>時刻</th><th>気になる項目</th></tr></thead>
+              <tbody>
+                <tr><td>駅前店</td><td class="ok">提出済み</td><td class="num" style="text-align:left">9:42</td><td>なし</td></tr>
+                <tr><td>南口店</td><td class="ok">提出済み</td><td class="num" style="text-align:left">9:51</td><td>冷蔵庫の温度 8℃（店の基準5℃を超過）</td></tr>
+                <tr><td>本町店</td><td class="ok">提出済み</td><td class="num" style="text-align:left">9:55</td><td>なし</td></tr>
+                <tr><td>郊外店</td><td class="over">未提出</td><td class="num" style="text-align:left">—</td><td>10:15に店長へ自動でお知らせ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 美容室 -->
+    <div class="ind-panel" id="ind-salon" role="tabpanel" aria-labelledby="tab-salon" hidden>
+      <div class="figure">
+        <div class="figure-cap"><span>美容室・サロンで、仕組みにできる作業</span></div>
+        <div class="scroll">
+          <table class="tasks">
+            <thead><tr><th>作業</th><th>これまで</th><th>仕組み化のあと</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><a href="#case-shift">シフト作成</a></td><td>希望休をLINEで集め、店長が手で調整</td><td>スマホで希望休を出すだけ。締め切りの翌日に、一人ずつへ出勤日がメールで届く</td><td><span class="tag">事例あり</span></td></tr>
+              <tr><td><a href="#case-stock">在庫・発注</a></td><td>棚を見に行き、経験と勘で発注</td><td>使ったらスマホで記録。仕入先ごとの発注メールを下書きまで自動で。「発注した」「届いた」のチェックで二重発注なし</td><td><span class="tag">事例あり</span></td></tr>
+              <tr><td><a href="#case-sales">売上の集計と報告</a></td><td>閉店後に手で入力し、月末に報告書づくり</td><td>お会計ごとに入力。月次レポートもボタン1つ</td><td><span class="tag">事例あり</span></td></tr>
+              <tr><td><a href="#case-booking">予約の受付</a></td><td>電話で受けて紙の台帳に書く</td><td>空いている時間から選んで、その場で予約確定。共有カレンダーに自動で入る</td><td><span class="tag">事例あり</span></td></tr>
+              <tr><td><a href="#case-revisit">再来店のお声がけ</a></td><td>来なくなったお客様に気づかない</td><td>時期を過ぎた方を毎朝リストに。担当者の名前でご案内</td><td><span class="tag">事例あり</span></td></tr>
+              <tr><td>顧客カルテの共有</td><td>薬剤の配合や髪の悩みが、担当者の頭の中だけ</td><td>施術後にスマホで記録。予約が入ると担当者にカルテが届く</td><td><span class="tag plan">ご提案</span></td></tr>
+              <tr><td>給与・歩合の計算</td><td>月末に電卓で計算。間違えると信頼問題に</td><td>売上の記録からスタッフ別の歩合を自動で計算し、明細を作る</td><td><span class="tag plan">ご提案</span></td></tr>
+              <tr><td><a href="#case-sales">月次レポートの所見</a></td><td>店長が数字を見ながら、報告の文章を考える</td><td>集計結果から、AIが所見と「次の一手」を下書き（1回 約0.2円）</td><td><span class="tag ai">AI活用</span> <span class="tag">事例あり</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="note">美容室の仕組みは、このページの Case 01〜05 で実際の画面をご覧いただけます。</p>
+    </div>
+  </section>
+
+  <script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('#case-industry [role="tab"]'));
+    function select(t) {
+      tabs.forEach(function (b) {
+        var on = b === t;
+        b.setAttribute("aria-selected", on ? "true" : "false");
+        b.tabIndex = on ? 0 : -1;
+        document.getElementById(b.getAttribute("aria-controls")).hidden = !on;
+      });
+    }
+    tabs.forEach(function (b, i) {
+      b.addEventListener("click", function () { select(b); });
+      b.addEventListener("keydown", function (e) {
+        var n = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!n) return;
+        var next = tabs[(i + n + tabs.length) % tabs.length];
+        select(next); next.focus();
+      });
+    });
+  })();
+  </script>
+
+  <!-- Results -->
+  <section class="case" aria-labelledby="c3">
+    <div class="case-head">
+      <p class="eyebrow">Effect</p>
+      <h2 id="c3">想定される効果</h2>
+    </div>
+    <div class="sum">
+      <span>シフト・在庫・売上の3つの仕組みだけで（美容室2店舗・スタッフ13名の試算）</span>
+      <b>月 約10時間、年 約25万円分の作業を減らせます</b>
+      <span>※時給2,000円で計算。予約の取りこぼし防止や、再来店のお声がけによる売上アップは含めていません。</span>
+    </div>
+    <div class="results">
+      <div class="result"><span class="label">シフト作成にかかる時間（月）</span><span class="fig">約4時間 → <strong>約15分</strong></span></div>
+      <div class="result"><span class="label">希望休の回収と、出していない人への声かけ</span><span class="fig">店長が一人ずつ → <strong>自動でお知らせ</strong></span></div>
+      <div class="result"><span class="label">できたシフトの配布</span><span class="fig">写真をLINEで → <strong>一人ずつにメール</strong></span></div>
+      <div class="result"><span class="label">在庫確認・発注判断（週）</span><span class="fig">約60分 → <strong>約10分</strong></span></div>
+      <div class="result"><span class="label">売上の集計・報告書づくり（月）</span><span class="fig">約3時間 → <strong>約5分</strong></span></div>
+      <div class="result"><span class="label">発注漏れの確認</span><span class="fig">気づいた人が見る → <strong>毎日自動</strong></span></div>
+      <div class="result"><span class="label">同じ物の二重発注</span><span class="fig">ときどき起きる → <strong>発注済みは出ない</strong></span></div>
+      <div class="result"><span class="label">届いた品の在庫への入力</span><span class="fig">1品ずつフォーム → <strong>チェック1つ</strong></span></div>
+      <div class="result"><span class="label">予約の受付と台帳への記入</span><span class="fig">電話＋手書き → <strong>自動</strong></span></div>
+      <div class="result"><span class="label">予約を受けられる時間</span><span class="fig">営業時間中だけ → <strong>24時間・その場で確定</strong></span></div>
+      <div class="result"><span class="label">しばらく来ていないお客様に気づく</span><span class="fig">担当者まかせ → <strong>毎朝自動</strong></span></div>
+      <div class="result"><span class="label">お声がけの効果</span><span class="fig">分からない → <strong>戻った人数・売上で見える</strong></span></div>
+      <div class="result"><span class="label">その仕事ができる人</span><span class="fig">店長・ベテラン1人 → <strong>全員</strong></span></div>
+      <div class="result"><span class="label">月次レポートの所見・次の一手</span><span class="fig">店長が考えて書く → <strong>AIが下書き</strong></span></div>
+    </div>
+    <p class="note">※ 時間は、美容室2店舗・スタッフ13名を想定した試算です。実際の効果はお店の運用によって変わります。</p>
+  </section>
+
+  <!-- Deliverables -->
+  <section class="case" aria-labelledby="c6">
+    <div class="case-head">
+      <p class="eyebrow">What you get</p>
+      <h2 id="c6">お届けするもの</h2>
+    </div>
+    <ul class="deliver">
+      <li><b>スマホの入力フォームと予約ページ</b><span>スタッフの入力はフォームから、お客様の予約は空いている時間から選べるページから。選ぶだけなので入力ミスが出にくい。</span></li>
+      <li><b>自動で更新されるシートとカレンダー</b><span>入力と同時に、シフト・在庫・売上の表や、予約の共有カレンダーが更新されます。</span></li>
+      <li><b>ダッシュボード</b><span>指標・ランキング・グラフを、いつ開いても最新の状態で。</span></li>
+      <li><b>月次レポート（スライド・PDF）</b><span>オーナーへの報告や、スタッフミーティングにそのまま使えます。</span></li>
+      <li><b>AIの所見</b><span>数字は正確に計算したうえで、文章だけAIが下書き。使わない設定もできます。</span></li>
+      <li><b>使い始めてからの調整</b><span>実際の入力データを見ながら、ずれや使いにくさを直して仕上げます。</span></li>
+    </ul>
+  </section>
+
+  <!-- FAQ -->
+  <section class="case" aria-labelledby="c7">
+    <div class="case-head">
+      <p class="eyebrow">FAQ</p>
+      <h2 id="c7">よくあるご質問</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>新しいアプリやシステムの契約は必要ですか？</summary>
+        <p>必要ありません。Googleのスプレッドシート・フォーム・スライドの中で動く仕組みです。</p>
+      </details>
+      <details>
+        <summary>パソコンが苦手なスタッフでも使えますか？</summary>
+        <p>スタッフが触るのはスマホのフォームだけです。店舗を選ぶとその店のスタッフだけが出るなど、迷わない作りにしています。全角で数字を入れても正しく計算されます。</p>
+      </details>
+      <details>
+        <summary>AIの費用はかかりますか？</summary>
+        <p>AIの所見はボタンを押したときだけ動き、1回あたり約0.2円の設定で作っています。売上が変わっていなければAIを呼ばないので、無駄な費用は出ません。AIを使わずに、集計結果から文章を作る設定にもできます。</p>
+      </details>
+      <details>
+        <summary>AIに、会社やお客様の情報を渡して大丈夫ですか？</summary>
+        <p>AIに渡すのは、プログラムで計算を終えた数字（売上の合計や割合など）だけです。お客様の名前や連絡先は渡しません。AIが書くのはあくまで下書きなので、内容を確認してから使っていただけます。</p>
+      </details>
+      <details>
+        <summary>お客様に、勝手にご案内メールが届いてしまいませんか？</summary>
+        <p>届きません。メールでのご案内に同意した方（予約フォームで「受け取る」を選んだ方、または店頭で確認した方）にだけ送ります。最初は、店長が一覧を見てチェックした方にだけ送る設定です。「停止」のご連絡をもらった方には、それ以降は送りません。</p>
+      </details>
+      <details>
+        <summary>ネット予約で、ダブルブッキングになりませんか？</summary>
+        <p>なりません。予約ページには空いている時間だけが出て、確定する直前にもう一度空きを確かめます。同じ時間がほぼ同時に押されたときは、後の方に「埋まりました」と出して別の時間を選んでもらいます。スタッフの休憩や研修も、カレンダーに入れておけば予約されません。</p>
+      </details>
+      <details>
+        <summary>お店のルールに合わせられますか？</summary>
+        <p>はい。定休日、休みの日数、土日の人員、発注のタイミングや数など、店長が頭の中で決めていたルールを聞き取って組み込みます。使い始めてからの見直しにも対応します（例：在庫が最低在庫まで減ったら、決めた数をまとめて発注するルールへの変更）。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="case" aria-labelledby="c4">
+    <div class="case-head">
+      <p class="eyebrow">How I work</p>
+      <h2 id="c4">進め方</h2>
+    </div>
+    <ol class="process">
+      <li><b>初回ヒアリング（無料・30分）</b><span>「この人が休むと困る仕事」を一緒に洗い出します。準備はいりません。</span></li>
+      <li><b>時間の家計簿</b><span>作業ごとの時間と人件費を一覧にし、自動化する順番を決めます。</span></li>
+      <li><b>小さく1業務から</b><span>効果の大きい作業を1つ自動化し、減った時間を数字で確かめます。</span></li>
+      <li><b>定着と広げる</b><span>使い方をまとめ、運用が回るまで調整。効果を見て次の業務へ進みます。</span></li>
+    </ol>
+  </section>
+
+  <!-- About -->
+  <section class="case" aria-labelledby="c12">
+    <div class="case-head">
+      <p class="eyebrow">About</p>
+      <h2 id="c12">担当者について</h2>
+    </div>
+    <div class="profile">
+      <span class="role">業務自動化・AI活用サポート</span>
+      <b>古川 裕世</b>
+      <p>営業・コンサルティングで培った「課題を見つけ、形にして提案する力」で、GoogleのツールとAIを使った業務の仕組み化を行っています。シフト自動作成・在庫発注・売上レポート・予約受付・再来店フォロー・請求書作成・顧客管理など、これまでに7つの業務ツールを制作しました。専門用語を使わず、現場の言葉でご説明します。</p>
+    </div>
+  </section>
+
+  <footer class="closing" id="contact">
+    <div class="cta">
+      <div class="cta-text">
+        <h2>業務の自動化とAI活用、ひとつの作業から相談できます。</h2>
+        <p class="prose">シフト、在庫、売上の報告、予約、日報など、「あの人しか分からない」作業があれば、まずは今のやり方を聞かせてください。初回のヒアリング（30分）は無料です。ヒアリングだけで終わっても、まったく問題ありません。</p>
+        <ol class="cta-steps">
+          <li>Chatworkで「ヒアリング希望」と送る</li>
+          <li>日程を決める</li>
+          <li>30分お話しする（オンライン可）</li>
+        </ol>
+        <a class="cw-btn" href="https://www.chatwork.com/2uzx9uftcqiow" target="_blank" rel="noopener">Chatworkで相談する</a>
+      </div>
+      <div class="cta-qr">
+        <span>スマホで読み取って相談</span>
+        <svg viewBox="0 0 370 370" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ChatworkのプロフィールページのQRコード（https://www.chatwork.com/2uzx9uftcqiow）">
+          <rect width="370" height="370" fill="#FFFFFF"/>
+          <path fill="#18252b" d="M40 40h70v10h-70zM150 40h10v10h-10zM180 40h10v10h-10zM220 40h10v10h-10zM260 40h70v10h-70zM40 50h10v10h-10zM100 50h10v10h-10zM120 50h30v10h-30zM160 50h30v10h-30zM200 50h20v10h-20zM240 50h10v10h-10zM260 50h10v10h-10zM320 50h10v10h-10zM40 60h10v10h-10zM60 60h30v10h-30zM100 60h10v10h-10zM120 60h10v10h-10zM180 60h20v10h-20zM230 60h10v10h-10zM260 60h10v10h-10zM280 60h30v10h-30zM320 60h10v10h-10zM40 70h10v10h-10zM60 70h30v10h-30zM100 70h10v10h-10zM120 70h30v10h-30zM170 70h10v10h-10zM190 70h30v10h-30zM240 70h10v10h-10zM260 70h10v10h-10zM280 70h30v10h-30zM320 70h10v10h-10zM40 80h10v10h-10zM60 80h30v10h-30zM100 80h10v10h-10zM140 80h10v10h-10zM160 80h10v10h-10zM180 80h10v10h-10zM200 80h50v10h-50zM260 80h10v10h-10zM280 80h30v10h-30zM320 80h10v10h-10zM40 90h10v10h-10zM100 90h10v10h-10zM150 90h10v10h-10zM170 90h20v10h-20zM200 90h10v10h-10zM260 90h10v10h-10zM320 90h10v10h-10zM40 100h70v10h-70zM120 100h10v10h-10zM140 100h10v10h-10zM160 100h10v10h-10zM180 100h10v10h-10zM200 100h10v10h-10zM220 100h10v10h-10zM240 100h10v10h-10zM260 100h70v10h-70zM120 110h30v10h-30zM160 110h10v10h-10zM180 110h10v10h-10zM230 110h20v10h-20zM40 120h10v10h-10zM100 120h10v10h-10zM120 120h20v10h-20zM160 120h10v10h-10zM190 120h50v10h-50zM250 120h20v10h-20zM290 120h30v10h-30zM40 130h10v10h-10zM60 130h10v10h-10zM80 130h10v10h-10zM160 130h40v10h-40zM210 130h40v10h-40zM270 130h20v10h-20zM300 130h20v10h-20zM40 140h30v10h-30zM80 140h40v10h-40zM130 140h10v10h-10zM160 140h60v10h-60zM240 140h20v10h-20zM50 150h20v10h-20zM80 150h20v10h-20zM110 150h20v10h-20zM140 150h40v10h-40zM190 150h10v10h-10zM230 150h10v10h-10zM250 150h30v10h-30zM290 150h10v10h-10zM40 160h10v10h-10zM60 160h10v10h-10zM90 160h40v10h-40zM170 160h10v10h-10zM190 160h20v10h-20zM220 160h10v10h-10zM240 160h10v10h-10zM260 160h20v10h-20zM320 160h10v10h-10zM50 170h10v10h-10zM90 170h10v10h-10zM120 170h20v10h-20zM190 170h20v10h-20zM230 170h20v10h-20zM260 170h10v10h-10zM280 170h10v10h-10zM310 170h20v10h-20zM70 180h10v10h-10zM90 180h40v10h-40zM140 180h20v10h-20zM190 180h10v10h-10zM210 180h20v10h-20zM250 180h30v10h-30zM290 180h20v10h-20zM40 190h20v10h-20zM80 190h20v10h-20zM140 190h10v10h-10zM160 190h10v10h-10zM220 190h30v10h-30zM260 190h30v10h-30zM300 190h10v10h-10zM320 190h10v10h-10zM50 200h20v10h-20zM80 200h50v10h-50zM160 200h10v10h-10zM190 200h30v10h-30zM240 200h10v10h-10zM270 200h10v10h-10zM290 200h20v10h-20zM40 210h10v10h-10zM60 210h20v10h-20zM90 210h10v10h-10zM120 210h10v10h-10zM140 210h10v10h-10zM170 210h40v10h-40zM230 210h20v10h-20zM260 210h30v10h-30zM300 210h30v10h-30zM40 220h30v10h-30zM90 220h20v10h-20zM120 220h10v10h-10zM140 220h20v10h-20zM190 220h30v10h-30zM230 220h10v10h-10zM250 220h20v10h-20zM290 220h10v10h-10zM320 220h10v10h-10zM40 230h10v10h-10zM70 230h20v10h-20zM120 230h30v10h-30zM160 230h20v10h-20zM190 230h20v10h-20zM230 230h30v10h-30zM270 230h20v10h-20zM40 240h10v10h-10zM60 240h70v10h-70zM150 240h10v10h-10zM180 240h20v10h-20zM210 240h10v10h-10zM230 240h60v10h-60zM300 240h30v10h-30zM120 250h20v10h-20zM150 250h20v10h-20zM180 250h20v10h-20zM210 250h10v10h-10zM240 250h10v10h-10zM280 250h20v10h-20zM40 260h70v10h-70zM130 260h20v10h-20zM190 260h60v10h-60zM260 260h10v10h-10zM280 260h30v10h-30zM40 270h10v10h-10zM100 270h10v10h-10zM140 270h10v10h-10zM160 270h10v10h-10zM180 270h10v10h-10zM200 270h10v10h-10zM220 270h30v10h-30zM280 270h10v10h-10zM320 270h10v10h-10zM40 280h10v10h-10zM60 280h30v10h-30zM100 280h10v10h-10zM130 280h30v10h-30zM170 280h30v10h-30zM230 280h70v10h-70zM320 280h10v10h-10zM40 290h10v10h-10zM60 290h30v10h-30zM100 290h10v10h-10zM150 290h20v10h-20zM180 290h40v10h-40zM230 290h30v10h-30zM270 290h10v10h-10zM290 290h20v10h-20zM320 290h10v10h-10zM40 300h10v10h-10zM60 300h30v10h-30zM100 300h10v10h-10zM130 300h10v10h-10zM150 300h10v10h-10zM170 300h40v10h-40zM220 300h20v10h-20zM260 300h60v10h-60zM40 310h10v10h-10zM100 310h10v10h-10zM130 310h30v10h-30zM200 310h10v10h-10zM220 310h20v10h-20zM250 310h30v10h-30zM290 310h20v10h-20zM320 310h10v10h-10zM40 320h70v10h-70zM120 320h20v10h-20zM160 320h10v10h-10zM200 320h40v10h-40zM250 320h10v10h-10zM270 320h40v10h-40z"/>
+        </svg>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // ---- Case 1: 確定シフト（実際の出力・1〜14日、氏名は仮名） ----
+  var days = ["木","金","土","日","月","火","水","木","金","土","日","月","火","水"];
+  var staff = [
+    ["A店 スタイリスト1", "A×AAA休AAA×AA休A"],
+    ["A店 アシスタント1", "AAA×A休AAAAA×休A"],
+    ["A店 スタイリスト2", "AAAA×休AAAA×A休休"],
+    ["A店 アシスタント2", "×AAAA休AAAAAA休休"],
+    ["B店 スタイリスト1", "BBBBB休BB×BBB休B"],
+    ["B店 スタイリスト2", "BBBBB休BBB×BB休B"],
+    ["B店 スタイリスト3", "BBBBB休BBBB×B休B"],
+    ["B店 アシスタント1", "BBBBB休B休BBB×休B"]
+  ];
+  // 店舗ごとの出勤人数（13名全員分）。null は定休日
+  var heads = [
+    ["店舗A 出勤（うちスタイリスト）", [[6,5],[6,4],[7,5],[5,4],[6,4],null,[6,4],[7,5],[6,4],[6,4],[5,3],[5,4],null,[4,3]]],
+    ["店舗B 出勤（うちスタイリスト）", [[5,4],[5,4],[6,5],[6,5],[6,5],null,[5,4],[5,5],[5,4],[5,4],[5,4],[4,4],null,[6,5]]]
+  ];
+  var dayCls = function (d) { return d === "火" ? "tue" : d === "土" ? "sat" : d === "日" ? "sun" : ""; };
+  var h = "<thead><tr><th>スタッフ</th>" + days.map(function (d, i) {
+    return '<th class="' + dayCls(d) + (d === "火" ? " closed" : "") + '">' + (i + 1) + "<br>" + d + "</th>";
+  }).join("") + "</tr></thead><tbody>";
+  staff.forEach(function (s) {
+    h += "<tr><td>" + s[0] + "</td>";
+    for (var i = 0; i < days.length; i++) {
+      var c = s[1][i];
+      var cls = c === "A" ? "s-a" : c === "B" ? "s-b" : c === "×" ? "c-req" : "c-off";
+      h += '<td class="' + cls + (days[i] === "火" ? " closed" : "") + '">' + c + "</td>";
+    }
+    h += "</tr>";
+  });
+  heads.forEach(function (row, k) {
+    h += '<tr class="head-row' + (k === 0 ? " first" : "") + '"><td>' + row[0] + "</td>";
+    row[1].forEach(function (v, i) {
+      h += '<td class="' + (days[i] === "火" ? "closed" : "") + '">' + (v ? v[0] + "<small>(" + v[1] + ")</small>" : "定休") + "</td>";
+    });
+    h += "</tr>";
+  });
+  document.getElementById("shift").innerHTML = h + "</tbody>";
+
+  // ---- Case 1: 一人ずつに届くメールの見本（上の表と同じ内容。2026年10月は1日が木曜） ----
+  var smSel = document.getElementById("sm-staff");
+  smSel.innerHTML = staff.map(function (s, i) { return '<option value="' + i + '">' + s[0] + "</option>"; }).join("");
+  function shiftMail() {
+    var s = staff[+smSel.value], work = 0, req = 0;
+    var lines = days.map(function (d, i) {
+      var c = s[1][i], t;
+      if (c === "A" || c === "B") { t = "出勤（店舗" + c + "）"; work++; }
+      else if (c === "×") { t = "休み（希望休）"; req++; }
+      else t = d === "火" ? "休み（定休日）" : "休み";
+      return "10/" + (i + 1) + "(" + d + ")　" + t;
+    });
+    document.getElementById("sm-body").textContent = s[0] + " さん\n\n2026年10月のシフトが決まりました。\n" +
+      "1〜14日：出勤 " + work + "日 ／ 休み " + (days.length - work) + "日（うち希望休 " + req + "日）\n\n" + lines.join("\n") +
+      "\n（15日〜31日も同じように続きます）\n\n都合が悪くなった日は、早めに店長に相談してください。\n変更があったときは、またメールでお知らせします。";
+  }
+  smSel.addEventListener("change", shiftMail);
+  shiftMail();
+
+  // ---- Case 3: 日別売上の棒グラフ（サンプルデータ） ----
+  var daily = [22000, 25500, 9000, 20000, 23000, 26000, 30500, 23000, 32000, 21500, 16000];
+  var maxDay = Math.max.apply(null, daily);
+  document.getElementById("days").innerHTML = daily.map(function (v, i) {
+    return '<div class="' + (v === maxDay ? "top" : "") + '" title="6/' + (i + 1) + "　¥" + v.toLocaleString("ja-JP") + '">' +
+      '<i style="height:' + Math.round(v / maxDay * 90) + 'px"></i><span>6/' + (i + 1) + "</span></div>";
+  }).join("");
+
+  // ---- Case 3: 月次レポートの日別売上（10月・サンプルデータ、単位：千円、火曜は定休日。1〜26日の合計2,100千円） ----
+  var octK = [70, 90, 130, 116, 64, 0, 70, 72, 93, 136, 112, 61, 0, 68, 73, 89, 129, 118, 66, 0, 71, 71, 96, 133, 110, 62];
+  var oct = {};
+  octK.forEach(function (k, i) { if (k) oct[i + 1] = k * 1000; });
+  var octMax = Math.max.apply(null, octK) * 1000, slDays = "";
+  for (var d = 1; d <= 31; d++) {
+    var v = oct[d] || 0;
+    slDays += '<div class="' + (v === octMax ? "top" : "") + '">' + (v ? '<i style="height:' + Math.round(v / octMax * 36) + 'px"></i>' : "") + "</div>";
+  }
+  document.getElementById("sl-days").innerHTML = slDays;
+
+  // ---- Case 4: 予約カレンダーの見本（架空の予約・11/2〜11/7） ----
+  var calDays = [["11/2", "月"], ["11/3", "火"], ["11/4", "水"], ["11/5", "木"], ["11/6", "金"], ["11/7", "土"]];
+  // [曜日の番号, 担当(a/b/c), 開始(分), 終了(分), メニュー, 種類(rest＝手で入れた休憩／new＝予約ページで入った予約)]
+  var calEvents = [
+    [4, "a", 720, 780, "休憩", "rest"],
+    [0, "a", 600, 660, "カット"], [0, "b", 630, 750, "カット＋カラー"], [0, "c", 780, 900, "パーマ"], [0, "a", 900, 960, "カット"], [0, "b", 960, 990, "トリートメント"],
+    [2, "a", 660, 780, "カット＋カラー"], [2, "b", 840, 870, "トリートメント"], [2, "c", 960, 1020, "カット"], [2, "a", 1020, 1080, "カット"],
+    [3, "b", 600, 660, "カット"], [3, "a", 720, 840, "パーマ"], [3, "b", 900, 960, "カット"], [3, "c", 1020, 1140, "カット＋カラー"],
+    [4, "a", 600, 720, "カット＋カラー"], [4, "b", 780, 840, "カット"], [4, "c", 780, 900, "パーマ"], [4, "a", 960, 1020, "カット"],
+    [5, "a", 600, 660, "カット"], [5, "b", 600, 720, "パーマ"], [5, "c", 600, 660, "カット"], [5, "a", 690, 810, "パーマ"], [5, "c", 690, 810, "カット＋カラー"],
+    [5, "b", 780, 900, "カット＋カラー"], [5, "a", 840, 960, "カット＋カラー"], [5, "c", 900, 960, "カット"]
+  ];
+  var OPEN = 600, CLOSE = 1140, PX = 44 / 30; // 30分＝44px
+  var lane = { a: 0, b: 1, c: 2 };
+  var hhmm = function (m) { return Math.floor(m / 60) + ":" + ("0" + (m % 60)).slice(-2); };
+  var staffName = { a: "スタイリストA", b: "スタイリストB", c: "スタイリストC" };
+  function drawCal() {
+    var calHtml = '<div class="cal-head"></div>' + calDays.map(function (d) {
+      return '<div class="cal-head' + (d[1] === "土" ? " sat" : "") + '">' + d[1] + "<small>" + d[0] + "</small></div>";
+    }).join("");
+    var times = "";
+    for (var t = OPEN; t <= CLOSE; t += 60) times += '<span style="top:' + Math.round((t - OPEN) * PX) + 'px">' + hhmm(t) + "</span>";
+    var calH = Math.round((CLOSE - OPEN) * PX);
+    calHtml += '<div class="cal-times" style="height:' + calH + 'px">' + times + "</div>";
+    calDays.forEach(function (d, i) {
+      if (d[1] === "火") { calHtml += '<div class="cal-day closed" style="height:' + calH + 'px">定休日</div>'; return; }
+      calHtml += '<div class="cal-day" style="height:' + calH + 'px">' + calEvents.filter(function (e) { return e[0] === i; }).map(function (e) {
+        return '<div class="ev ' + e[1] + (e[5] ? " " + e[5] : "") + '" title="' + hhmm(e[2]) + "〜" + hhmm(e[3]) + " " + e[4] + "（" + staffName[e[1]] + '）" style="top:' + Math.round((e[2] - OPEN) * PX + 1) +
+          "px;height:" + Math.round((e[3] - e[2]) * PX - 2) + "px;left:calc(" + (lane[e[1]] * 33.33) + "% + 2px);width:calc(33.33% - 4px)\"><b>" + hhmm(e[2]) + "</b>" + e[4] + "</div>";
+      }).join("") + "</div>";
+    });
+    document.getElementById("cal-week").innerHTML = calHtml;
+  }
+  drawCal();
+
+  // ---- Case 4: ウェブ予約ページのデモ（上のカレンダーの空きから選ぶ） ----
+  var bkMenus = [["カット", 60], ["カット＋カラー", 120], ["パーマ", 120], ["トリートメント", 30]];
+  var bkMenu = document.getElementById("bk-menu"), bkStaff = document.getElementById("bk-staff"), bkToast = document.getElementById("bk-toast");
+  bkMenu.innerHTML = bkMenus.map(function (m, i) { return '<option value="' + i + '">' + m[0] + "（" + m[1] + "分）</option>"; }).join("");
+  var bkDay = 4; // 最初は金曜を選んでおく
+  function isFree(day, s, start, end) {
+    return !calEvents.some(function (e) { return e[0] === day && e[1] === s && e[2] < end && start < e[3]; });
+  }
+  function bookedCount(day, s) {
+    return calEvents.filter(function (e) { return e[0] === day && e[1] === s && e[5] !== "rest"; }).length;
+  }
+  // 空いている開始時刻の一覧。指名なしは、その日の予約が少ないスタッフから割り当てる
+  function freeSlots(day) {
+    if (calDays[day][1] === "火") return [];
+    var dur = bkMenus[+bkMenu.value][1];
+    var who = bkStaff.value ? [bkStaff.value] : ["a", "b", "c"].sort(function (x, y) { return bookedCount(day, x) - bookedCount(day, y); });
+    var out = [];
+    for (var t = OPEN; t + dur <= CLOSE; t += 30) {
+      for (var k = 0; k < who.length; k++) if (isFree(day, who[k], t, t + dur)) { out.push([t, who[k]]); break; }
+    }
+    return out;
+  }
+  function drawBooking() {
+    document.getElementById("bk-dates").innerHTML = calDays.map(function (d, i) {
+      var closed = d[1] === "火", n = closed ? 0 : freeSlots(i).length;
+      return '<button type="button" data-day="' + i + '" aria-pressed="' + (i === bkDay) + '"' + (n ? "" : " disabled") + ">" +
+        d[1] + "<small>" + d[0] + "</small>" + (closed ? "休" : n ? "○" : "×") + "</button>";
+    }).join("");
+    var slots = freeSlots(bkDay);
+    document.getElementById("bk-times").innerHTML = slots.length ? slots.map(function (s) {
+      return '<button type="button" data-t="' + s[0] + '" data-s="' + s[1] + '">' + hhmm(s[0]) + "</button>";
+    }).join("") : '<p class="hint">この日は空いている時間がありません。別の日をお選びください。</p>';
+  }
+  document.getElementById("bk-dates").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b || b.disabled) return;
+    bkDay = +b.dataset.day; bkToast.textContent = "";
+    drawBooking();
+  });
+  [bkMenu, bkStaff].forEach(function (el) { el.addEventListener("change", function () { bkToast.textContent = ""; drawBooking(); }); });
+  document.getElementById("bk-times").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    var t = +b.dataset.t, s = b.dataset.s, m = bkMenus[+bkMenu.value], d = calDays[bkDay];
+    // 確定の直前にもう一度空きを確かめる
+    if (!isFree(bkDay, s, t, t + m[1])) { bkToast.textContent = "埋まりました。別の時間をお選びください。"; drawBooking(); return; }
+    calEvents.push([bkDay, s, t, t + m[1], m[0], "new"]);
+    var id = "R-2026" + d[0].split("/").map(function (x) { return ("0" + x).slice(-2); }).join("") + "-" + ("0" + (calEvents.filter(function (x) { return x[0] === bkDay && x[5] !== "rest"; }).length + 1)).slice(-2); // 予約一覧の見本の番号と重ならないよう1つ先から
+    bkToast.textContent = d[0] + "(" + d[1] + ") " + hhmm(t) + "〜" + hhmm(t + m[1]) + "　" + m[0] + "（" + staffName[s] + (bkStaff.value ? "" : "・自動で割り当て") + "）で予約が確定しました。予約番号 " + id + "。下のカレンダーに入り、この時間は選べなくなりました。";
+    drawCal(); drawBooking();
+  });
+  drawBooking();
+
+  // ---- Case 2: 在庫デモ（商品マスターのサンプル値） ----
+  var items = [
+    // min：最低在庫（発注の合図）／point：発注点（1回に発注する数）／ordered：発注済みでまだ届いていない数
+    { id: "S001", name: "シャンプー（業務用1L）", cat: "シャンプー", supplier: "A商事", unit: "本", stock: 6, min: 3, point: 5, ordered: 0 },
+    { id: "S002", name: "トリートメント（業務用1L）", cat: "トリートメント", supplier: "A商事", unit: "本", stock: 0, min: 2, point: 4, ordered: 0 },
+    { id: "C001", name: "カラー剤 6N", cat: "カラー", supplier: "B美材", unit: "本", stock: 6, min: 5, point: 8, ordered: 0 },
+    { id: "P001", name: "パーマ液 1剤", cat: "パーマ", supplier: "B美材", unit: "本", stock: 3, min: 2, point: 4, ordered: 0 },
+    { id: "T001", name: "タオル（白）", cat: "消耗品", supplier: "C商店", unit: "枚", stock: 80, min: 30, point: 50, ordered: 0 }
+  ];
+  var sel = document.getElementById("item");
+  sel.innerHTML = items.map(function (it) { return '<option value="' + it.id + '">【' + it.cat + "】" + it.name + "</option>"; }).join("");
+  sel.value = "S001";
+
+  // 発注した・届いた（発注リストのボタン）
+  document.getElementById("order").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var it = items.find(function (x) { return x.id === b.dataset.id; });
+    it.ordered = it.point;
+    document.getElementById("toast").textContent = it.name + "を" + it.point + it.unit + "発注済みにしました。届いたら「届いた」を押してください。";
+    render(it.id);
+  });
+  document.getElementById("waiting").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var it = items.find(function (x) { return x.id === b.dataset.id; });
+    it.stock += it.ordered;
+    document.getElementById("toast").textContent = it.name + "が" + it.ordered + it.unit + "届いたので、在庫に足しました。";
+    it.ordered = 0;
+    render(it.id);
+  });
+
+  function renderOrders(changed) {
+    var need = items.filter(function (it) { return it.stock <= it.min && !it.ordered; });
+    var o = document.getElementById("order");
+    o.innerHTML = need.length ? "<thead><tr><th></th><th>商品</th><th>仕入先</th><th class=\"num\">在庫</th><th class=\"num\">発注する数</th></tr></thead><tbody>" +
+      need.map(function (it) {
+        return '<tr' + (it.id === changed ? ' class="flash"' : "") + '><td><button type="button" class="mini" data-id="' + it.id + '">発注した</button></td><td>' + it.name + "</td><td>" + it.supplier +
+          '</td><td class="num">' + it.stock + '</td><td class="num">' + it.point + " " + it.unit + "</td></tr>"; // 発注する数＝発注点
+      }).join("") + "</tbody>" : '<tbody><tr><td class="empty">発注が必要な商品はありません。</td></tr></tbody>';
+    var waiting = items.filter(function (it) { return it.ordered; });
+    document.getElementById("waiting").innerHTML = waiting.length ? "<thead><tr><th></th><th>商品</th><th>仕入先</th><th class=\"num\">発注した数</th></tr></thead><tbody>" +
+      waiting.map(function (it) {
+        return '<tr' + (it.id === changed ? ' class="flash"' : "") + '><td><button type="button" class="mini" data-id="' + it.id + '">届いた</button></td><td>' + it.name + "</td><td>" + it.supplier +
+          '</td><td class="num">' + it.ordered + " " + it.unit + "</td></tr>";
+      }).join("") + "</tbody>" : '<tbody><tr><td class="empty">届くのを待っている発注はありません。</td></tr></tbody>';
+    // 仕入先ごとの下書き
+    var groups = [];
+    need.forEach(function (it) { var g = groups.find(function (x) { return x.s === it.supplier; }); if (!g) { g = { s: it.supplier, list: [] }; groups.push(g); } g.list.push(it); });
+    document.getElementById("drafts").innerHTML = groups.length ? groups.map(function (g) {
+      return '<div class="mail"><p class="mail-sub">宛先：' + g.s + '　件名：【発注のお願い】サロン</p><div class="mail-body">' + g.s + " ご担当者様\n\nいつもお世話になっております。サロンです。\n下記の商品の発注をお願いいたします。\n\n" +
+        g.list.map(function (it) { return "・" + it.name + "（" + it.id + "）　" + it.point + it.unit; }).join("\n") + "\n\nどうぞよろしくお願いいたします。</div></div>";
+    }).join("") : '<p class="empty">発注が必要な商品がないので、下書きはありません。</p>';
+  }
+
+  function render(changed) {
+    renderOrders(changed);
+    var s = "<thead><tr><th>商品ID</th><th>商品</th><th class=\"num\">在庫</th><th class=\"num\">最低在庫</th><th class=\"num\">1回の発注数</th><th>状態</th></tr></thead><tbody>";
+    items.forEach(function (it) {
+      var low = it.stock <= it.min; // 在庫が「最低在庫」まで減ったら発注
+      var pct = Math.min(100, Math.round(it.stock / (it.min * 3) * 100));
+      s += '<tr' + (it.id === changed ? ' class="flash"' : "") + "><td class=\"num\" style=\"text-align:left\">" + it.id + "</td><td>" + it.name + '</td><td class="num">' + it.stock + " " + it.unit +
+        '</td><td class="num">' + it.min + '</td><td class="num">' + it.point + '</td><td><span class="bar' + (low ? " low" : "") + '"><i style="width:' + pct + '%"></i></span> <span class="pill' + (low && !it.ordered ? " low" : "") + '">' + (it.ordered ? "発注済み" : low ? "要発注" : "十分") + "</span></td></tr>";
+    });
+    document.getElementById("stock").innerHTML = s + "</tbody>";
+  }
+  render();
+
+  document.getElementById("f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var toast = document.getElementById("toast");
+    // 全角数字・全角スペースを半角に揃えてから数値にする
+    var raw = document.getElementById("qty").value.normalize("NFKC").trim() || "1"; // 空欄は1
+    if (!/^\d+$/.test(raw) || +raw === 0) { toast.textContent = "数量は1以上の数字で入力してください。"; return; }
+    var qty = +raw;
+    var kind = document.querySelector('input[name="kind"]:checked').value;
+    var it = items.find(function (x) { return x.id === sel.value; });
+    if (kind === "出庫" && qty > it.stock) { toast.textContent = "在庫（" + it.stock + it.unit + "）より多い数は記録できません（店長に「要確認」で知らせます）。"; return; }
+    it.stock += kind === "入庫" ? qty : -qty;
+    var closed = kind === "入庫" && it.ordered; // フォームで「届いた」と記録しても、待っている発注は入荷済みになる
+    if (closed) it.ordered = 0;
+    toast.textContent = it.name + "が" + qty + it.unit + (kind === "入庫" ? "届いた" : "使った") + "と記録しました。" + (closed ? "待っていた発注も、届いた記録にしました。" : "");
+    render(it.id);
+  });
+})();
+</script>
+</body>
+</html>
