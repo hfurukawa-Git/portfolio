@@ -277,6 +277,13 @@ button:hover { background: var(--accent); }
 .fm-send { justify-self: start; padding: 8px 20px; background: var(--accent); color: var(--surface); border-radius: 4px; font-size: 13px; font-weight: 700; }
 .mail-body { white-space: pre-line; line-height: 1.75; max-height: 360px; overflow: auto; }
 
+/* Case 06: 営業のAI社員（別ページへの紹介カード） */
+.feature { display: grid; gap: 8px; padding: 24px 26px; background: var(--surface); border: 2px solid var(--accent); border-radius: 12px; text-decoration: none; color: inherit; transition: background .15s; }
+.feature:hover { background: var(--accent-soft); }
+.feature b { font-family: var(--font-display); font-size: clamp(22px, 3.4vw, 30px); font-weight: 900; line-height: 1.4; }
+.feature em { font-style: normal; color: var(--muted); max-width: 40em; }
+.feature-go { justify-self: start; margin-top: 4px; padding: 10px 22px; border-radius: 999px; background: var(--accent); color: var(--surface); font-weight: 700; font-size: 14px; }
+
 /* Case 02: 発注リストの「発注した」「届いた」 */
 .demo-out button.mini { padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; color: var(--surface); background: var(--accent); border: 0; }
 .demo-out button.mini:hover { background: var(--ink); }
@@ -551,12 +558,13 @@ button:hover { background: var(--accent); }
   </section>
 
   <nav class="cases" aria-label="事例の一覧" style="margin-top:0">
-    <p class="eyebrow" style="grid-column:1/-1">Works ・ 美容室で作った5つの仕組みと、ほかの業種の見本</p>
+    <p class="eyebrow" style="grid-column:1/-1">Works ・ 美容室で作った5つの仕組み、営業のAI社員、ほかの業種の見本</p>
     <a href="#case-shift"><span>Case 01</span><b>シフト作成</b><em>スタッフはスマホで休みたい日を選ぶだけ。締め切りの翌日に、一人ずつへ出勤日がメールで届く</em></a>
     <a href="#case-stock"><span>Case 02</span><b>在庫・発注</b><em>使ったらスマホで記録するだけ。発注メールは仕入先ごとに下書きまで。チェック1つで二重発注をなくす</em></a>
     <a href="#case-sales"><span>Case 03</span><b>売上の集計と報告</b><em>お会計ごとに入力するだけ。月を選ぶと、前月比と「売上が変わった理由」まで一目で分かる</em></a>
     <a href="#case-booking"><span>Case 04</span><b>予約の受付</b><em>お客様は空いている時間から選ぶだけで、その場で予約確定。共有カレンダーと担当スタッフのスマホにも自動で入る</em></a>
     <a href="#case-revisit"><span>Case 05</span><b>再来店のお声がけ</b><em>しばらく来ていないお客様を毎朝リストに。前回の担当者の名前でご案内を送り、戻った人数と売上まで分かる</em></a>
+    <a href="ai-staff.html" target="_blank" rel="noopener"><span>Case 06 ・ 法人営業（別タブで開きます ↗）</span><b>営業のAI社員</b><em>営業担当1人に、12人のAIチーム。面談のメモから議事録・お礼メール・次の段取りの下書きまで</em></a>
     <a href="#case-industry"><span>By industry</span><b>業種別の作業一覧と見本</b><em>工務店・介護事業所・飲食店や小売店で、仕組みにできる作業と、できあがりの見本</em></a>
   </nav>
 
@@ -1153,6 +1161,15 @@ button:hover { background: var(--accent); }
     </div>
   </section>
 
+  <!-- Case 6：営業のAI社員（くわしくは別ページ ai-staff.html） -->
+  <section class="case" id="case-ai-staff" aria-labelledby="c13">
+    <a class="feature" href="ai-staff.html" target="_blank" rel="noopener">
+      <span class="eyebrow">Case 06 ・ 法人営業のAI活用（別タブで開きます）</span>
+      <b id="c13">営業担当1人に、<span class="nb">12人のAIチームを。</span></b>
+      <em>面談のメモを貼るだけで、議事録・お礼メール・次の段取りの下書きがそろいます。営業担当は確かめて承認するだけ。メールを勝手に送らない・承認するまで何も変えない、会社の情報を守る仕組みつきです。</em>
+      <span class="feature-go">AI社員のページを別タブで見る ↗</span>
+    </a>
+  </section>
   <!-- By industry -->
   <section class="case" id="case-industry" aria-labelledby="c10">
     <div class="case-head">
