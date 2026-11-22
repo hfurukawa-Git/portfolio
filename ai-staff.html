@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>営業のAI社員 | 古川 裕世 ポートフォリオ</title>
+<meta name="description" content="営業担当1人に、12人のAIチームを。面談のあとの議事録・お礼メール・次の段取りをAIの“社員”が分担して下書きし、営業担当は確かめて承認するだけ。法人営業向けのAI活用の事例です。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="営業のAI社員 | 古川 裕世 ポートフォリオ">
+<meta property="og:description" content="営業担当1人に、12人のAIチームを。面談のあとの事務を、AIが分担して下書きします。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%230e6b66%22/%3E%3Cpath d=%22M18 34l10 10 18-22%22 stroke=%22white%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ポートフォリオ本体（index.html）と同じ色・文字の決まり */
+:root {
+  --bg: #f2f5f5; --surface: #ffffff; --ink: #18252b; --muted: #5b6b72; --line: #d5dee0;
+  --accent: #0e6b66; --accent-soft: #dcefed; --warn: #b5541b; --warn-soft: #f8e6da; --off: #8a979c;
+  --font-display: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "Consolas", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11181b; --surface: #182226; --ink: #e4ecee; --muted: #9aabb1; --line: #2c3a3f;
+    --accent: #5cc2b9; --accent-soft: #173a38; --warn: #f0965e; --warn-soft: #3d2618; --off: #6d7c81;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11181b; --surface: #182226; --ink: #e4ecee; --muted: #9aabb1; --line: #2c3a3f;
+  --accent: #5cc2b9; --accent-soft: #173a38; --warn: #f0965e; --warn-soft: #3d2618; --off: #6d7c81;
+  color-scheme: dark;
+}
+html { -webkit-text-size-adjust: 100%; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.85;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: inherit; }
+.wrap { max-width: 920px; margin: 0 auto; padding-block: 24px 80px; display: grid; gap: 80px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.4; }
+h1, h2, h3, p, li, summary { word-break: auto-phrase; }
+.bx { word-break: keep-all; overflow-wrap: anywhere; }
+p, li, dd, summary { text-wrap: pretty; }
+p { margin: 0; }
+.eyebrow { font-family: var(--font-data); font-size: 12px; letter-spacing: .12em; color: var(--accent); text-transform: uppercase; }
+.prose { max-width: 38em; color: var(--muted); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button { font: inherit; cursor: pointer; }
+
+/* 上の帯 */
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; color: var(--muted); }
+.topbar a { text-decoration: none; font-weight: 700; color: var(--accent); white-space: nowrap; }
+@media (max-width: 560px) { .topbar span { display: none; } }
+
+/* ファーストビュー */
+.hero { display: grid; gap: 20px; }
+.hero h1 { font-size: clamp(32px, 6vw, 54px); font-weight: 900; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lead { font-size: 17px; max-width: 34em; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.btn { display: inline-block; padding: 12px 28px; border-radius: 999px; background: var(--warn); color: var(--surface); font-weight: 700; text-decoration: none; border: 0; }
+.btn:hover { background: var(--accent); }
+.link { font-weight: 700; color: var(--accent); text-decoration: none; }
+.forwho { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.forwho b { font-size: 13px; color: var(--muted); margin-right: 4px; }
+.chip { font-size: 13px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+
+/* 区切りの見出し */
+.sec { display: grid; gap: 24px; }
+.sec-head { display: grid; gap: 8px; }
+.sec-head h2 { font-size: clamp(24px, 3.6vw, 32px); font-weight: 900; }
+
+/* 悩み */
+.pains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.pains li { padding: 18px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--warn); border-radius: 6px; font-weight: 700; line-height: 1.7; }
+
+/* 取り戻せる時間 */
+.calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.calc > div { background: var(--surface); padding: 20px 22px; display: grid; gap: 14px; align-content: start; }
+.calc label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.calc select { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; }
+.calc .res { background: var(--accent-soft); }
+.big { font-family: var(--font-display); font-size: clamp(34px, 6vw, 48px); font-weight: 900; color: var(--accent); line-height: 1.2; }
+.big small { font-family: var(--font-body); font-size: 16px; font-weight: 700; }
+.note { font-size: 12px; color: var(--muted); }
+
+/* デモ：メモが議事録になるまで */
+.demo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 20px; align-items: start; }
+.memo { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; display: grid; gap: 6px; font-size: 14px; }
+.memo h3, .out h3 { font-family: var(--font-body); font-size: 13px; color: var(--muted); font-weight: 700; }
+.memo p { line-height: 1.75; }
+.memo .who { font-weight: 700; color: var(--accent); }
+.memo .chat { color: var(--off); }
+.out { display: grid; gap: 12px; }
+.steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.steps li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 8px; align-items: center; font-size: 14px; color: var(--off); }
+.steps li i { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-style: normal; font-size: 12px; }
+.steps li.on { color: var(--ink); }
+.steps li.on i { border-color: var(--accent); background: var(--accent); color: var(--surface); }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tabs button { padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 700; }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; font-size: 14px; display: grid; gap: 8px; }
+.panel dl { margin: 0; display: grid; gap: 4px; }
+.panel dl div { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); gap: 8px; }
+.panel dt { color: var(--muted); }
+.panel dd { margin: 0; }
+.panel .mail { white-space: pre-line; line-height: 1.8; }
+.panel table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.panel th, .panel td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.panel th { font-size: 12px; color: var(--muted); font-weight: 500; }
+mark { background: var(--warn-soft); color: var(--warn); font-weight: 700; padding: 0 4px; border-radius: 3px; }
+.run { justify-self: start; padding: 12px 24px; border-radius: 999px; border: 0; background: var(--accent); color: var(--surface); font-weight: 700; }
+.run:hover { background: var(--ink); }
+.run:disabled { background: var(--off); cursor: default; }
+
+/* チーム */
+.boss { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; align-items: center; padding: 16px 18px; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 8px; }
+.boss .face, .mate .face { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--surface); font-family: var(--font-display); font-weight: 900; font-size: 18px; grid-row: span 2; }
+.boss b { font-size: 17px; }
+.boss em, .mate em { font-style: normal; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.stage { display: grid; gap: 8px; align-content: start; }
+.stage h3 { font-family: var(--font-body); font-size: 14px; font-weight: 700; color: var(--accent); padding-bottom: 4px; border-bottom: 2px solid var(--accent); }
+.stage h3 small { display: block; font-size: 11px; color: var(--muted); font-weight: 500; }
+.mate { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 10px; align-items: center; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; transition: border-color .2s, background .2s; }
+.mate .face { width: 34px; height: 34px; font-size: 14px; background: var(--muted); }
+.mate b { font-size: 14px; }
+.mate.on { border-color: var(--warn); background: var(--warn-soft); }
+.mate.on .face { background: var(--warn); }
+
+/* 文章で頼む */
+.asks { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+.asks button { text-align: left; font-size: 14px; line-height: 1.6; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; }
+.asks button:hover { background: var(--accent-soft); }
+.asks button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+.route { display: grid; gap: 8px; padding: 14px 16px; background: var(--surface); border: 1px dashed var(--line); border-radius: 6px; }
+.chain { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.chain span { padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 13px; font-weight: 700; }
+.chain span.top { background: var(--ink); color: var(--surface); }
+.chain span.end { background: var(--warn-soft); color: var(--warn); }
+.chain i { font-style: normal; color: var(--muted); }
+.route p { font-size: 14px; color: var(--muted); }
+
+/* 約束 */
+.promises { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: p; }
+.promises li { counter-increment: p; position: relative; display: grid; gap: 4px; padding: 18px 18px 18px 60px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.promises li::before { content: counter(p); position: absolute; left: 18px; top: 18px; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-family: var(--font-data); font-weight: 500; }
+.promises b { font-size: 16px; }
+.promises span { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* 始め方 */
+.start { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.start li { display: grid; gap: 4px; align-content: start; padding: 16px 18px; border-top: 3px solid var(--accent); background: var(--surface); }
+.start b { font-size: 15px; }
+.start span { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* よくある質問 */
+.faq { display: grid; gap: 8px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; }
+.faq summary { cursor: pointer; font-weight: 700; }
+.faq summary::marker { color: var(--accent); }
+.faq p { margin-top: 8px; color: var(--muted); font-size: 14px; }
+
+/* 最後の相談 */
+.closing { display: grid; gap: 14px; padding: 28px; background: var(--surface); border: 2px solid var(--warn); border-radius: 12px; }
+.closing h2 { font-size: clamp(22px, 3.4vw, 30px); }
+.back { text-align: center; font-size: 14px; }
+
+@media (max-width: 720px) {
+  .wrap { gap: 64px; }
+  .pains, .calc, .demo, .promises, .start { grid-template-columns: 1fr; }
+  .stages { grid-template-columns: 1fr 1fr; }
+  .closing { padding: 20px; }
+}
+@media (max-width: 420px) { .stages { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a href="index.html">← ポートフォリオに戻る</a>
+    <span>業務自動化・AI活用サポート　古川 裕世</span>
+  </div>
+
+  <!-- 1. 誰に・何が変わるか -->
+  <header class="hero">
+    <p class="eyebrow">Case 06 ・ 法人営業のAI活用</p>
+    <h1>営業担当1人に、<br><em>12人のAIチーム</em>を。</h1>
+    <p class="lead">面談のあとの議事録・お礼メール・次の段取りは、AIの“社員”が分担して下書きします。営業担当は、確かめて承認するだけ。事務に追われていた時間を、お客様と話す時間に戻します。</p>
+    <div class="actions">
+      <a class="btn" href="#contact">無料で相談する（30分）</a>
+      <a class="link" href="#demo">動くところを見る ↓</a>
+    </div>
+    <div class="forwho"><b>こんな方へ</b>
+      <span class="chip">研修・人材・コンサル・ITなどの法人営業</span>
+      <span class="chip">営業が1〜10人のチーム</span>
+      <span class="chip">案件をExcelで管理している</span>
+    </div>
+  </header>
+
+  <!-- 2. 悩み -->
+  <section class="sec" aria-labelledby="h-pain">
+    <div class="sec-head">
+      <p class="eyebrow">Before</p>
+      <h2 id="h-pain">売れる営業ほど、事務に追われていませんか</h2>
+    </div>
+    <ul class="pains">
+      <li>面談が続いた日は、議事録とお礼メールが夜にずれ込む</li>
+      <li>次回の約束が手帳とメールに散らばり、フォローが遅れる</li>
+      <li>上司への報告のたびに、Excelと記憶から状況を集め直す</li>
+    </ul>
+  </section>
+
+  <!-- 3. 動くところ -->
+  <section class="sec" id="demo" aria-labelledby="h-demo">
+    <div class="sec-head">
+      <p class="eyebrow">Demo</p>
+      <h2 id="h-demo">面談のメモが、数分でここまで仕上がります</h2>
+      <p class="prose">下の「AI社員に頼む」を押してください。架空の面談のメモから、3人のAI社員が順番に下書きを作ります。</p>
+    </div>
+    <div class="demo">
+      <div class="memo" aria-label="面談のメモ（架空）">
+        <h3>面談のメモ（架空・抜粋）</h3>
+        <p><span class="who">当方：</span>新任管理職の研修について、お聞きしたいです。</p>
+        <p><span class="who">総務部長：</span>昨年昇格した課長が5人いて、部下との面談の進め方がばらばらなんです。</p>
+        <p><span class="who">人事担当：</span>評価が1月なので、それまでに一度研修をしたいです。</p>
+        <p><span class="who">当方：</span>では、来週中に提案書をお送りします。ご予算の目安はありますか。</p>
+        <p><span class="who">総務部長：</span>役員会で決めるので、提案を見てからですね。</p>
+        <p class="chat"><span class="who">人事担当：</span>そういえば、駅前に新しいカフェができましたね。</p>
+      </div>
+      <div class="out">
+        <ol class="steps" id="steps">
+          <li data-step="1"><i>1</i>記録 六花：議事録をまとめる</li>
+          <li data-step="2"><i>2</i>管理 九条：次の約束と、案件の更新案を出す</li>
+          <li data-step="3"><i>3</i>文書 八重：お礼メールを下書きする</li>
+          <li data-step="4"><i>✓</i>統括 一郎：抜けがないか点検 → あなたの承認待ち</li>
+        </ol>
+        <button type="button" class="run" id="run">AI社員に頼む</button>
+        <div id="result" hidden>
+          <div class="tabs" role="tablist" aria-label="できあがったもの">
+            <button type="button" role="tab" aria-selected="true" data-tab="t1">議事録</button>
+            <button type="button" role="tab" aria-selected="false" data-tab="t2">お礼メール</button>
+            <button type="button" role="tab" aria-selected="false" data-tab="t3">案件の更新案</button>
+          </div>
+          <div class="panel" id="t1" role="tabpanel">
+            <dl>
+              <div><dt>目的</dt><dd>新任管理職研修のご相談</dd></div>
+              <div><dt>課題</dt><dd>昨年昇格した課長5人の、部下との面談の進め方がそろっていない</dd></div>
+              <div><dt>時期</dt><dd>1月の評価の前に実施したい</dd></div>
+              <div><dt>予算</dt><dd><mark>要確認</mark>　役員会で決定（提案を見てから）</dd></div>
+              <div><dt>決める人</dt><dd>役員会</dd></div>
+              <div><dt>次の約束</dt><dd>来週中に提案書を送る</dd></div>
+            </dl>
+            <p class="note">カフェの話（雑談）は、議事録から外しています。話に出なかったことは推測で埋めず「要確認」にします。</p>
+          </div>
+          <div class="panel" id="t2" role="tabpanel" hidden>
+            <p><b>件名：【御礼】本日のお打ち合わせについて</b></p>
+            <p class="mail"><mark>〇〇</mark>株式会社
+総務部長 <mark>〇〇</mark>様
+
+本日はお忙しいところ、お時間をいただきありがとうございました。
+新任管理職の皆さまの、部下との面談の進め方についてのお話、大変参考になりました。
+
+1月の評価に間に合うよう、研修のご提案書を<mark>〇月〇日（〇）</mark>までにお送りいたします。
+引き続き、どうぞよろしくお願いいたします。</p>
+            <p class="note">お名前と送る日付は、メモに書かれていないので〇〇のままにしています。送るのは、担当者が確かめてからご自身のメールソフトで。</p>
+          </div>
+          <div class="panel" id="t3" role="tabpanel" hidden>
+            <table>
+              <thead><tr><th>項目</th><th>今</th><th>承認すると</th></tr></thead>
+              <tbody>
+                <tr><td>商談の段階</td><td>初回面談</td><td><b>提案</b></td></tr>
+                <tr><td>次にやること</td><td>—</td><td><b>提案書を送る</b></td></tr>
+                <tr><td>期限</td><td>—</td><td><b>来週中</b>（日付は<mark>要確認</mark>）</td></tr>
+                <tr><td>やることリスト</td><td>—</td><td><b>1件追加</b></td></tr>
+              </tbody>
+            </table>
+            <p class="note">「承認して反映する」を押すまで、案件の一覧もやることリストも変わりません。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 効果（自分の数字で） -->
+  <section class="sec" aria-labelledby="h-calc">
+    <div class="sec-head">
+      <p class="eyebrow">Effect</p>
+      <h2 id="h-calc">取り戻せる時間を、ご自分の数字で</h2>
+      <p class="prose">面談の数と、今かかっている事務の時間を選んでください。</p>
+    </div>
+    <div class="calc">
+      <div>
+        <label for="c-meet">1週間の面談の数<select id="c-meet"></select></label>
+        <label for="c-now">面談1件のあとの事務（議事録・メール・管理表の更新）<select id="c-now"></select></label>
+        <label for="c-check">AIの下書きを確かめて直す時間<select id="c-check"></select></label>
+      </div>
+      <div class="res" aria-live="polite">
+        <span class="note">1か月で取り戻せる時間</span>
+        <p class="big" id="c-month">—</p>
+        <p id="c-year"></p>
+      </div>
+    </div>
+    <p class="note">数字は、選んだ値からの試算です（1か月＝4.3週）。実際の時間は、面談の内容や直す量によって変わります。</p>
+  </section>
+
+  <!-- 5. チーム -->
+  <section class="sec" aria-labelledby="h-team">
+    <div class="sec-head">
+      <p class="eyebrow">Team</p>
+      <h2 id="h-team">営業の流れに沿って、12人が分担します</h2>
+      <p class="prose">前の担当の結果を、次の担当が引き継ぎます。どの資料にも、最後に「次の一手（何を・誰が・いつまでに）」が付きます。</p>
+    </div>
+    <div class="boss">
+      <span class="face" aria-hidden="true">統</span>
+      <b>統括 一郎</b>
+      <em>頼まれた仕事を読んで担当に振り分け、できた資料に抜けがないか点検するマネージャー</em>
+    </div>
+    <div class="stages" id="team">
+      <div class="stage">
+        <h3>見つける<small>新しいお客様と出会う</small></h3>
+        <div class="mate" data-code="AI01"><span class="face" aria-hidden="true">開</span><b>開拓 二葉</b><em>業種や地域から、営業先の候補リストを作る</em></div>
+        <div class="mate" data-code="AI02"><span class="face" aria-hidden="true">調</span><b>調査 三咲</b><em>会社の下調べと、聞きたいことのリスト</em></div>
+        <div class="mate" data-code="AI03"><span class="face" aria-hidden="true">架</span><b>架電 四郎</b><em>アポイントを取る電話のトーク</em></div>
+      </div>
+      <div class="stage">
+        <h3>会う前に<small>準備と作戦</small></h3>
+        <div class="mate" data-code="AI04"><span class="face" aria-hidden="true">戦</span><b>戦略 五月</b><em>面談の進め方と、話す順番</em></div>
+        <div class="mate" data-code="AI11"><span class="face" aria-hidden="true">攻</span><b>攻略 十一</b><em>大事な取引先の攻め方（決める人・見込み・3か月の計画）</em></div>
+        <div class="mate" data-code="AI06"><span class="face" aria-hidden="true">企</span><b>企画 七海</b><em>提案書の骨組み（金額と講師は人が決める）</em></div>
+      </div>
+      <div class="stage">
+        <h3>会ったあと<small>記録と段取り</small></h3>
+        <div class="mate" data-code="AI05"><span class="face" aria-hidden="true">記</span><b>記録 六花</b><em>面談のメモから議事録</em></div>
+        <div class="mate" data-code="AI07"><span class="face" aria-hidden="true">文</span><b>文書 八重</b><em>お礼・日程調整・確認のメールの下書き</em></div>
+        <div class="mate" data-code="AI08"><span class="face" aria-hidden="true">管</span><b>管理 九条</b><em>次の約束と案件の管理。止まっている案件の点検</em></div>
+      </div>
+      <div class="stage">
+        <h3>続ける・守る<small>長いお付き合い</small></h3>
+        <div class="mate" data-code="AI12"><span class="face" aria-hidden="true">深</span><b>深耕 十二</b><em>今のお客様との関係の点検と、次年度の提案</em></div>
+        <div class="mate" data-code="AI10"><span class="face" aria-hidden="true">契</span><b>契約 百合</b><em>契約の確認事項と、法務への相談メール</em></div>
+        <div class="mate" data-code="AI09"><span class="face" aria-hidden="true">分</span><b>分析 十和</b><em>週報・月報と、目標の進み具合</em></div>
+      </div>
+    </div>
+
+    <div class="sec-head">
+      <h3>頼み方は、ふだんの言葉で</h3>
+      <p class="prose">依頼の文を選ぶと、統括がどのAI社員に、どの順番で振り分けるかが分かります（会社名は架空です）。</p>
+    </div>
+    <div class="asks" id="asks" role="group" aria-label="依頼の例">
+      <button type="button" data-route="AI02,AI11,AI04" data-out="会社の下調べ → 攻め方の計画（決める人・見込み・3か月の計画）→ 初めての面談の進め方。">サンプル精機さんの攻め方と、初めての面談の進め方を考えて</button>
+      <button type="button" data-route="AI05,AI08,AI07" data-out="議事録・次の約束と案件の更新案・お礼メールの下書き（上のデモと同じ流れ）。">面談のメモから、議事録とお礼メールと次の段取りを</button>
+      <button type="button" data-route="AI01" data-out="営業先の候補リスト（Excelで出せます）。電話番号などは推測で埋めず「要確認」にします。">関東の製造業で、新しい営業先のリストを作って</button>
+      <button type="button" data-route="AI12" data-out="今のお客様との関係の点検（離れそうな兆し・広げられる機会）と、次年度の提案の方向。">長く付き合っているお客様に、次年度の提案を考えて</button>
+      <button type="button" data-route="AI10,AI07" data-out="契約で確かめることの一覧と、法務への相談メールの下書き。">契約で確かめることと、法務への相談メールを作って</button>
+      <button type="button" data-route="AI09" data-out="今週の活動・進んだ案件・止まっている案件・目標の進み具合をまとめた週報。">今週の週報を作って</button>
+    </div>
+    <div class="route" id="route" aria-live="polite"></div>
+  </section>
+
+  <!-- 6. 安心 -->
+  <section class="sec" aria-labelledby="h-safe">
+    <div class="sec-head">
+      <p class="eyebrow">Safety</p>
+      <h2 id="h-safe">会社の情報を守る、4つの約束</h2>
+      <p class="prose">AIを入れるときにいちばん気になる「勝手に何かされないか」「情報が漏れないか」に、仕組みで答えています。</p>
+    </div>
+    <ol class="promises">
+      <li><b>メールは送りません</b><span>作るのは下書きだけ。送るのは、担当者が確かめてからご自身のメールソフトで。</span></li>
+      <li><b>承認するまで、何も変えません</b><span>案件・活動の記録・やることリストは、人が確かめて承認したときだけ更新。AIの推測と、人が確かめた情報は分けて残します。</span></li>
+      <li><b>分からないことは「要確認」</b><span>金額・日付・決める人などを、推測で埋めません。</span></li>
+      <li><b>社外に出しません</b><span>パソコンの中だけで動きます。「お試しモード」は外に一切送りません。実際のAIを使うのは、会社の許可を得てから、送る内容を画面で確かめたあとです。</span></li>
+    </ol>
+  </section>
+
+  <!-- 7. 始め方 -->
+  <section class="sec" aria-labelledby="h-start">
+    <div class="sec-head">
+      <p class="eyebrow">Start</p>
+      <h2 id="h-start">今のExcelから、そのまま始められます</h2>
+    </div>
+    <ol class="start">
+      <li><b>1. 今の管理表を取り込む</b><span>お客様・案件・次の約束を、今お使いのExcelから取り込みます。</span></li>
+      <li><b>2. 元の表と照らし合わせる</b><span>案件の数・見込みの合計・受注の合計が、元のExcelと一致するかを確かめます。</span></li>
+      <li><b>3. 次の約束を、期限つきのやることに</b><span>失注した案件は除き、同じものが二重にできないようにします。</span></li>
+    </ol>
+    <p class="note">「承認するまで何も変わらない」「同じ内容を二度送っても重複しない」など、大事な決まりは40項目の自動点検で毎回確かめています。</p>
+  </section>
+
+  <!-- 8. よくある質問 -->
+  <section class="sec" aria-labelledby="h-faq">
+    <div class="sec-head">
+      <p class="eyebrow">FAQ</p>
+      <h2 id="h-faq">よくあるご質問</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>お客様の情報が、外に出ることはありませんか？</summary>
+        <p>パソコンの中だけで動く作りです。「お試しモード」では外部に一切送信しません。実際のAIを使う場合も、会社の許可を得たうえで、送る内容を画面で確かめてから送ります。</p>
+      </details>
+      <details>
+        <summary>AIが間違えたら、どうなりますか？</summary>
+        <p>AIが作るのは下書きだけで、人が承認するまで案件や記録は変わりません。分からないことは「要確認」と書くので、確かめるべき所がひと目で分かります。</p>
+      </details>
+      <details>
+        <summary>うちの営業のやり方に合わせられますか？</summary>
+        <p>AI社員ごとに「仕事の決まり」を書いた説明書があり、言葉づかい・メールの型・提案の決まりなどを、会社のやり方に合わせて書き換えられます。</p>
+      </details>
+      <details>
+        <summary>今のExcelの管理表は、使えなくなりますか？</summary>
+        <p>今の管理表から取り込んで始められます。案件の一覧はExcelにも出力できるので、これまでの報告の形も続けられます。</p>
+      </details>
+      <details>
+        <summary>費用はどれくらいかかりますか？</summary>
+        <p>AIの利用料は、使った量に応じてかかります。営業の人数や使い方を伺ったうえで、お見積りします。まずは無料のご相談で、今のやり方をお聞かせください。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- 9. 相談 -->
+  <footer class="closing" id="contact">
+    <h2>まずは、面談1件分で試してみませんか。</h2>
+    <p class="prose">架空の面談のメモから、議事録とお礼メールができるまでを、オンラインでお見せします。初回のご相談（30分）は無料です。お話を聞くだけでも、まったく問題ありません。</p>
+    <div class="actions">
+      <a class="btn" href="https://www.chatwork.com/2uzx9uftcqiow" target="_blank" rel="noopener">Chatworkで相談する</a>
+      <span class="note">「AI社員の相談」と送るだけで始められます</span>
+    </div>
+  </footer>
+
+  <p class="back"><a class="link" href="index.html">← ほかの事例（美容室の仕組み・業種別の見本）を見る</a></p>
+</div>
+
+<script>
+(function () {
+  // ---- デモ：面談のメモから下書きができるまで ----
+  var run = document.getElementById("run"), steps = document.querySelectorAll("#steps li"), result = document.getElementById("result");
+  run.addEventListener("click", function () {
+    run.disabled = true; result.hidden = true;
+    Array.prototype.forEach.call(steps, function (s) { s.classList.remove("on"); });
+    Array.prototype.forEach.call(steps, function (s, i) {
+      setTimeout(function () {
+        s.classList.add("on");
+        if (i === steps.length - 1) { result.hidden = false; run.disabled = false; run.textContent = "もう一度頼む"; }
+      }, 500 * (i + 1));
+    });
+  });
+  var tabs = document.querySelectorAll("[role=tab]");
+  Array.prototype.forEach.call(tabs, function (t) {
+    t.addEventListener("click", function () {
+      Array.prototype.forEach.call(tabs, function (x) {
+        var on = x === t;
+        x.setAttribute("aria-selected", on ? "true" : "false");
+        document.getElementById(x.getAttribute("data-tab")).hidden = !on;
+      });
+    });
+  });
+
+  // ---- 取り戻せる時間の計算 ----
+  function fill(id, list, def, unit) {
+    var el = document.getElementById(id);
+    el.innerHTML = list.map(function (v) { return '<option value="' + v + '"' + (v === def ? " selected" : "") + ">" + v + unit + "</option>"; }).join("");
+    el.addEventListener("change", calc);
+  }
+  fill("c-meet", [3, 5, 8, 10, 12, 15, 20], 8, "件");
+  fill("c-now", [20, 30, 45, 60, 90], 45, "分");
+  fill("c-check", [5, 10, 15, 20], 10, "分");
+  function calc() {
+    var meet = +document.getElementById("c-meet").value, now = +document.getElementById("c-now").value, check = +document.getElementById("c-check").value;
+    var month = Math.max(0, now - check) * meet * 4.3 / 60;
+    document.getElementById("c-month").innerHTML = "約" + month.toFixed(1) + "<small>時間</small>";
+    document.getElementById("c-year").textContent = "1年で約" + Math.round(month * 12) + "時間（1日8時間として約" + Math.round(month * 12 / 8) + "日分）を、お客様と話す時間に。";
+  }
+  calc();
+
+  // ---- 文章で頼むと、統括が振り分ける ----
+  var asks = document.getElementById("asks"), route = document.getElementById("route"), mates = {};
+  Array.prototype.forEach.call(document.querySelectorAll("#team .mate"), function (m) { mates[m.getAttribute("data-code")] = m; });
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function show(btn) {
+    Array.prototype.forEach.call(asks.querySelectorAll("button"), function (b) { b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
+    var codes = btn.getAttribute("data-route").split(",");
+    Object.keys(mates).forEach(function (c) { mates[c].classList.toggle("on", codes.indexOf(c) >= 0); });
+    route.innerHTML = '<div class="chain"><span class="top">統括が振り分け</span>' + codes.map(function (c) {
+      return "<i>→</i><span>" + esc(mates[c].querySelector("b").textContent) + "</span>";
+    }).join("") + '<i>→</i><span class="end">あなたが確認・承認</span></div><p>できあがるもの：' + esc(btn.getAttribute("data-out")) + "</p>";
+  }
+  asks.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) show(b); });
+  show(asks.querySelector("button"));
+})();
+</script>
+<script>
+// ---- スマホでも言葉の途中で改行しないように、文節の切れ目にだけ改行の目印（<wbr>）を入れる ----
+// ブラウザに入っている日本語の単語の区切り（Intl.Segmenter）を使い、助詞・送りがな・句読点・かっこを前後の言葉にくっつけて文節にする。
+// あとから表示される文（デモの結果など）も同じように処理する。区切りの機能がない古いブラウザでは、今までどおり。
+(function () {
+  if (!window.Intl || !Intl.Segmenter) return;
+  var seg = new Intl.Segmenter("ja", { granularity: "word" });
+  var KANJI = /[㐀-鿿々〆]/, KATA = /[ァ-ヺー]/; // カタカナ（中黒「・」は含めない）
+  var HIRA_ONLY = /^[ぁ-ゟー]+$/;
+  var OPEN_END = /[「『（(［\[【〈《“‘¥￥#＃]$/;               // この文字で終わったら、次とくっつける
+  var NO_START = /^[、。，．,.・：:；;？?！!」』）)］\]】〉》”’ー〜～…%％]/; // この文字は行の頭に来ないよう前にくっつける
+  var BREAK_END = /[、。，．！？!?\s]$/;
+  var JP = /[぀-ヿ㐀-鿿]/;
+  var SKIP = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1, INPUT: 1, SELECT: 1, OPTION: 1, CODE: 1, PRE: 1, SVG: 1, TITLE: 1 };
+  var done = new WeakSet();
+
+  function phrases(text) {
+    var out = [];
+    Array.from(seg.segment(text), function (s) { return s.segment; }).forEach(function (w) {
+      var last = out[out.length - 1];
+      if (last === undefined) { out.push(w); return; }
+      var l = last.slice(-1), f = w.charAt(0);
+      var core = last.replace(/[「『（(【〈《“‘\s]/g, "");
+      var join =
+        OPEN_END.test(last) || NO_START.test(w) || /^\s+$/.test(w) ||
+        (HIRA_ONLY.test(w) && !BREAK_END.test(last) && (w.length <= 3 || KANJI.test(l) || KATA.test(l))) || // 助詞・送りがな（「ばらばら」のような長い言葉は分ける）
+        ((KANJI.test(l) && KANJI.test(f)) || (KATA.test(l) && KATA.test(f))) ||   // 漢字どうし・カタカナどうし
+        ((KANJI.test(l) || KATA.test(l)) && (KANJI.test(f) || KATA.test(f)) && (last + w).length <= 7) || // 「シフト作成」「月次レポート」（長くなりすぎない範囲）
+        (/[0-9０-９]$/.test(last) && (KANJI.test(f) || /^[%％]/.test(w))) ||       // 「13名」「26%」
+        (/^[0-9０-９]/.test(w) && KANJI.test(l) && core.length <= 1) ||           // 「月8日」「約0.2円」
+        (core.length <= 2 && !BREAK_END.test(last) && !/[A-Za-z0-9]$/.test(last)); // 「あの人」のように短い言葉は次とつなぐ
+      if (join) out[out.length - 1] += w; else out.push(w);
+    });
+    return out;
+  }
+
+  function processText(node) {
+    if (done.has(node)) return;
+    done.add(node);
+    var text = node.data;
+    if (text.length < 4 || !JP.test(text)) return;
+    var p = node.parentNode;
+    for (var a = p; a && a !== document.body; a = a.parentNode) {
+      if (SKIP[a.nodeName.toUpperCase()] || (a.classList && a.classList.contains("cal"))) return; // 予約カレンダーの細い枠は、今までどおり1文字ずつ折り返す
+    }
+    var parts = phrases(text);
+    p.classList && p.classList.add("bx");
+    if (parts.length < 2) return;
+    var frag = document.createDocumentFragment();
+    parts.forEach(function (s, i) {
+      if (i) frag.appendChild(document.createElement("wbr"));
+      // 閉じかっこのすぐ後ろで改行されないよう、見えないつなぎの文字を入れる（「戻った」｜と → 「戻った」と）
+      var t = document.createTextNode(s.replace(/([」』）)】〉》])(?=[^\s])/g, "$1⁠"));
+      done.add(t);
+      frag.appendChild(t);
+    });
+    p.replaceChild(frag, node);
+  }
+
+  function processTree(root) {
+    if (root.nodeType === 3) { processText(root); return; }
+    if (root.nodeType !== 1 || SKIP[root.nodeName.toUpperCase()]) return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), list = [], n;
+    while ((n = walker.nextNode())) list.push(n);
+    list.forEach(processText);
+  }
+
+  var observer = new MutationObserver(function (records) {
+    observer.disconnect();
+    records.forEach(function (r) {
+      if (r.type === "characterData") { done.delete(r.target); processText(r.target); }
+      else Array.prototype.forEach.call(r.addedNodes, processTree);
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  });
+  processTree(document.body);
+  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+})();
+</script>
+</body>
+</html>
